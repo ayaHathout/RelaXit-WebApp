@@ -6,14 +6,13 @@
 
 		<title>Shop Page</title>
 
-		<link rel="shortcut icon" href="favicon.png">
-
 		<!-- Bootstrap CSS -->
 		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 		<link href="../assets/css/tiny-slider.css" rel="stylesheet">
 		<link href="../assets/css/style.css" rel="stylesheet">
-	
+
+	    <link href="../assets/css/bootstrap.min2.css" rel="stylesheet">
 		<link href="../assets/css/shop.css" rel="stylesheet" type="text/css">
 		<link href="../assets/css/style.css" rel="stylesheet" type="text/css">
 		<link href="../assets/css/responsive.css" rel="stylesheet" type="text/css">
@@ -48,7 +47,7 @@
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 						<li><a class="nav-link" href="#"><img src="../assets/img/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.html"><img src="../assets/img/cart.svg"></a></li>
+						<li><a class="nav-link" href="cart.jsp"><img src="../assets/img/cart.svg"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -148,7 +147,7 @@
 
 									<!-- 4. Neck & Travel Comfort -->
 									<li class="cat-item cat-parent">
-										<a href="neck-travel.html">Neck & Travel Comfort</a>
+										<a href="neck-travel.html">Neck and Travel Comfort</a>
 										<ul class="children">
 											<li class="cat-item">
 												<a href="neck-pillows.html">Neck Pillows</a>
@@ -208,7 +207,7 @@
 										<p class="text-size-16">Creamy vanilla ice cream topped with cherry.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">4</span><span>.99</span></span>
-											<a href="cart.html"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -227,7 +226,7 @@
 										<p class="text-size-16">Rich chocolate ice cream with chunks of brownie.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">5</span><span>.49</span></span>
-											<a href="cart.html"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -246,7 +245,7 @@
 										<p class="text-size-16">Strawberry ice cream layered with shortcake</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">5</span><span>.29</span></span>
-											<a href="cart.html"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -265,7 +264,7 @@
 										<p class="text-size-16">Refreshing mint ice cream with chocolate chips.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">3</span><span>.99</span></span>
-											<a href="cart.html"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -284,7 +283,7 @@
 										<p class="text-size-16">Strawberry ice cream with fresh strawberries</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">5</span><span>.99</span></span>
-											<a href="cart.html"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -303,7 +302,7 @@
 										<p class="text-size-16">Chocolate chip cookie dough ice cream in a cone.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">4</span><span>.49</span></span>
-											<a href="cart.html"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
