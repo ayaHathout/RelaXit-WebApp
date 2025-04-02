@@ -7,25 +7,21 @@
         <title>About Us Page</title>
 
 		<!-- StyleSheet link CSS -->
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="../assets/css/style.css" rel="stylesheet" type="text/css">
 		<link href="../assets/css/responsive.css" rel="stylesheet" type="text/css">
 		<link href="../assets/css/aos.css" rel="stylesheet">
 
-		<!-- material-design-iconic-font css -->
-		<link rel="stylesheet" href="../assets/css/material-design-iconic-font.css">
-		<!-- All common css of theme -->
-		<link rel="stylesheet" href="../assets/css/default.css">
-		
-		<link rel="shortcut icon" href="favicon.png">
-
-
 		<!-- Bootstrap CSS -->
-		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../assets/css/bootstrap.min2.css" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 		<link href="../assets/css/tiny-slider.css" rel="stylesheet">
 		<link href="../assets/css/style.css" rel="stylesheet">
 
-		<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+		<!-- material-design-iconic-font css -->
+        <link rel="stylesheet" href="../assets/css/material-design-iconic-font.css">
+        <!-- All common css of theme -->
+        <link rel="stylesheet" href="../assets/css/default.css">
 	</head>
 
 	<body>
@@ -52,7 +48,7 @@
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 						<li><a class="nav-link" href="#"><img src="../assets/img/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.html"><img src="../assets/img/cart.svg"></a></li>
+						<li><a class="nav-link" href="cart.jsp"><img src="../assets/img/cart.svg"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -96,17 +92,17 @@
 					</div>
 					<div class="col-xl-7 col-lg-6 col-md-12 col-sm-12 col-12">
 						<div class="journey_content" data-aos="fade-up">
-							<p class="text1">At RelaXit, we create ergonomic seats and pillows designed to support your spine and improve your posture – because we believe comfort starts with proper sitting.
+							<p class="text1">At RelaXit, we create ergonomic seats and pillows designed to support your spine and improve your posture because we believe comfort starts with proper sitting.
 
-								Our vision is simple: to make spinal health a priority in every home, office, and space. We're not just selling products; we're offering a lifestyle change.
+								Our vision is simple: to make spinal health a priority in every home, office, and space. We're not just selling products, we're offering a lifestyle change.
 								
-								What makes us different? Our products provide active support while you sit, work, or travel – not just passive comfort. They're designed for real life, helping you maintain better posture naturally.
+								What makes us different? Our products provide active support while you sit, work, or travel not just passive comfort. They're designed for real life, helping you maintain better posture naturally.
 								
-								We're here to do more than just cushion your seat. We're helping you sit right, feel better, and live healthier – one ergonomic solution at a time.
+								We're here to do more than just cushion your seat. We're helping you sit right, feel better, and live healthier one ergonomic solution at a time.
 								
 								Try RelaXit today and experience the difference proper support can make.
 								
-								RelaXit – Where comfort meets spinal health.
+								RelaXit, Where comfort meets spinal health.
 							</p>
 							<p class="text2">We take pride in offering a diverse range of options, including dairy-free, vegan, and gluten-free choices, so everyone can find their perfect scoop.</p>
 						</div>
