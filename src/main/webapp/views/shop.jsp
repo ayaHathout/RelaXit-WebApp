@@ -1,3 +1,5 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -193,120 +195,30 @@
 					</div>
 					<div class="col-lg-9">
 						<div class="row shop-products-con" data-aos="fade-up">
-							<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-								<div class="classic-box">
-									<div class="classic_image_box box1">
-										<figure class="mb-0">
-											<img src="/relaxit/assets/img/classic-image1.png" alt="image" class="img-fluid">
-										</figure>
-									</div>
-									<div class="classic_box_content">
-										<div class="text_wrapper position-relative">
-											<h6>Classic Vanilla Ice Cream</h6>
-										</div>
-										<p class="text-size-16">Creamy vanilla ice cream topped with cherry.</p>
-										<div class="price_wrapper position-relative">
-											<span class="dollar">$<span class="counter">4</span><span>.99</span></span>
-											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-								<div class="classic-box">
-									<div class="classic_image_box box2">
-										<figure class="mb-0">
-											<img src="/relaxit/assets/img/classic-image2.png" alt="image" class="img-fluid">
-										</figure>
-									</div>
-									<div class="classic_box_content">
-										<div class="text_wrapper position-relative">
-											<h6>Chocolate Brownie Sundae</h6>
-										</div>
-										<p class="text-size-16">Rich chocolate ice cream with chunks of brownie.</p>
-										<div class="price_wrapper position-relative">
-											<span class="dollar">$<span class="counter">5</span><span>.49</span></span>
-											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-								<div class="classic-box">
-									<div class="classic_image_box box3">
-										<figure class="mb-0">
-											<img src="/relaxit/assets/img/classic-image3.png" alt="image" class="img-fluid">
-										</figure>
-									</div>
-									<div class="classic_box_content">
-										<div class="text_wrapper position-relative">
-											<h6>Strawberry Shortcake</h6>
-										</div>
-										<p class="text-size-16">Strawberry ice cream layered with shortcake</p>
-										<div class="price_wrapper position-relative">
-											<span class="dollar">$<span class="counter">5</span><span>.29</span></span>
-											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-								<div class="classic-box">
-									<div class="classic_image_box box4">
-										<figure class="mb-0">
-											<img src="/relaxit/assets/img/classic-image4.png" alt="image" class="img-fluid">
-										</figure>
-									</div>
-									<div class="classic_box_content">
-										<div class="text_wrapper position-relative">
-											<h6>Mint Chocolate Chip Cone</h6>
-										</div>
-										<p class="text-size-16">Refreshing mint ice cream with chocolate chips.</p>
-										<div class="price_wrapper position-relative">
-											<span class="dollar">$<span class="counter">3</span><span>.99</span></span>
-											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-								<div class="classic-box">
-									<div class="classic_image_box box5">
-										<figure class="mb-0">
-											<img src="/relaxit/assets/img/seller-image1.png" alt="image" class="img-fluid">
-										</figure>
-									</div>
-									<div class="classic_box_content">
-										<div class="text_wrapper position-relative">
-											<h6>Strawberry Sundae</h6>
-										</div>
-										<p class="text-size-16">Strawberry ice cream with fresh strawberries</p>
-										<div class="price_wrapper position-relative">
-											<span class="dollar">$<span class="counter">5</span><span>.99</span></span>
-											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-								<div class="classic-box">
-									<div class="classic_image_box box6">
-										<figure class="mb-0">
-											<img src="/relaxit/assets/img/seller-image2.png" alt="image" class="img-fluid">
-										</figure>
-									</div>
-									<div class="classic_box_content">
-										<div class="text_wrapper position-relative">
-											<h6>Chocolate Chip Cookie Cone</h6>
-										</div>
-										<p class="text-size-16">Chocolate chip cookie dough ice cream in a cone.</p>
-										<div class="price_wrapper position-relative">
-											<span class="dollar">$<span class="counter">4</span><span>.49</span></span>
-											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
-										</div>
-									</div>
-								</div>
-							</div>
+
+						    <c:forEach items="${products}" var="curProduct" varStatus="status">
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="classic-box">
+                                        <div class="classic_image_box box${status.index + 1}">
+                                            <figure class="mb-0">
+                                                <img src="/relaxit/assets/img/classic-image1.png" alt="image" class="img-fluid">
+                                            </figure>
+                                        </div>
+                                        <div class="classic_box_content">
+                                            <div class="text_wrapper position-relative">
+                                                <h6>${curProduct.name}</h6>
+                                            </div>
+                                            <p class="text-size-16">${curProduct.description}</p>
+                                            <div class="price_wrapper position-relative">
+                                                <span class="dollar">$<span class="counter">${curProduct.price}</span></span>
+                                                <a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+
+
 							<ul class="pagination" data-aos="fade-up">
 								<li class="page-item"><a class="page-link" href="one-column.html">1</a></li>
 								<li class="page-item"><a class="page-link" href="two-column.html">2</a></li>
