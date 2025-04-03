@@ -39,7 +39,7 @@
 						<li class="nav-item ">
 							<a class="nav-link" href="index.html">Home</a>
 						</li>
-						<li><a class="nav-link" href="shop.jsp">Shop</a></li>
+						<li><a class="nav-link" href="/relaxit/views/shop.jsp">Shop</a></li>
 						<li class="active"><a class="nav-link" href="about.html">About us</a></li>
 						<li><a class="nav-link" href="services.html">Services</a></li>
 						<li><a class="nav-link" href="blog.html">Blog</a></li>
@@ -48,7 +48,7 @@
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 						<li><a class="nav-link" href="#"><img src="../assets/img/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.jsp"><img src="../assets/img/cart.svg"></a></li>
+						<li><a class="nav-link" href="views/cart.jsp"><img src="../assets/img/cart.svg"></a></li>
 					</ul>
 				</div>
 			</div>

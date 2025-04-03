@@ -1,3 +1,5 @@
+D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\Daos\Implementation\ProductDaoImpl.java
+D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\Daos\Interfaces\ProductDAO.java
 D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\enums\OrderStatus.java
 D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\enums\UserRole.java
 D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\CartItem.java
@@ -6,3 +8,5 @@ D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\Order
 D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\OrderItem.java
 D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\Product.java
 D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\User.java
+D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\domain\utils\Connectivity.java
+D:\ITI\Projects\now\RelaXit-WebApp\src\main\java\com\relaxit\presentation\controllers\ShopServlet.java

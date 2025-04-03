@@ -1,8 +1,12 @@
-com\relaxit\domain\models\OrderItem.class
+com\relaxit\domain\Daos\Implementation\ProductDaoImpl.class
 com\relaxit\domain\models\Product.class
 com\relaxit\domain\enums\UserRole.class
 com\relaxit\domain\models\CartItem.class
-com\relaxit\domain\models\Order.class
+com\relaxit\presentation\controllers\ShopServlet.class
 com\relaxit\domain\models\Category.class
 com\relaxit\domain\enums\OrderStatus.class
+com\relaxit\domain\Daos\Interfaces\ProductDAO.class
+com\relaxit\domain\models\OrderItem.class
+com\relaxit\domain\models\Order.class
+com\relaxit\domain\utils\Connectivity.class
 com\relaxit\domain\models\User.class

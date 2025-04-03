@@ -5,4 +5,13 @@
          version="5.0"
          metadata-complete="true">
 
+    <servlet>
+        <servlet-name>shopServlet</servlet-name>
+        <servlet-class>com.relaxit.presentation.controllers.ShopServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>shopServlet</servlet-name>
+        <url-pattern>/shop</url-pattern>
+    </servlet-mapping>
 </web-app>

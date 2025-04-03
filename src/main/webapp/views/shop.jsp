@@ -7,21 +7,21 @@
 		<title>Shop Page</title>
 
 		<!-- Bootstrap CSS -->
-		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/relaxit/assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-		<link href="../assets/css/tiny-slider.css" rel="stylesheet">
-		<link href="../assets/css/style.css" rel="stylesheet">
+		<link href="/relaxit/assets/css/tiny-slider.css" rel="stylesheet">
+		<link href="/relaxit/assets/css/style.css" rel="stylesheet">
 
-	    <link href="../assets/css/bootstrap.min2.css" rel="stylesheet">
-		<link href="../assets/css/shop.css" rel="stylesheet" type="text/css">
-		<link href="../assets/css/style.css" rel="stylesheet" type="text/css">
-		<link href="../assets/css/responsive.css" rel="stylesheet" type="text/css">
-		<link href="../assets/css/aos.css" rel="stylesheet">
+	    <link href="/relaxit/assets/css/bootstrap.min2.css" rel="stylesheet">
+		<link href="/relaxit/assets/css/shop.css" rel="stylesheet" type="text/css">
+		<link href="/relaxit/assets/css/style.css" rel="stylesheet" type="text/css">
+		<link href="/relaxit/assets/css/responsive.css" rel="stylesheet" type="text/css">
+		<link href="/relaxit/assets/css/aos.css" rel="stylesheet">
 
         <!-- material-design-iconic-font css -->
-		<link rel="stylesheet" href="../assets/css/material-design-iconic-font.css">
+		<link rel="stylesheet" href="/relaxit/assets/css/material-design-iconic-font.css">
 		<!-- All common css of theme -->
-		<link rel="stylesheet" href="../assets/css/default.css">
+		<link rel="stylesheet" href="/relaxit/assets/css/default.css">
 	</head>
 
 	<body>
@@ -46,8 +46,8 @@
 					</ul>
 
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-						<li><a class="nav-link" href="#"><img src="../assets/img/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.jsp"><img src="../assets/img/cart.svg"></a></li>
+						<li><a class="nav-link" href="#"><img src="/relaxit/assets/img/user.svg"></a></li>
+						<li><a class="nav-link" href="views/cart.jsp"><img src="/relaxit/assets/img/cart.svg"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -197,7 +197,7 @@
 								<div class="classic-box">
 									<div class="classic_image_box box1">
 										<figure class="mb-0">
-											<img src="../assets/img/classic-image1.png" alt="image" class="img-fluid">
+											<img src="/relaxit/assets/img/classic-image1.png" alt="image" class="img-fluid">
 										</figure>
 									</div>
 									<div class="classic_box_content">
@@ -207,7 +207,7 @@
 										<p class="text-size-16">Creamy vanilla ice cream topped with cherry.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">4</span><span>.99</span></span>
-											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -216,7 +216,7 @@
 								<div class="classic-box">
 									<div class="classic_image_box box2">
 										<figure class="mb-0">
-											<img src="../assets/img/classic-image2.png" alt="image" class="img-fluid">
+											<img src="/relaxit/assets/img/classic-image2.png" alt="image" class="img-fluid">
 										</figure>
 									</div>
 									<div class="classic_box_content">
@@ -226,7 +226,7 @@
 										<p class="text-size-16">Rich chocolate ice cream with chunks of brownie.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">5</span><span>.49</span></span>
-											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -235,7 +235,7 @@
 								<div class="classic-box">
 									<div class="classic_image_box box3">
 										<figure class="mb-0">
-											<img src="../assets/img/classic-image3.png" alt="image" class="img-fluid">
+											<img src="/relaxit/assets/img/classic-image3.png" alt="image" class="img-fluid">
 										</figure>
 									</div>
 									<div class="classic_box_content">
@@ -245,7 +245,7 @@
 										<p class="text-size-16">Strawberry ice cream layered with shortcake</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">5</span><span>.29</span></span>
-											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -254,7 +254,7 @@
 								<div class="classic-box">
 									<div class="classic_image_box box4">
 										<figure class="mb-0">
-											<img src="../assets/img/classic-image4.png" alt="image" class="img-fluid">
+											<img src="/relaxit/assets/img/classic-image4.png" alt="image" class="img-fluid">
 										</figure>
 									</div>
 									<div class="classic_box_content">
@@ -264,7 +264,7 @@
 										<p class="text-size-16">Refreshing mint ice cream with chocolate chips.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">3</span><span>.99</span></span>
-											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -273,7 +273,7 @@
 								<div class="classic-box">
 									<div class="classic_image_box box5">
 										<figure class="mb-0">
-											<img src="../assets/img/seller-image1.png" alt="image" class="img-fluid">
+											<img src="/relaxit/assets/img/seller-image1.png" alt="image" class="img-fluid">
 										</figure>
 									</div>
 									<div class="classic_box_content">
@@ -283,7 +283,7 @@
 										<p class="text-size-16">Strawberry ice cream with fresh strawberries</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">5</span><span>.99</span></span>
-											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -292,7 +292,7 @@
 								<div class="classic-box">
 									<div class="classic_image_box box6">
 										<figure class="mb-0">
-											<img src="../assets/img/seller-image2.png" alt="image" class="img-fluid">
+											<img src="/relaxit/assets/img/seller-image2.png" alt="image" class="img-fluid">
 										</figure>
 									</div>
 									<div class="classic_box_content">
@@ -302,7 +302,7 @@
 										<p class="text-size-16">Chocolate chip cookie dough ice cream in a cone.</p>
 										<div class="price_wrapper position-relative">
 											<span class="dollar">$<span class="counter">4</span><span>.49</span></span>
-											<a href="cart.jsp"><img src="../assets/img/cart.png" alt="image" class="img-fluid"></a>
+											<a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
 										</div>
 									</div>
 								</div>
@@ -327,13 +327,13 @@
 			<div class="container relative">
 
 				<div class="sofa-img">
-					<img src="../assets/img/sofa.png" alt="Image" class="img-fluid">
+					<img src="/relaxit/assets/img/sofa.png" alt="Image" class="img-fluid">
 				</div>
 
 				<div class="row">
 					<div class="col-lg-8">
 						<div class="subscription-form">
-							<h3 class="d-flex align-items-center"><span class="me-1"><img src="../assets/img/envelope-outline.svg" alt="Image" class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
+							<h3 class="d-flex align-items-center"><span class="me-1"><img src="/relaxit/assets/img/envelope-outline.svg" alt="Image" class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
 
 							<form action="#" class="row g-3">
 								<div class="col-auto">
@@ -428,30 +428,30 @@
 		<!-- End Footer Section -->	
 
 
-		<script src="../assets/js/bootstrap.bundle.min.js"></script>
-		<script src="../assets/js/tiny-slider.js"></script>
-		<script src="../assets/js/custom.js"></script>
+		<script src="/relaxit/assets/js/bootstrap.bundle.min.js"></script>
+		<script src="/relaxit/assets/js/tiny-slider.js"></script>
+		<script src="/relaxit/assets/js/custom.js"></script>
 
-		<script src="../assets/js/aos.js"></script>
-		<script src="../assets/js/animation.js"></script>
+		<script src="/relaxit/assets/js/aos.js"></script>
+		<script src="/relaxit/assets/js/animation.js"></script>
 
         	<!-- jquery latest version -->
-		<script src="../assets/js/jquery-3.6.0.min.js"></script>
+		<script src="/relaxit/assets/js/jquery-3.6.0.min.js"></script>
 		<!-- jquery.meanmenu js -->
-		<script src="../assets/js/jquery.meanmenu.js"></script>
+		<script src="/relaxit/assets/js/jquery.meanmenu.js"></script>
 		<!-- slick.min js -->
-		<script src="../assets/js/slick.min.js"></script>
+		<script src="/relaxit/assets/js/slick.min.js"></script>
 		<!-- jquery.treeview js -->
-		<script src="../assets/js/jquery.treeview.js"></script>
+		<script src="/relaxit/assets/js/jquery.treeview.js"></script>
 		<!-- jquery-ui js -->
-		<script src="../assets/js/jquery-ui.min.js"></script>
+		<script src="/relaxit/assets/js/jquery-ui.min.js"></script>
 		<!-- jquery.nicescroll.min js -->
-		<script src="../assets/js/jquery.nicescroll.min.js"></script>
+		<script src="/relaxit/assets/js/jquery.nicescroll.min.js"></script>
 		<!-- wow js -->
-		<script src="../assets/js/wow.min.js"></script>
+		<script src="/relaxit/assets/js/wow.min.js"></script>
 		<!-- plugins js -->
-		<script src="../assets/js/plugins.js"></script>
+		<script src="/relaxit/assets/js/plugins.js"></script>
 		<!-- main js -->
-		<script src="../assets/js/main.min.js"></script>
+		<script src="/relaxit/assets/js/main.min.js"></script>
 	</body>
 </html>

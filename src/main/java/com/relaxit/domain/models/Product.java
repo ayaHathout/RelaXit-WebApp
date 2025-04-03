@@ -11,7 +11,7 @@ public class Product implements Serializable {
     private BigDecimal price;
     private Integer quantity;
     private Category category;
-    private String productImage;
+    private byte[] productImage;
 
 
     public Product() {
@@ -65,12 +65,12 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public String getProductImage() {
+    public byte[] getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(String imageUrl) {
-        productImage = imageUrl;
+    public void setProductImage(byte[] picture) {
+        productImage = productImage;
     }
     
 }

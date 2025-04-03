@@ -40,7 +40,7 @@
 					<li class="nav-item ">
 						<a class="nav-link" href="index.html">Home</a>
 					</li>
-					<li><a class="nav-link" href="shop.jsp">Shop</a></li>
+					<li><a class="nav-link" href="/relaxit/shop">Shop</a></li>
 					<li><a class="nav-link" href="about.jsp">About us</a></li>
 					<li><a class="nav-link" href="services.html">Services</a></li>
 					<li><a class="nav-link" href="blog.html">Blog</a></li>
@@ -186,7 +186,7 @@
 								</div>
 							</div>
 							<div class="buttun-shopping">
-								<a href="shop.html" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i>Continue Shopping</a>
+								<a href="shop.jsp" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i>Continue Shopping</a>
 							</div>
 						</div>
 					</div>
