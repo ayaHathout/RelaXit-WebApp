@@ -84,21 +84,21 @@
 								<ul class="list-unstyled mb-0">
 									<!-- 1. Chairs by Type -->
 									<li class="cat-item cat-parent">
-										<a href="chairs-by-type.html">Chairs by Type</a>
+										<a href="chairs-by-type.jsp">Chairs by Type</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="fixed-chairs.html">Fixed Chairs</a>
+												<a href="fixed-chairs.jsp">Fixed Chairs</a>
 												<ul class="children">
-													<li><a href="office-chairs.html">Office chairs</a></li>
-													<li><a href="gaming-chairs.html">Gaming chairs</a></li>
-													<li><a href="conference-chairs.html">Conference room chairs</a></li>
+													<li><a href="office-chairs.jsp">Office chairs</a></li>
+													<li><a href="gaming-chairs.jsp">Gaming chairs</a></li>
+													<li><a href="conference-chairs.jsp">Conference room chairs</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="adjustable-chairs.html">Adjustable Chairs</a>
+												<a href="adjustable-chairs.jsp">Adjustable Chairs</a>
 												<ul class="children">
-													<li><a href="recliners.html">Multi-position recliners</a></li>
-													<li><a href="active-chairs.html">Active sitting chairs</a></li>
+													<li><a href="recliners.jsp">Multi-position recliners</a></li>
+													<li><a href="active-chairs.jsp">Active sitting chairs</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -106,21 +106,21 @@
 
 									<!-- 2. Back Support -->
 									<li class="cat-item cat-parent">
-										<a href="back-support.html">Back Support</a>
+										<a href="back-support.jsp">Back Support</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="lumbar-support.html">Lumbar Support Products</a>
+												<a href="lumbar-support.jsp">Lumbar Support Products</a>
 												<ul class="children">
-													<li><a href="backrest-cushions.html">Attachable backrest cushions</a></li>
-													<li><a href="memory-foam-pillows.html">Memory foam back pillows</a></li>
-													<li><a href="mesh-supports.html">Mesh ventilated back supports</a></li>
+													<li><a href="backrest-cushions.jsp">Attachable backrest cushions</a></li>
+													<li><a href="memory-foam-pillows.jsp">Memory foam back pillows</a></li>
+													<li><a href="mesh-supports.jsp">Mesh ventilated back supports</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="posture-correctors.html">Posture Correctors</a>
+												<a href="posture-correctors.jsp">Posture Correctors</a>
 												<ul class="children">
-													<li><a href="back-braces.html">Wearable back braces</a></li>
-													<li><a href="posture-belts.html">Posture training belts</a></li>
+													<li><a href="back-braces.jsp">Wearable back braces</a></li>
+													<li><a href="posture-belts.jsp">Posture training belts</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -128,20 +128,20 @@
 
 									<!-- 3. Seat Cushions -->
 									<li class="cat-item cat-parent">
-										<a href="seat-cushions.html">Seat Cushions</a>
+										<a href="seat-cushions.jsp">Seat Cushions</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="chair-pads.html">Chair Pads</a>
+												<a href="chair-pads.jsp">Chair Pads</a>
 												<ul class="children">
-													<li><a href="gel-cushions.html">Gel-infused seat cushions</a></li>
-													<li><a href="foam-toppers.html">Memory foam seat toppers</a></li>
+													<li><a href="gel-cushions.jsp">Gel-infused seat cushions</a></li>
+													<li><a href="foam-toppers.jsp">Memory foam seat toppers</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="specialty-cushions.html">Specialty Cushions</a>
+												<a href="specialty-cushions.jsp">Specialty Cushions</a>
 												<ul class="children">
-													<li><a href="coccyx-cushions.html">Coccyx cushions</a></li>
-													<li><a href="hemorrhoid-cushions.html">Hemorrhoid relief cushions</a></li>
+													<li><a href="coccyx-cushions.jsp">Coccyx cushions</a></li>
+													<li><a href="hemorrhoid-cushions.jsp">Hemorrhoid relief cushions</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -149,20 +149,20 @@
 
 									<!-- 4. Neck & Travel Comfort -->
 									<li class="cat-item cat-parent">
-										<a href="neck-travel.html">Neck and Travel Comfort</a>
+										<a href="neck-travel.jsp">Neck and Travel Comfort</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="neck-pillows.html">Neck Pillows</a>
+												<a href="neck-pillows.jsp">Neck Pillows</a>
 												<ul class="children">
-													<li><a href="car-neck-supports.html">Car seat neck supports</a></li>
-													<li><a href="travel-pillows.html">Airplane travel pillows</a></li>
+													<li><a href="car-neck-supports.jsp">Car seat neck supports</a></li>
+													<li><a href="travel-pillows.jsp">Airplane travel pillows</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="portable-solutions.html">Portable Solutions</a>
+												<a href="portable-solutions.jsp">Portable Solutions</a>
 												<ul class="children">
-													<li><a href="inflatable-cushions.html">Inflatable seat cushions</a></li>
-													<li><a href="foldable-supports.html">Foldable posture supports</a></li>
+													<li><a href="inflatable-cushions.jsp">Inflatable seat cushions</a></li>
+													<li><a href="foldable-supports.jsp">Foldable posture supports</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -170,21 +170,21 @@
 
 									<!-- 5. Workspace Accessories -->
 									<li class="cat-item cat-parent">
-										<a href="workspace-accessories.html">Workspace Accessories</a>
+										<a href="workspace-accessories.jsp">Workspace Accessories</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="desk-ergonomics.html">Desk Ergonomics</a>
+												<a href="desk-ergonomics.jsp">Desk Ergonomics</a>
 												<ul class="children">
-													<li><a href="footrests.html">Adjustable footrests</a></li>
-													<li><a href="wrist-rests.html">Keyboard wrist rests</a></li>
-													<li><a href="laptop-stands.html">Laptop stands</a></li>
+													<li><a href="footrests.jsp">Adjustable footrests</a></li>
+													<li><a href="wrist-rests.jsp">Keyboard wrist rests</a></li>
+													<li><a href="laptop-stands.jsp">Laptop stands</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="comfort-addons.html">Comfort Add-ons</a>
+												<a href="comfort-addons.jsp">Comfort Add-ons</a>
 												<ul class="children">
-													<li><a href="desk-hammocks.html">Under-desk hammocks</a></li>
-													<li><a href="seat-storage.html">Seat-mounted storage</a></li>
+													<li><a href="desk-hammocks.jsp">Under-desk hammocks</a></li>
+													<li><a href="seat-storage.jsp">Seat-mounted storage</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -196,37 +196,47 @@
 					<div class="col-lg-9">
 						<div class="row shop-products-con" data-aos="fade-up">
 
-						    <c:forEach items="${products}" var="curProduct" varStatus="status">
-                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                                    <div class="classic-box">
-                                        <div class="classic_image_box box${status.index + 1}">
-                                            <figure class="mb-0">
-                                                <img src="/relaxit/assets/img/classic-image1.png" alt="image" class="img-fluid">
-                                            </figure>
-                                        </div>
-                                        <div class="classic_box_content">
-                                            <div class="text_wrapper position-relative">
-                                                <h6>${curProduct.name}</h6>
+                            <c:forEach var="curProduct" items="${products}" varStatus="status">
+                                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                        <div class="classic-box">
+                                            <div class="classic_image_box box${status.index + 1}">
+                                                <figure class="mb-0">
+                                                    <img src="/relaxit/assets/img/classic-image1.png" alt="image" class="img-fluid">
+                                                </figure>
                                             </div>
-                                            <p class="text-size-16">${curProduct.description}</p>
-                                            <div class="price_wrapper position-relative">
-                                                <span class="dollar">$<span class="counter">${curProduct.price}</span></span>
-                                                <a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
+                                            <div class="classic_box_content">
+                                                <div class="text_wrapper position-relative">
+                                                    <h6>${curProduct.name}</h6>
+                                                </div>
+                                                <p class="text-size-16">${curProduct.description}</p>
+                                                <div class="price_wrapper position-relative">
+                                                    <span class="dollar">$<span class="counter">${curProduct.price}</span></span>
+                                                    <a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             </c:forEach>
 
+                            <!-- Pagination -->
+                            <ul class="pagination" data-aos="fade-up">
+                                <c:if test="${pageNumber > 1}">
+                                    <li class="page-item next">
+                                        <a class="page-link" href="shop?page=${pageNumber - 1}"><i class="fas fa-angle-left"></i></a>
+                                    </li>
+                                </c:if>
 
-							<ul class="pagination" data-aos="fade-up">
-								<li class="page-item"><a class="page-link" href="one-column.html">1</a></li>
-								<li class="page-item"><a class="page-link" href="two-column.html">2</a></li>
-								<li class="page-item"><a class="page-link" href="three-column.html">3</a></li>
-								<li class="page-item next">
-									<a class="page-link" href="single-blog.html"><i class="fas fa-angle-right"></i></a>
-								</li>
-							</ul>
+                                <c:forEach begin="1" end="${totalPages}" var="i">
+                                    <li class="page-item ${i == pageNumber ? 'active' : ''}">
+                                        <a class="page-link" href="shop?page=${i}">${i}</a>
+                                    </li>
+                                </c:forEach>
+                                <c:if test="${pageNumber < totalPages}">
+                                    <li class="page-item next">
+                                        <a class="page-link" href="shop?page=${pageNumber + 1}"><i class="fas fa-angle-right"></i></a>
+                                    </li>
+                                </c:if>
+                            </ul>
 						</div>
 					</div>
 				</div>
