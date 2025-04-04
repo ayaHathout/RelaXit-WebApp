@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<title>Shop Page</title>
+		<title>${categoryName} Page</title>
 
 		<!-- Bootstrap CSS -->
 		<link href="/relaxit/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -64,7 +64,7 @@
 				<div class="row justify-content-between">
 					<div class="col-lg-5">
 						<div class="intro-excerpt">
-							<h1>Shop</h1>
+							<h1>${categoryName}</h1>
 						</div>
 					</div>
 				</div>
@@ -222,18 +222,18 @@
                             <ul class="pagination" data-aos="fade-up">
                                 <c:if test="${pageNumber > 1}">
                                     <li class="page-item next">
-                                        <a class="page-link" href="shop?page=${pageNumber - 1}"><i class="fas fa-angle-left"></i></a>
+                                        <a class="page-link" href="category?category-id=${categoryId}&page=${pageNumber - 1}"><i class="fas fa-angle-left"></i></a>
                                     </li>
                                 </c:if>
 
                                 <c:forEach begin="1" end="${totalPages}" var="i">
                                     <li class="page-item ${i == pageNumber ? 'active' : ''}">
-                                        <a class="page-link" href="shop?page=${i}">${i}</a>
+                                        <a class="page-link" href="category?category-id=${categoryId}&page=${i}">${i}</a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${pageNumber < totalPages}">
                                     <li class="page-item next">
-                                        <a class="page-link" href="shop?page=${pageNumber + 1}"><i class="fas fa-angle-right"></i></a>
+                                        <a class="page-link" href="category?category-id=${categoryId}&page=${pageNumber + 1}"><i class="fas fa-angle-right"></i></a>
                                     </li>
                                 </c:if>
                             </ul>
