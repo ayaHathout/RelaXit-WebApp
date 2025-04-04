@@ -38,6 +38,6 @@ public class CategoryServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         //   resp.sendRedirect("/relaxit/views/shop.jsp");
-        req.getRequestDispatcher("views/fixed-chairs.jsp").forward(req, resp);
+        req.getRequestDispatcher("views/category.jsp").forward(req, resp);
     }
 }

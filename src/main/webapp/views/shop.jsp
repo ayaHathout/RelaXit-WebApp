@@ -95,7 +95,7 @@
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="/relaxit/views/adjustable-chairs.jsp">Adjustable Chairs</a>
+												<a href="category?category-id=2">Adjustable Chairs</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/recliners.jsp">Multi-position recliners</a></li>
 													<li><a href="/relaxit/views/active-chairs.jsp">Active sitting chairs</a></li>
@@ -109,7 +109,7 @@
 										<a href="/relaxit/views/back-support.jsp">Back Support</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="/relaxit/views/lumbar-support.jsp">Lumbar Support Products</a>
+												<a href="category?category-id=3">Lumbar Support Products</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/backrest-cushions.jsp">Attachable backrest cushions</a></li>
 													<li><a href="/relaxit/views/memory-foam-pillows.jsp">Memory foam back pillows</a></li>
@@ -117,7 +117,7 @@
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="/relaxit/views/posture-correctors.jsp">Posture Correctors</a>
+												<a href="category?category-id=4">Posture Correctors</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/back-braces.jsp">Wearable back braces</a></li>
 													<li><a href="/relaxit/views/posture-belts.jsp">Posture training belts</a></li>
@@ -131,14 +131,14 @@
 										<a href="/relaxit/views/seat-cushions.jsp">Seat Cushions</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="/relaxit/views/chair-pads.jsp">Chair Pads</a>
+												<a href="category?category-id=5">Chair Pads</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/gel-cushions.jsp">Gel-infused seat cushions</a></li>
 													<li><a href="/relaxit/views/foam-toppers.jsp">Memory foam seat toppers</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="/relaxit/views/specialty-cushions.jsp">Specialty Cushions</a>
+												<a href="category?category-id=6">Specialty Cushions</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/coccyx-cushions.jsp">Coccyx cushions</a></li>
 													<li><a href="/relaxit/views/hemorrhoid-cushions.jsp">Hemorrhoid relief cushions</a></li>
@@ -149,17 +149,17 @@
 
 									<!-- 4. Neck & Travel Comfort -->
 									<li class="cat-item cat-parent">
-										<a href="/relaxit/views/neck-travel.jsp">Neck and Travel Comfort</a>
+										<a href="category?category-id=7">Neck and Travel Comfort</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="/relaxit/views/neck-pillows.jsp">Neck Pillows</a>
+												<a href="category?category-id=7">Neck Pillows</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/car-neck-supports.jsp">Car seat neck supports</a></li>
 													<li><a href="/relaxit/views/travel-pillows.jsp">Airplane travel pillows</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="/relaxit/views/portable-solutions.jsp">Portable Solutions</a>
+												<a href="category?category-id=8">Portable Solutions</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/inflatable-cushions.jsp">Inflatable seat cushions</a></li>
 													<li><a href="/relaxit/views/foldable-supports.jsp">Foldable posture supports</a></li>
@@ -173,7 +173,7 @@
 										<a href="/relaxit/views/workspace-accessories.jsp">Workspace Accessories</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="/relaxit/views/desk-ergonomics.jsp">Desk Ergonomics</a>
+												<a href="category?category-id=9">Desk Ergonomics</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/footrests.jsp">Adjustable footrests</a></li>
 													<li><a href="/relaxit/views/wrist-rests.jsp">Keyboard wrist rests</a></li>
@@ -181,7 +181,7 @@
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="/relaxit/views/comfort-addons.jsp">Comfort Add-ons</a>
+												<a href="category?category-id=10">Comfort Add-ons</a>
 												<ul class="children">
 													<li><a href="/relaxit/views/desk-hammocks.jsp">Under-desk hammocks</a></li>
 													<li><a href="/relaxit/views/seat-storage.jsp">Seat-mounted storage</a></li>

@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<title>Fixed Chairs Page</title>
+		<title>Shop Page</title>
 
 		<!-- Bootstrap CSS -->
 		<link href="/relaxit/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -40,8 +40,8 @@
 				<div class="collapse navbar-collapse" id="navbarsFurni">
 					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
 						<li class="nav-item "><a class="nav-link" href="index.html">Home</a></li>
-						<li class="active"><a class="nav-link" href="/views/shop.jsp">Shop</a></li>
-						<li><a class="nav-link" href="/views/about.jsp">About us</a></li>
+						<li class="active"><a class="nav-link" href="shop.html">Shop</a></li>
+						<li><a class="nav-link" href="about.jsp">About us</a></li>
 						<li><a class="nav-link" href="services.html">Services</a></li>
 						<li><a class="nav-link" href="blog.html">Blog</a></li>
 						<li><a class="nav-link" href="contact.html">Contact us</a></li>
@@ -64,7 +64,7 @@
 				<div class="row justify-content-between">
 					<div class="col-lg-5">
 						<div class="intro-excerpt">
-							<h1>Fixed Chairs</h1>
+							<h1>Shop</h1>
 						</div>
 					</div>
 				</div>
@@ -73,10 +73,126 @@
 		<!-- End Hero Section -->
 
 
-		<!-- Fixed Chairs -->
+		<!-- Shop -->
 		<section class="shop1-con classic-con position-relative">
 			<div class="container">
 				<div class="row">
+					<div class="sidebar sticky-sidebar col-lg-3">
+						<div class="theiaStickySidebar">
+							<div class="widget widget-categories" data-aos="fade-up">
+								<div class="widget-title font_weight_600">Categories</div>
+								<ul class="list-unstyled mb-0">
+									<!-- 1. Chairs by Type -->
+									<li class="cat-item cat-parent">
+										<a href="/relaxit/views/chairs-by-type.jsp">Chairs by Type</a>
+										<ul class="children">
+											<li class="cat-item">
+												<a href="category?category-id=1">Fixed Chairs</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/office-chairs.jsp">Office chairs</a></li>
+													<li><a href="/relaxit/views/gaming-chairs.jsp">Gaming chairs</a></li>
+													<li><a href="/relaxit/views/conference-chairs.jsp">Conference room chairs</a></li>
+												</ul>
+											</li>
+											<li class="cat-item">
+												<a href="category?category-id=2">Adjustable Chairs</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/recliners.jsp">Multi-position recliners</a></li>
+													<li><a href="/relaxit/views/active-chairs.jsp">Active sitting chairs</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+
+									<!-- 2. Back Support -->
+									<li class="cat-item cat-parent">
+										<a href="/relaxit/views/back-support.jsp">Back Support</a>
+										<ul class="children">
+											<li class="cat-item">
+												<a href="category?category-id=3">Lumbar Support Products</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/backrest-cushions.jsp">Attachable backrest cushions</a></li>
+													<li><a href="/relaxit/views/memory-foam-pillows.jsp">Memory foam back pillows</a></li>
+													<li><a href="/relaxit/views/mesh-supports.jsp">Mesh ventilated back supports</a></li>
+												</ul>
+											</li>
+											<li class="cat-item">
+												<a href="category?category-id=4">Posture Correctors</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/back-braces.jsp">Wearable back braces</a></li>
+													<li><a href="/relaxit/views/posture-belts.jsp">Posture training belts</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+
+									<!-- 3. Seat Cushions -->
+									<li class="cat-item cat-parent">
+										<a href="/relaxit/views/seat-cushions.jsp">Seat Cushions</a>
+										<ul class="children">
+											<li class="cat-item">
+												<a href="category?category-id=5">Chair Pads</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/gel-cushions.jsp">Gel-infused seat cushions</a></li>
+													<li><a href="/relaxit/views/foam-toppers.jsp">Memory foam seat toppers</a></li>
+												</ul>
+											</li>
+											<li class="cat-item">
+												<a href="category?category-id=6">Specialty Cushions</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/coccyx-cushions.jsp">Coccyx cushions</a></li>
+													<li><a href="/relaxit/views/hemorrhoid-cushions.jsp">Hemorrhoid relief cushions</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+
+									<!-- 4. Neck & Travel Comfort -->
+									<li class="cat-item cat-parent">
+										<a href="category?category-id=7">Neck and Travel Comfort</a>
+										<ul class="children">
+											<li class="cat-item">
+												<a href="category?category-id=7">Neck Pillows</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/car-neck-supports.jsp">Car seat neck supports</a></li>
+													<li><a href="/relaxit/views/travel-pillows.jsp">Airplane travel pillows</a></li>
+												</ul>
+											</li>
+											<li class="cat-item">
+												<a href="category?category-id=8">Portable Solutions</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/inflatable-cushions.jsp">Inflatable seat cushions</a></li>
+													<li><a href="/relaxit/views/foldable-supports.jsp">Foldable posture supports</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+
+									<!-- 5. Workspace Accessories -->
+									<li class="cat-item cat-parent">
+										<a href="/relaxit/views/workspace-accessories.jsp">Workspace Accessories</a>
+										<ul class="children">
+											<li class="cat-item">
+												<a href="category?category-id=9">Desk Ergonomics</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/footrests.jsp">Adjustable footrests</a></li>
+													<li><a href="/relaxit/views/wrist-rests.jsp">Keyboard wrist rests</a></li>
+													<li><a href="/relaxit/views/laptop-stands.jsp">Laptop stands</a></li>
+												</ul>
+											</li>
+											<li class="cat-item">
+												<a href="category?category-id=10">Comfort Add-ons</a>
+												<ul class="children">
+													<li><a href="/relaxit/views/desk-hammocks.jsp">Under-desk hammocks</a></li>
+													<li><a href="/relaxit/views/seat-storage.jsp">Seat-mounted storage</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
 					<div class="col-lg-9">
 						<div class="row shop-products-con" data-aos="fade-up">
 
@@ -106,13 +222,13 @@
                             <ul class="pagination" data-aos="fade-up">
                                 <c:if test="${pageNumber > 1}">
                                     <li class="page-item next">
-                                        <a class="page-link" href="fixed-chairs?page=${pageNumber - 1}"><i class="fas fa-angle-left"></i></a>
+                                        <a class="page-link" href="shop?page=${pageNumber - 1}"><i class="fas fa-angle-left"></i></a>
                                     </li>
                                 </c:if>
 
                                 <c:forEach begin="1" end="${totalPages}" var="i">
                                     <li class="page-item ${i == pageNumber ? 'active' : ''}">
-                                        <a class="page-link" href="fixed-chairs?page=${i}">${i}</a>
+                                        <a class="page-link" href="shop?page=${i}">${i}</a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${pageNumber < totalPages}">
