@@ -40,8 +40,8 @@
 				<div class="collapse navbar-collapse" id="navbarsFurni">
 					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
 						<li class="nav-item "><a class="nav-link" href="index.html">Home</a></li>
-						<li class="active"><a class="nav-link" href="shop.jsp">Shop</a></li>
-						<li><a class="nav-link" href="about.jsp">About us</a></li>
+						<li class="active"><a class="nav-link" href="/views/shop.jsp">Shop</a></li>
+						<li><a class="nav-link" href="/views/about.jsp">About us</a></li>
 						<li><a class="nav-link" href="services.html">Services</a></li>
 						<li><a class="nav-link" href="blog.html">Blog</a></li>
 						<li><a class="nav-link" href="contact.html">Contact us</a></li>
@@ -77,122 +77,6 @@
 		<section class="shop1-con classic-con position-relative">
 			<div class="container">
 				<div class="row">
-					<div class="sidebar sticky-sidebar col-lg-3">
-						<div class="theiaStickySidebar">
-							<div class="widget widget-categories" data-aos="fade-up">
-								<div class="widget-title font_weight_600">Categories</div>
-								<ul class="list-unstyled mb-0">
-									<!-- 1. Chairs by Type -->
-									<li class="cat-item cat-parent">
-										<a href="chairs-by-type.html">Chairs by Type</a>
-										<ul class="children">
-											<li class="cat-item">
-												<a href="fixed-chairs.html">Fixed Chairs</a>
-												<ul class="children">
-													<li><a href="office-chairs.html">Office chairs</a></li>
-													<li><a href="gaming-chairs.html">Gaming chairs</a></li>
-													<li><a href="conference-chairs.html">Conference room chairs</a></li>
-												</ul>
-											</li>
-											<li class="cat-item">
-												<a href="adjustable-chairs.html">Adjustable Chairs</a>
-												<ul class="children">
-													<li><a href="recliners.html">Multi-position recliners</a></li>
-													<li><a href="active-chairs.html">Active sitting chairs</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-
-									<!-- 2. Back Support -->
-									<li class="cat-item cat-parent">
-										<a href="back-support.html">Back Support</a>
-										<ul class="children">
-											<li class="cat-item">
-												<a href="lumbar-support.html">Lumbar Support Products</a>
-												<ul class="children">
-													<li><a href="backrest-cushions.html">Attachable backrest cushions</a></li>
-													<li><a href="memory-foam-pillows.html">Memory foam back pillows</a></li>
-													<li><a href="mesh-supports.html">Mesh ventilated back supports</a></li>
-												</ul>
-											</li>
-											<li class="cat-item">
-												<a href="posture-correctors.html">Posture Correctors</a>
-												<ul class="children">
-													<li><a href="back-braces.html">Wearable back braces</a></li>
-													<li><a href="posture-belts.html">Posture training belts</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-
-									<!-- 3. Seat Cushions -->
-									<li class="cat-item cat-parent">
-										<a href="seat-cushions.html">Seat Cushions</a>
-										<ul class="children">
-											<li class="cat-item">
-												<a href="chair-pads.html">Chair Pads</a>
-												<ul class="children">
-													<li><a href="gel-cushions.html">Gel-infused seat cushions</a></li>
-													<li><a href="foam-toppers.html">Memory foam seat toppers</a></li>
-												</ul>
-											</li>
-											<li class="cat-item">
-												<a href="specialty-cushions.html">Specialty Cushions</a>
-												<ul class="children">
-													<li><a href="coccyx-cushions.html">Coccyx cushions</a></li>
-													<li><a href="hemorrhoid-cushions.html">Hemorrhoid relief cushions</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-
-									<!-- 4. Neck & Travel Comfort -->
-									<li class="cat-item cat-parent">
-										<a href="neck-travel.html">Neck and Travel Comfort</a>
-										<ul class="children">
-											<li class="cat-item">
-												<a href="neck-pillows.html">Neck Pillows</a>
-												<ul class="children">
-													<li><a href="car-neck-supports.html">Car seat neck supports</a></li>
-													<li><a href="travel-pillows.html">Airplane travel pillows</a></li>
-												</ul>
-											</li>
-											<li class="cat-item">
-												<a href="portable-solutions.html">Portable Solutions</a>
-												<ul class="children">
-													<li><a href="inflatable-cushions.html">Inflatable seat cushions</a></li>
-													<li><a href="foldable-supports.html">Foldable posture supports</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-
-									<!-- 5. Workspace Accessories -->
-									<li class="cat-item cat-parent">
-										<a href="workspace-accessories.html">Workspace Accessories</a>
-										<ul class="children">
-											<li class="cat-item">
-												<a href="desk-ergonomics.html">Desk Ergonomics</a>
-												<ul class="children">
-													<li><a href="footrests.html">Adjustable footrests</a></li>
-													<li><a href="wrist-rests.html">Keyboard wrist rests</a></li>
-													<li><a href="laptop-stands.html">Laptop stands</a></li>
-												</ul>
-											</li>
-											<li class="cat-item">
-												<a href="comfort-addons.html">Comfort Add-ons</a>
-												<ul class="children">
-													<li><a href="desk-hammocks.html">Under-desk hammocks</a></li>
-													<li><a href="seat-storage.html">Seat-mounted storage</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
 					<div class="col-lg-9">
 						<div class="row shop-products-con" data-aos="fade-up">
 

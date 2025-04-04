@@ -3,6 +3,7 @@ com\relaxit\domain\models\Product.class
 com\relaxit\domain\enums\UserRole.class
 com\relaxit\domain\models\CartItem.class
 com\relaxit\presentation\controllers\ShopServlet.class
+com\relaxit\presentation\controllers\CategoryServlet.class
 com\relaxit\domain\models\Category.class
 com\relaxit\domain\enums\OrderStatus.class
 com\relaxit\domain\Daos\Interfaces\ProductDAO.class

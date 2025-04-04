@@ -84,21 +84,21 @@
 								<ul class="list-unstyled mb-0">
 									<!-- 1. Chairs by Type -->
 									<li class="cat-item cat-parent">
-										<a href="chairs-by-type.jsp">Chairs by Type</a>
+										<a href="/relaxit/views/chairs-by-type.jsp">Chairs by Type</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="fixed-chairs.jsp">Fixed Chairs</a>
+												<a href="category?category-id=1">Fixed Chairs</a>
 												<ul class="children">
-													<li><a href="office-chairs.jsp">Office chairs</a></li>
-													<li><a href="gaming-chairs.jsp">Gaming chairs</a></li>
-													<li><a href="conference-chairs.jsp">Conference room chairs</a></li>
+													<li><a href="/relaxit/views/office-chairs.jsp">Office chairs</a></li>
+													<li><a href="/relaxit/views/gaming-chairs.jsp">Gaming chairs</a></li>
+													<li><a href="/relaxit/views/conference-chairs.jsp">Conference room chairs</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="adjustable-chairs.jsp">Adjustable Chairs</a>
+												<a href="/relaxit/views/adjustable-chairs.jsp">Adjustable Chairs</a>
 												<ul class="children">
-													<li><a href="recliners.jsp">Multi-position recliners</a></li>
-													<li><a href="active-chairs.jsp">Active sitting chairs</a></li>
+													<li><a href="/relaxit/views/recliners.jsp">Multi-position recliners</a></li>
+													<li><a href="/relaxit/views/active-chairs.jsp">Active sitting chairs</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -106,21 +106,21 @@
 
 									<!-- 2. Back Support -->
 									<li class="cat-item cat-parent">
-										<a href="back-support.jsp">Back Support</a>
+										<a href="/relaxit/views/back-support.jsp">Back Support</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="lumbar-support.jsp">Lumbar Support Products</a>
+												<a href="/relaxit/views/lumbar-support.jsp">Lumbar Support Products</a>
 												<ul class="children">
-													<li><a href="backrest-cushions.jsp">Attachable backrest cushions</a></li>
-													<li><a href="memory-foam-pillows.jsp">Memory foam back pillows</a></li>
-													<li><a href="mesh-supports.jsp">Mesh ventilated back supports</a></li>
+													<li><a href="/relaxit/views/backrest-cushions.jsp">Attachable backrest cushions</a></li>
+													<li><a href="/relaxit/views/memory-foam-pillows.jsp">Memory foam back pillows</a></li>
+													<li><a href="/relaxit/views/mesh-supports.jsp">Mesh ventilated back supports</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="posture-correctors.jsp">Posture Correctors</a>
+												<a href="/relaxit/views/posture-correctors.jsp">Posture Correctors</a>
 												<ul class="children">
-													<li><a href="back-braces.jsp">Wearable back braces</a></li>
-													<li><a href="posture-belts.jsp">Posture training belts</a></li>
+													<li><a href="/relaxit/views/back-braces.jsp">Wearable back braces</a></li>
+													<li><a href="/relaxit/views/posture-belts.jsp">Posture training belts</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -128,20 +128,20 @@
 
 									<!-- 3. Seat Cushions -->
 									<li class="cat-item cat-parent">
-										<a href="seat-cushions.jsp">Seat Cushions</a>
+										<a href="/relaxit/views/seat-cushions.jsp">Seat Cushions</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="chair-pads.jsp">Chair Pads</a>
+												<a href="/relaxit/views/chair-pads.jsp">Chair Pads</a>
 												<ul class="children">
-													<li><a href="gel-cushions.jsp">Gel-infused seat cushions</a></li>
-													<li><a href="foam-toppers.jsp">Memory foam seat toppers</a></li>
+													<li><a href="/relaxit/views/gel-cushions.jsp">Gel-infused seat cushions</a></li>
+													<li><a href="/relaxit/views/foam-toppers.jsp">Memory foam seat toppers</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="specialty-cushions.jsp">Specialty Cushions</a>
+												<a href="/relaxit/views/specialty-cushions.jsp">Specialty Cushions</a>
 												<ul class="children">
-													<li><a href="coccyx-cushions.jsp">Coccyx cushions</a></li>
-													<li><a href="hemorrhoid-cushions.jsp">Hemorrhoid relief cushions</a></li>
+													<li><a href="/relaxit/views/coccyx-cushions.jsp">Coccyx cushions</a></li>
+													<li><a href="/relaxit/views/hemorrhoid-cushions.jsp">Hemorrhoid relief cushions</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -149,20 +149,20 @@
 
 									<!-- 4. Neck & Travel Comfort -->
 									<li class="cat-item cat-parent">
-										<a href="neck-travel.jsp">Neck and Travel Comfort</a>
+										<a href="/relaxit/views/neck-travel.jsp">Neck and Travel Comfort</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="neck-pillows.jsp">Neck Pillows</a>
+												<a href="/relaxit/views/neck-pillows.jsp">Neck Pillows</a>
 												<ul class="children">
-													<li><a href="car-neck-supports.jsp">Car seat neck supports</a></li>
-													<li><a href="travel-pillows.jsp">Airplane travel pillows</a></li>
+													<li><a href="/relaxit/views/car-neck-supports.jsp">Car seat neck supports</a></li>
+													<li><a href="/relaxit/views/travel-pillows.jsp">Airplane travel pillows</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="portable-solutions.jsp">Portable Solutions</a>
+												<a href="/relaxit/views/portable-solutions.jsp">Portable Solutions</a>
 												<ul class="children">
-													<li><a href="inflatable-cushions.jsp">Inflatable seat cushions</a></li>
-													<li><a href="foldable-supports.jsp">Foldable posture supports</a></li>
+													<li><a href="/relaxit/views/inflatable-cushions.jsp">Inflatable seat cushions</a></li>
+													<li><a href="/relaxit/views/foldable-supports.jsp">Foldable posture supports</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -170,21 +170,21 @@
 
 									<!-- 5. Workspace Accessories -->
 									<li class="cat-item cat-parent">
-										<a href="workspace-accessories.jsp">Workspace Accessories</a>
+										<a href="/relaxit/views/workspace-accessories.jsp">Workspace Accessories</a>
 										<ul class="children">
 											<li class="cat-item">
-												<a href="desk-ergonomics.jsp">Desk Ergonomics</a>
+												<a href="/relaxit/views/desk-ergonomics.jsp">Desk Ergonomics</a>
 												<ul class="children">
-													<li><a href="footrests.jsp">Adjustable footrests</a></li>
-													<li><a href="wrist-rests.jsp">Keyboard wrist rests</a></li>
-													<li><a href="laptop-stands.jsp">Laptop stands</a></li>
+													<li><a href="/relaxit/views/footrests.jsp">Adjustable footrests</a></li>
+													<li><a href="/relaxit/views/wrist-rests.jsp">Keyboard wrist rests</a></li>
+													<li><a href="/relaxit/views/laptop-stands.jsp">Laptop stands</a></li>
 												</ul>
 											</li>
 											<li class="cat-item">
-												<a href="comfort-addons.jsp">Comfort Add-ons</a>
+												<a href="/relaxit/views/comfort-addons.jsp">Comfort Add-ons</a>
 												<ul class="children">
-													<li><a href="desk-hammocks.jsp">Under-desk hammocks</a></li>
-													<li><a href="seat-storage.jsp">Seat-mounted storage</a></li>
+													<li><a href="/relaxit/views/desk-hammocks.jsp">Under-desk hammocks</a></li>
+													<li><a href="/relaxit/views/seat-storage.jsp">Seat-mounted storage</a></li>
 												</ul>
 											</li>
 										</ul>

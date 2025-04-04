@@ -10,8 +10,18 @@
         <servlet-class>com.relaxit.presentation.controllers.ShopServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>categoryServlet</servlet-name>
+        <servlet-class>com.relaxit.presentation.controllers.CategoryServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>shopServlet</servlet-name>
         <url-pattern>/shop</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>categoryServlet</servlet-name>
+        <url-pattern>/category</url-pattern>
     </servlet-mapping>
 </web-app>
