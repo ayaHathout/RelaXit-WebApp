@@ -36,15 +36,15 @@
             </div>
 
             <!-- Login Form -->
-            <form id="luxuryLoginForm" class="auth-form active">
+            <form id="luxuryLoginForm" class="auth-form active" action="${pageContext.request.contextPath}/login" method="POST">
                 <div class="form-group">
-                    <input type="email" id="luxuryEmail" required>
+                    <input type="email" id="luxuryEmail" name="luxuryEmail" required>
                     <label for="luxuryEmail">Email Address</label>
                     <i class="fas fa-envelope input-icon"></i>
                 </div>
                 
                 <div class="form-group password-group">
-                    <input type="password" id="luxuryPassword" required>
+                    <input type="password" id="luxuryPassword" name="luxuryPassword" required>
                     <label for="luxuryPassword">Password</label>
                     <i class="fas fa-lock password-icon"></i>
                     <button type="button" class="password-toggle">
@@ -54,11 +54,15 @@
                 
                 <div class="remember-forgot-container">
                     <div class="remember-me">
-                        <input type="checkbox" id="luxuryRemember">
+                        <input type="checkbox" id="luxuryRemember" name="luxuryRemember">
                         <label for="luxuryRemember" style="font-size: large; padding-top:5px;">Remember me</label>
                     </div>
                     <a href="#" class="forgot-password">Forgot password?</a>
                 </div>
+                
+                <% if (request.getAttribute("error") != null) { %>
+                    <p style="color: red;"><%= request.getAttribute("error") %></p>
+                <% } %>
                 
                 <button type="submit" class="luxury-btn">
                     <span>Access Your Collection</span>
@@ -68,31 +72,23 @@
                 <div class="social-auth">
                     <p class="divider-text">or continue with</p>
                     <div class="social-buttons">
-                        <button type="button" class="social-btn">
-                            <i class="fab fa-apple"></i>
-                        </button>
-                        <button type="button" class="social-btn">
-                            <i class="fab fa-google"></i>
-                        </button>
-                        <button type="button" class="social-btn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </button>
+                        <button type="button" class="social-btn"><i class="fab fa-apple"></i></button>
+                        <button type="button" class="social-btn"><i class="fab fa-google"></i></button>
+                        <button type="button" class="social-btn"><i class="fab fa-linkedin-in"></i></button>
                     </div>
                 </div>
             </form>
 
             <!-- Registration Form -->
-            <form id="luxuryRegisterForm" class="auth-form">
+            <form id="luxuryRegisterForm" class="auth-form" action="${pageContext.request.contextPath}/register" method="POST" enctype="multipart/form-data">
                 <div class="form-grid">
                     <div class="form-group avatar-upload-group">
                         <div class="avatar-upload-container">
-                            <input type="file" id="luxuryProfileImage" accept="image/*" class="hidden-file-input">
+                            <input type="file" id="luxuryProfileImage" name="luxuryProfileImage" accept="image/*" class="hidden-file-input">
                             <label for="luxuryProfileImage" class="avatar-upload-label">
                                 <div class="avatar-preview">
                                     <img class="profile-preview" alt="Profile Preview">
-                                    <div class="default-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
+                                    <div class="default-avatar"><i class="fas fa-user"></i></div>
                                 </div>
                                 <span class="avatar-upload-text">Choose Profile Photo</span>
                             </label>
@@ -100,45 +96,43 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" id="luxuryFullName" required>
+                        <input type="text" id="luxuryFullName" name="luxuryFullName" required>
                         <label for="luxuryFullName">Full Name</label>
                         <i class="fas fa-user input-icon"></i>
                     </div>
                     
                     <div class="form-group">
-                        <input type="email" id="luxuryRegEmail" required>
+                        <input type="email" id="luxuryRegEmail" name="luxuryRegEmail" required>
                         <label for="luxuryRegEmail">Email Address</label>
                         <i class="fas fa-envelope input-icon"></i>
                     </div>
                     
                     <div class="form-group password-group">
-                        <input type="password" id="luxuryRegPassword" required>
+                        <input type="password" id="luxuryRegPassword" name="luxuryRegPassword" required>
                         <label for="luxuryRegPassword">Password</label>
                         <i class="fas fa-lock password-icon"></i>
-                        <button type="button" class="password-toggle">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                        <button type="button" class="password-toggle"><i class="fas fa-eye"></i></button>
                     </div>
                     
                     <div class="form-group">
-                        <input type="date" id="luxuryBirthdate" required>
+                        <input type="date" id="luxuryBirthdate" name="luxuryBirthdate" required>
                         <label for="luxuryBirthdate" class="date-label">Date of Birth</label>
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" id="luxuryProfession" required>
+                        <input type="text" id="luxuryProfession" name="luxuryProfession" required>
                         <label for="luxuryProfession">Profession</label>
                         <i class="fas fa-briefcase input-icon"></i>
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" id="luxuryResidence" required>
+                        <input type="text" id="luxuryResidence" name="luxuryResidence" required>
                         <label for="luxuryResidence">Residence</label>
                         <i class="fas fa-home input-icon"></i>
                     </div>
                     
                     <div class="form-group full-width interests-group">
-                        <input type="text" id="luxuryInterests">
+                        <input type="text" id="luxuryInterests" name="luxuryInterests">
                         <label for="luxuryInterests">Design Preferences</label>
                         <i class="fas fa-heart input-icon"></i>
                     </div>
@@ -156,6 +150,6 @@
         </div>
     </div>
 
-   <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
 </body>
 </html>
