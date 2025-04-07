@@ -1,36 +1,65 @@
 package com.relaxit.domain.models;
 
 import com.relaxit.domain.enums.UserRole;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "users")
 public class User implements Serializable {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(name = "full_name", nullable = false)
     private String fullName;
+
+    @Column(nullable = false)
     private LocalDate birthdate;
+
+    @Column(nullable = false)
     private String job;
+
+    @Column(name = "credit_limit")
     private Double creditLimit;
+
+    @Column(nullable = false)
     private String address;
+
     private String interests;
+
+    @Column(name = "profile_image")
     private String profileImage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     public User() {
     }
 
-    public Long getuserId() {
+    // Getters and Setters (unchanged from your code, just added annotations)
+    public Long getUserId() {
         return userId;
     }
 
-    public void setuserId(Long id) {
-        userId = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -53,8 +82,8 @@ public class User implements Serializable {
         return fullName;
     }
 
-    public void setFullName(String name) {
-        fullName = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public LocalDate getBirthdate() {
@@ -101,8 +130,8 @@ public class User implements Serializable {
         return profileImage;
     }
 
-    public void setProfileImage(String ImageUrl) {
-        this.profileImage = ImageUrl;
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public UserRole getRole() {
@@ -128,5 +157,4 @@ public class User implements Serializable {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }
