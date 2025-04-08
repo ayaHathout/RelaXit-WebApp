@@ -1,15 +1,17 @@
 package com.relaxit.domain.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class CartItem implements Serializable {
 
     private Long cartId;
     private Long userId;
-    private Long productId;
+    private Product product;
     private int quantity = 1;
     private LocalDateTime addedAt;
+     private BigDecimal itemTotal;
 
     public CartItem() {
     }
@@ -31,11 +33,14 @@ public class CartItem implements Serializable {
     }
 
     public Long getProductId() {
-        return productId;
+        return product != null ? product.getProductId() : null;
     }
 
     public void setProductId(Long productId) {
-        this.productId = productId;
+        if (this.product == null) {
+            this.product = new Product();
+        }
+        this.product.setProductId(productId);
     }
 
     public int getQuantity() {
@@ -54,4 +59,22 @@ public class CartItem implements Serializable {
         this.addedAt = addedAt;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+    
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public BigDecimal getItemTotal() {
+        if (product != null && product.getPrice() != null) {
+            return product.getPrice().multiply(new BigDecimal(quantity));
+        }
+        return BigDecimal.ZERO;
+    }
+    public void setItemTotal(BigDecimal itemTotal) {
+        this.itemTotal = itemTotal;
+    }
+    
 }

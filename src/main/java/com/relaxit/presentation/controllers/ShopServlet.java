@@ -20,10 +20,12 @@ public class ShopServlet extends HttpServlet {
         try {
             List<Product> allProducts = myProductDaoImpl.getAllProducts();
             req.setAttribute("products", allProducts);
+            System.out.println("Total products fetched: " + allProducts.size());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-     //   resp.sendRedirect("/relaxit/views/shop.jsp");
+        //   resp.sendRedirect("/relaxit/views/shop.jsp");
+        System.out.println("Products sent to JSP: " + req.getAttribute("products"));
         req.getRequestDispatcher("views/shop.jsp").forward(req, resp);
     }
 

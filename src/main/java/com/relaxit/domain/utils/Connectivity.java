@@ -3,16 +3,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class Connectivity {
-    public Connection connection;
-    public Connection getConnection(){
-        String dbName="iti";
-        String username="root";
-        String password="root";
+    public static Connection connection;
+
+    public static  Connection getConnection() {
+        String dbName = "relaxit";
+        String username = "root";
+        String password = "M@12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+dbName,username,password);
-        }
-        catch (Exception ex) {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, username, password);
+            System.out.println(" Database connected successfully!");
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return connection;

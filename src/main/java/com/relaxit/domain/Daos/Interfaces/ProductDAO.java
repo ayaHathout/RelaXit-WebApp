@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ProductDAO {
     List<Product> getAllProducts() throws SQLException;
+    public Product getProductById(int productId);
+    
 }

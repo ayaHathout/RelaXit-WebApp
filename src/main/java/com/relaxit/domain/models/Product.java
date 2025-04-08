@@ -70,7 +70,7 @@ public class Product implements Serializable {
     }
 
     public void setProductImage(byte[] picture) {
-        productImage = productImage;
+        this.productImage = picture;
     }
     
 }
