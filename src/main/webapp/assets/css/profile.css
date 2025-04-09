@@ -1072,3 +1072,7 @@ body.modal-open .profile-wrapper {
     opacity: 1;
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
