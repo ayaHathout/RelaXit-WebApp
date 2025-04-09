@@ -4,6 +4,7 @@ com\relaxit\domain\enums\UserRole.class
 com\relaxit\domain\models\CartItem.class
 com\relaxit\presentation\controllers\CartServlet$LocalDateTimeSerializer.class
 com\relaxit\presentation\controllers\ShopServlet.class
+com\relaxit\presentation\controllers\CategoryServlet.class
 com\relaxit\domain\Daos\Interfaces\CartItemDAO.class
 com\relaxit\domain\Daos\Implementation\CartItemDAOImpl.class
 com\relaxit\domain\models\Category.class

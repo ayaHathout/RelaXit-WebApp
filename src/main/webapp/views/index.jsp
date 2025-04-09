@@ -290,7 +290,7 @@
 					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
 						<a class="product-item" href="<c:url value='/product/detail?id=1'/>">
 							<div class="image">
-							<img src="<c:url value='/assets/images/pic2.png'/>" class="img-fluid product-thumbnail">
+							    <img src="<c:url value='/assets/images/pic2.png'/>" class="img-fluid product-thumbnail">
 							</div>
 							<h3 class="product-title">PosturePerfect Chair</h3>
 							<strong class="product-price">$349.00</strong>

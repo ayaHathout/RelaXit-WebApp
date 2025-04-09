@@ -17,20 +17,25 @@ public class ShopServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("In doGet() in ShopServlet");
+
+        int pageNumber = 1, pageSize = 6;
+
+        if (req.getParameter("page") != null)
+            pageNumber = Integer.parseInt(req.getParameter("page"));
+
         try {
-            List<Product> allProducts = myProductDaoImpl.getAllProducts();
+            List<Product> allProducts = myProductDaoImpl.getAllProducts(pageNumber, pageSize);
+            int totalNumberOfProducts = myProductDaoImpl.getTotalProductsCount();
+
             req.setAttribute("products", allProducts);
-            System.out.println("Total products fetched: " + allProducts.size());
+            req.setAttribute("totalProducts", totalNumberOfProducts);
+            req.setAttribute("pageNumber", pageNumber);
+            req.setAttribute("pageSize", pageSize);
+            req.setAttribute("totalPages", (int) Math.ceil((double) totalNumberOfProducts / pageSize));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         //   resp.sendRedirect("/relaxit/views/shop.jsp");
-        System.out.println("Products sent to JSP: " + req.getAttribute("products"));
         req.getRequestDispatcher("views/shop.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("In doPost() in ShopServlet");
     }
 }
