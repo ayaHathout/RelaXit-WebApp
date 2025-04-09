@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmPasswordInput = document.getElementById('confirmNewPassword');
     const savePasswordBtn = document.getElementById('savePasswordBtn');
     const passwordCheckResult = document.getElementById('passwordCheckResult');
-    
+
    
     const luxeSides = document.querySelectorAll('.luxe-side');
     const canvas = document.getElementById('confettiCanvas');
