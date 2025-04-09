@@ -2,6 +2,8 @@ package com.relaxit.presentation.controllers;
 
 import com.relaxit.domain.models.User;
 import com.relaxit.domain.services.UserService;
+import com.relaxit.repository.impl.UserRepositoryImpl;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +18,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        userService = new UserService();
+        userService = new UserService(new UserRepositoryImpl());
     }
+    @Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+}
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -29,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect("views/index.html");
+            response.sendRedirect(request.getContextPath() + "/profile");
         } else {
             request.setAttribute("error", "Invalid email or password");
             request.getRequestDispatcher("views/login.jsp").forward(request, response);
