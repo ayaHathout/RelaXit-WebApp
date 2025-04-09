@@ -133,16 +133,24 @@
             <div class="form-group">
                 <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
                 <label for="confirmNewPassword">Confirm New Password</label>
+                <span id="passwordMatchResult" class="password-check-result"></span>
             </div>
             <button id="savePasswordBtn" class="luxury-btn"><i class="fas fa-key"></i> Save Password</button>
         </div>
     </div>
+
+    <div id="successPopup" class="success-popup">
+    <p>Password changed successfully!<br>Please use your new password for future logins.</p>
+</div>
 
   <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;"></canvas>
     <div id="celebration">
         <div class="confetti"></div>
     </div>
 
-    <script src="${pageContext.request.contextPath}/assets/js/profile.js"></script>
+    <script>
+    window.contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/assets/js/profile.js"></script>
 </body>
 </html>
