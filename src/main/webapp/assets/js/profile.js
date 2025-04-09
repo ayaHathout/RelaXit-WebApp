@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
+    let debounceTimeout;
     const editProfileBtn = document.getElementById('editProfileBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
     const profileView = document.getElementById('profileView');
@@ -103,6 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmPasswordInput.value = '';
         passwordCheckResult.textContent = '';
     }
+    function showSuccessPopup() {
+        const popup = document.getElementById('successPopup');
+        popup.classList.add('show');
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 4000); // تختفي بعد 2 ثانية
+    }
 
     modalCloseBtn.addEventListener('click', closePasswordModal);
     passwordModal.addEventListener('click', function(e) {
@@ -111,15 +118,67 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    currentPasswordInput.addEventListener('input', async function() {
-        const password = this.value;
-        if (password.length < 1) {
-            passwordCheckResult.textContent = '';
-            return;
-        }
 
+    // أضف هذا بعد تعريف المتغيرات في بداية الملف
+const passwordMatchResult = document.getElementById('passwordMatchResult');
+
+// أضف Event Listener لـ confirmNewPassword
+confirmPasswordInput.addEventListener('input', function() {
+    const newPassword = newPasswordInput.value.trim();
+    const confirmPassword = this.value.trim();
+
+    if (confirmPassword.length < 1) {
+        passwordMatchResult.textContent = '';
+        savePasswordBtn.disabled = true;
+        return;
+    }
+
+    if (newPassword === confirmPassword) {
+        passwordMatchResult.textContent = '✓ Matching';
+        passwordMatchResult.style.color = '#28a745';
+        savePasswordBtn.disabled = !currentPasswordInput.value || !passwordCheckResult.textContent.includes('Correct');
+    } else {
+        passwordMatchResult.textContent = '✗ Not Match!';
+        passwordMatchResult.style.color = '#dc3545';
+        savePasswordBtn.disabled = true;
+    }
+});
+
+// عدل newPasswordInput عشان يتحقق من التطابق كمان
+newPasswordInput.addEventListener('input', function() {
+    const newPassword = this.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+
+    if (newPassword.length < 1) {
+        passwordMatchResult.textContent = '';
+        savePasswordBtn.disabled = true;
+        return;
+    }
+
+    if (confirmPassword && newPassword === confirmPassword) {
+        passwordMatchResult.textContent = '✓ Matching';
+        passwordMatchResult.style.color = '#28a745';
+        savePasswordBtn.disabled = !currentPasswordInput.value || !passwordCheckResult.textContent.includes('Correct');
+    } else if (confirmPassword) {
+        passwordMatchResult.textContent = '✗ Not Match!';
+        passwordMatchResult.style.color = '#dc3545';
+        savePasswordBtn.disabled = true;
+    }
+});
+
+   // Inside currentPasswordInput event listener
+currentPasswordInput.addEventListener('input', function() { // Removed async here since debounce handles it
+    clearTimeout(debounceTimeout);
+    const password = this.value.trim();
+    
+    if (password.length < 1) {
+        passwordCheckResult.textContent = '';
+        return;
+    }
+
+    debounceTimeout = setTimeout(async () => {
         try {
-            const response = await fetch(`${pageContext.request.contextPath}/checkPassword`, {
+            const response = await fetch(`${window.contextPath}/checkPassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -128,57 +187,67 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: `currentPassword=${encodeURIComponent(password)}`
             });
 
-            if (!response.ok) throw new Error('Network response was not ok');
+            console.log('Check Password Response Status:', response.status);
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
             const data = await response.json();
+            console.log('Check Password Response Data:', data);
             passwordCheckResult.textContent = data.valid ? '✓ Correct' : '✗ Incorrect';
             passwordCheckResult.style.color = data.valid ? '#28a745' : '#dc3545';
+            savePasswordBtn.disabled = !data.valid;
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Check Password Error:', error);
             passwordCheckResult.textContent = '✗ Error';
             passwordCheckResult.style.color = '#dc3545';
+            savePasswordBtn.disabled = true;
         }
-    });
+    }, 300);
+});
 
-    savePasswordBtn.addEventListener('click', async function() {
-        const currentPassword = currentPasswordInput.value;
-        const newPassword = newPasswordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
+savePasswordBtn.addEventListener('click', async function() {
+    const currentPassword = currentPasswordInput.value.trim();
+    const newPassword = newPasswordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
 
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            alert('Please fill in all password fields');
-            return;
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        alert('Please fill in all password fields');
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        passwordMatchResult.textContent = '✗ Not Match!';
+        passwordMatchResult.style.color = '#dc3545';
+        return; // مش هيظهر alert تاني لأن الرسالة هتكون واضحة تحت
+    }
+
+    try {
+        const response = await fetch(`${window.contextPath}/updatePassword`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: `currentPassword=${encodeURIComponent(currentPassword)}&newPassword=${encodeURIComponent(newPassword)}`
+        });
+
+        console.log('Update Password Response Status:', response.status);
+        if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
+        const data = await response.json();
+        console.log('Update Password Response Data:', data);
+        
+        if (data.success) {
+            showSuccessPopup(); // استبدل الـ alert بالـ popup الجديدة
+            closePasswordModal();
+            celebrate();
+        } else {
+            alert(data.message || 'Failed to change password. Please try again.');
         }
+    } catch (error) {
+        console.error('Update Password Error:', error);
+        alert('An error occurred while changing password: ' + error.message);
+    }
+});
 
-        if (newPassword !== confirmPassword) {
-            alert('New passwords do not match!');
-            return;
-        }
-
-        try {
-            const response = await fetch(`${pageContext.request.contextPath}/updatePassword`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: `currentPassword=${encodeURIComponent(currentPassword)}&newPassword=${encodeURIComponent(newPassword)}`
-            });
-
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            if (data.success) {
-                alert('Password changed successfully!');
-                closePasswordModal();
-            } else {
-                alert(data.message || 'Failed to change password. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while changing password. Please try again.');
-        }
-    });
-
-    // Confetti Functions
+// Confetti Functions
     function randomRange(min, max) {
         return Math.random() * (max - min) + min;
     }
