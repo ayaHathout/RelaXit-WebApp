@@ -1,5 +1,6 @@
 com\relaxit\domain\Daos\Implementation\ProductDaoImpl.class
 com\relaxit\domain\models\Product.class
+com\relaxit\presentation\controllers\IndexServlet.class
 com\relaxit\domain\enums\UserRole.class
 com\relaxit\domain\models\CartItem.class
 com\relaxit\presentation\controllers\CartServlet$LocalDateTimeSerializer.class

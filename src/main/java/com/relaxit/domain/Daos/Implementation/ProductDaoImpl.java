@@ -132,4 +132,33 @@ public class ProductDaoImpl implements ProductDAO {
         
         return null;
     }
+
+    @Override
+    public List<Product> getBestThreeProducts() {
+        System.out.println("In getBestThreeProducts() in ProductDaoImpl");
+
+        String sql = "(SELECT * FROM  iti.product where category_id = 1 limit 1)\n" +
+                "union\n" +
+                "(SELECT * FROM  iti.product where category_id = 3 limit 1)\n" +
+                "union\n" +
+                "(SELECT * FROM  iti.product where category_id = 9 limit 1)";
+
+        List<Product> products = new ArrayList();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Product curProduct = new Product();
+                curProduct.setName(rs.getString("name"));
+                curProduct.setDescription(rs.getString("description"));
+                curProduct.setPrice(rs.getBigDecimal("price"));
+                // curProduct.setQuantity(rs.getInt("quantity"));
+                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+
+                products.add(curProduct);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
 }

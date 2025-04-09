@@ -11,4 +11,5 @@ public interface ProductDAO {
     List<Product> getProductsOfCategory(int pageNumber, int pageSize, int categoryId) throws SQLException;
     int getTotalProductsCountOfCategory(int categoryId) throws SQLException;
     public Product getProductById(int productId);
+    List<Product> getBestThreeProducts();
 }

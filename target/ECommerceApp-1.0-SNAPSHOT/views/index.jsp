@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -38,7 +39,7 @@
           <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
               <li class="nav-item active">
-                <a class="nav-link" href="<c:url value='/views/index.jsp'/>">Home</a>
+                <a class="nav-link" href="<c:url value='home'/>">Home</a>
               </li>
               <li><a class="nav-link" href="<c:url value='/shop'/>">Shop</a></li>
               <li><a class="nav-link" href="<c:url value='/views/about.jsp'/>">About us</a></li>
@@ -287,57 +288,32 @@
 					<!-- End Column 1 -->
 
 					<!-- Start Column 2 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="<c:url value='/product/detail?id=1'/>">
-							<div class="image">
-							<img src="<c:url value='/assets/images/pic2.png'/>" class="img-fluid product-thumbnail">
-							</div>
-							<h3 class="product-title">PosturePerfect Chair</h3>
-							<strong class="product-price">$349.00</strong>
-							<span class="product-badge">Best for Office</span>
-
-							<span class="icon-cross">
-								<img src="<c:url value='/assets/images/cross.svg'/>" class="img-fluid">
-							</span>
-						</a>
-					</div> 
+					<c:forEach var="curProduct" items="${products}" varStatus="status">
+                        <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                            <a class="product-item" href="<c:url value='/product/detail?id=${status.index + 1}'/>">
+                                <div class="image">
+                                    <img src="<c:url value='/assets/images/pic2.png'/>" class="img-fluid product-thumbnail">
+                                </div>
+                                <h3 class="product-title">${curProduct.name}</h3>
+                                <strong class="product-price">$${curProduct.price}</strong>
+                                <c:choose>
+                                    <c:when test="${status.index + 1 eq 1}">
+                                        <span class="product-badge">All-day comfort throne</span>
+                                    </c:when>
+                                     <c:when test="${status.index + 1 eq 2}">
+                                        <span class="product-badge">Adaptive back support</span>
+                                     </c:when>
+                                      <c:otherwise>
+                                        <span class="product-badge">Legs' best friend</span>
+                                      </c:otherwise>
+                                </c:choose>
+                                <span class="icon-cross">
+                                    <img src="<c:url value='/assets/images/cross.svg'/>" class="img-fluid">
+                                </span>
+                            </a>
+                        </div>
+					</c:forEach>
 					<!-- End Column 2 -->
-
-					<!-- Start Column 3 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="<c:url value='/product/detail?id=2'/>">
-							<div class="image">
-							<img src="<c:url value='/assets/images/pil-1.png'/>" class="img-fluid product-thumbnail">
-							</div>
-							<h3 class="product-title">Lumbar Support Pillow</h3>
-							<strong class="product-price">$79.00</strong>
-							<span class="product-badge">Travel Essential</span>
-
-							<span class="icon-cross">
-								<img src="<c:url value='/assets/images/cross.svg'/>" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 3 -->
-
-					<!-- Start Column 4 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="<c:url value='/product/detail?id=3'/>">
-							<div class="image">
-								<img src="<c:url value='/assets/images/disc-1.png'/>" class="img-fluid product-thumbnail">
-							</div>
-							
-							<h3 class="product-title">Adjustable Standing Desk</h3>
-							<strong class="product-price">$429.00</strong>
-							<span class="product-badge">Posture Booster</span>
-
-							<span class="icon-cross">
-								<img src="<c:url value='/assets/images/cross.svg'/>" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 4 -->
-
 				</div>
 			</div>
 		</div>
