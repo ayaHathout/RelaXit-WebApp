@@ -13,7 +13,7 @@
 		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 		<link href="../assets/css/tiny-slider.css" rel="stylesheet">
-		<link href="../assets/css/first.css" rel="stylesheet">
+		<link href="<c:url value='/assets/css/first.css'/>" rel="stylesheet">
 
 		<!-- material-design-iconic-font css -->
         <link rel="stylesheet" href="../assets/css/material-design-iconic-font.css">
@@ -49,6 +49,8 @@
 
 <!-- Include the footer -->
 <jsp:include page="footer.jsp" />
+
+<script src="${pageContext.request.contextPath}/assets/js/cart.js"></script>
 
 		<script src="../assets/js/bootstrap.bundle.min.js"></script>
 		<script src="../assets/js/tiny-slider.js"></script>
