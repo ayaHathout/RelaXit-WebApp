@@ -1,18 +1,43 @@
 package com.relaxit.domain.models;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "products")
 public class Product implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long productId;
+
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    @Column(name = "image_url", length = 255)
     private byte[] productImage;
 
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Product() {
     }
@@ -71,6 +96,23 @@ public class Product implements Serializable {
 
     public void setProductImage(byte[] picture) {
         this.productImage = picture;
+    }
+
+    
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
     
 }

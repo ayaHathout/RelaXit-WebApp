@@ -1,19 +1,40 @@
 package com.relaxit.domain.models;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Entity
 public class CartItem implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long cartId;
-    private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name="user_id",nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity = 1;
+
+    @Column(name = "added_at", updatable = false)
     private LocalDateTime addedAt;
-     private BigDecimal itemTotal;
+
+    private BigDecimal itemTotal;
 
     public CartItem() {
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.addedAt = LocalDateTime.now();
     }
 
     public Long getCartId() {
@@ -24,12 +45,12 @@ public class CartItem implements Serializable {
         this.cartId = cartId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getProductId() {

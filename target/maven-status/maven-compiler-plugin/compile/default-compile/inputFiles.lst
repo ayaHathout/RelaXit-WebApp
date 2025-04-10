@@ -11,6 +11,7 @@ D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\domain\models
 D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\Product.java
 D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\domain\models\User.java
 D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\domain\utils\Connectivity.java
+D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\JPAUtil.java
 D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\presentation\controllers\CartServlet.java
 D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\presentation\controllers\ShopServlet.java
 D:\iti\RelaXit\relax-back\RelaXit-WebApp\src\main\java\com\relaxit\presentation\filters\CartFilter.java

@@ -407,7 +407,7 @@ function updateCartDisplay(data) {
         console.log("Mini cart container not found, skipping update");
     }
 
-    // 4. Update main cart items if on cart page
+    // 4. Update main cart items
     const cartContainer = document.querySelector('#cart-items-container');
     if (cartContainer) {
         updateCartPage(data.cartItems);
@@ -428,7 +428,7 @@ function updateCartDisplay(data) {
         }
     });
 
-     // 6. Update cart summary section if present
+     // 6. Update cart summary section
      const checkoutContainer = document.getElementById('checkout-con');
      if (checkoutContainer) {
          updateCheckSummary();
