@@ -304,6 +304,7 @@ input:focus ~ .input-icon {
     flex-wrap: nowrap;
 }
 
+
 .remember-me {
     position: absolute;
     display: flex;
@@ -311,6 +312,38 @@ input:focus ~ .input-icon {
     gap: 0.5rem;
     white-space: nowrap;
 }
+
+.fab.fa-apple {
+    font-size: 1.5rem;
+    color: var(--red);
+    color: red;
+    transition: 0.3s ease;
+}
+
+.fab.fa-linkedin-in {
+    font-size: 1.5rem;
+    color: var(--blue);
+    color: blue;
+    transition: 0.3s ease;
+}
+
+.social-btn:hover .fab.fa-apple{
+    font-size: 1.5rem;
+    color: var(--red);
+    color: red;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.social-btn:hover .fab.fa-linkedin-in {
+    font-size: 1.5rem;
+    color: var(--blue);
+    color: blue;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+
 
 #luxuryRemember {
     width: 16px;
