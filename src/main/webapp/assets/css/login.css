@@ -879,3 +879,16 @@ input:focus ~ .input-icon {
     justify-content: center;
     padding: 2rem;
 }
+
+.validation-error {
+    display: block;
+    font-size: 0.85rem;
+    color: #dc3545; /* أحمر */
+    margin-top: 0.3rem;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.validation-success {
+    display: none; /* اللون الأخضر مش هيظهر كرسالة، بس هيخفي الخطأ */
+}
