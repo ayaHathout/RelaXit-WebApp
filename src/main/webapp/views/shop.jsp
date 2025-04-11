@@ -160,7 +160,7 @@
                                         <div class="classic-box">
                                             <div class="classic_image_box box${status.index + 1}">
                                                 <figure class="mb-0">
-                                                    <img src="/relaxit/assets/img/classic-image1.png" alt="image" class="img-fluid">
+													<img src="${pageContext.request.contextPath}/assets/img/classic-image1.png" alt="image" class="img-fluid">
                                                 </figure>
                                             </div>
                                             <div class="classic_box_content">
@@ -170,7 +170,9 @@
                                                 <p class="text-size-16">${curProduct.description}</p>
                                                 <div class="price_wrapper position-relative">
                                                     <span class="dollar">$<span class="counter">${curProduct.price}</span></span>
-                                                    <a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
+                                                    <button class="add-to-cart" data-product-id="${curProduct.productId}">
+														<img src="/relaxit/assets/img/cart.png" alt="Add to cart" class="img-fluid">
+													</button>
                                                 </div>
                                             </div>
                                         </div>

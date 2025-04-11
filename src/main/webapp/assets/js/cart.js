@@ -115,6 +115,12 @@ if ('BroadcastChannel' in window) {
 function addToCart(productId, quantity) {
     console.log("Attempting to add product:", productId, "quantity:", quantity);
     
+    if (!productId || productId === "" || productId === "undefined") {
+        console.error("Product ID is missing or invalid:", productId);
+        showNotification('Error: Product ID is missing or invalid', 'error');
+        return;
+    }
+    
     const addButton = document.querySelector(`.add-to-cart[data-product-id="${productId}"]`);
     const originalText = addButton?.innerHTML;
     if (addButton) {

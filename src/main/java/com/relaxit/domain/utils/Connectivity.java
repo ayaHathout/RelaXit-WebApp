@@ -6,9 +6,9 @@ public class Connectivity {
     public static Connection connection;
 
     public static  Connection getConnection() {
-        String dbName = "iti";
+        String dbName = "relaxit";
         String username = "root";
-        String password = "root";
+        String password = "M@12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, username, password);

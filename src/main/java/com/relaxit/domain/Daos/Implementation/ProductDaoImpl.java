@@ -27,7 +27,7 @@ public class ProductDaoImpl implements ProductDAO {
 
         int startIndex = (pageNumber - 1) *  pageSize;
 
-        String sql = "select * from Product limit ?, ?";
+        String sql = "select * from products limit ?, ?";
 
         List<Product> products = new ArrayList();
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -37,11 +37,13 @@ public class ProductDaoImpl implements ProductDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Product curProduct = new Product();
+                curProduct.setProductId((long) rs.getInt("product_id"));
                 curProduct.setName(rs.getString("name"));
                 curProduct.setDescription(rs.getString("description"));
                 curProduct.setPrice(rs.getBigDecimal("price"));
                 // curProduct.setQuantity(rs.getInt("quantity"));
-                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+                curProduct.setProductImage(rs.getString("product_image"));
+                //curProduct.setProductImage(rs.getString("image_url"));
 
                 products.add(curProduct);
             }
@@ -54,7 +56,7 @@ public class ProductDaoImpl implements ProductDAO {
     public int getTotalProductsCount() throws SQLException {
         System.out.println("In getTotalProductsCount() in ProductDaoImpl");
 
-        String sql = "SELECT COUNT(*) FROM Product";
+        String sql = "SELECT COUNT(*) FROM products";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             if (rs.next())  return rs.getInt(1);
@@ -65,7 +67,7 @@ public class ProductDaoImpl implements ProductDAO {
     public int getTotalProductsCountOfCategory(int categoryId) throws SQLException {
         System.out.println("In getTotalProductsCountOfCategory() in ProductDaoImpl");
 
-        String sql = "SELECT COUNT(*) FROM Product where category_id = ?";
+        String sql = "SELECT COUNT(*) FROM products where category_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, categoryId);
             ResultSet rs = stmt.executeQuery();
@@ -82,7 +84,7 @@ public class ProductDaoImpl implements ProductDAO {
 
         List<Product> products = new ArrayList<>();
 
-        String sql = "Select * from product where category_id = ? limit ?, ?";
+        String sql = "Select * from products where category_id = ? limit ?, ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, categoryId);
             stmt.setInt(2, startIndex);
@@ -95,7 +97,8 @@ public class ProductDaoImpl implements ProductDAO {
                 curProduct.setDescription(rs.getString("description"));
                 curProduct.setPrice(rs.getBigDecimal("price"));
                 // curProduct.setQuantity(rs.getInt("quantity"));
-                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+                curProduct.setProductImage(rs.getString("product_image"));
+               // curProduct.setProductImage(rs.getString("image_url"));
 
                 products.add(curProduct);
             }
@@ -121,7 +124,8 @@ public class ProductDaoImpl implements ProductDAO {
                     product.setName(rs.getString("name"));
                     product.setDescription(rs.getString("description"));
                     product.setPrice(new BigDecimal(rs.getString("price")));
-                    product.setProductImage(rs.getBlob("image_url") == null ? null : rs.getBytes("product_image"));
+                    product.setProductImage(rs.getString("product_image"));
+                    //product.setProductImage(rs.getString("image_url"));
                     
                     return product;
                 }
@@ -137,11 +141,11 @@ public class ProductDaoImpl implements ProductDAO {
     public List<Product> getBestThreeProducts() {
         System.out.println("In getBestThreeProducts() in ProductDaoImpl");
 
-        String sql = "(SELECT * FROM  iti.product where category_id = 1 limit 1)\n" +
+        String sql = "(SELECT * FROM  products where category_id = 1 limit 1)\n" +
                 "union\n" +
-                "(SELECT * FROM  iti.product where category_id = 3 limit 1)\n" +
+                "(SELECT * FROM  products where category_id = 3 limit 1)\n" +
                 "union\n" +
-                "(SELECT * FROM  iti.product where category_id = 9 limit 1)";
+                "(SELECT * FROM  products where category_id = 9 limit 1)";
 
         List<Product> products = new ArrayList();
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -152,7 +156,8 @@ public class ProductDaoImpl implements ProductDAO {
                 curProduct.setDescription(rs.getString("description"));
                 curProduct.setPrice(rs.getBigDecimal("price"));
                 // curProduct.setQuantity(rs.getInt("quantity"));
-                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+                curProduct.setProductImage(rs.getString("product_image"));
+                //curProduct.setProductImage(rs.getString("image_url"));
 
                 products.add(curProduct);
             }

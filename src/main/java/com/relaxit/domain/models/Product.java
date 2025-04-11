@@ -30,8 +30,8 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(name = "image_url", length = 255)
-    private byte[] productImage;
+    @Column(name = "product_image", length = 255)
+    private String productImage;
 
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
@@ -90,11 +90,11 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public byte[] getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(byte[] picture) {
+    public void setProductImage(String picture) {
         this.productImage = picture;
     }
 

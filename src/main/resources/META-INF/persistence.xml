@@ -9,9 +9,15 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     
+        <class>com.relaxit.domain.models.CartItem</class>
+        <class>com.relaxit.domain.models.Category</class>
+        <class>com.relaxit.domain.models.Order</class>
+        <class>com.relaxit.domain.models.OrderItem</class>
+        <class>com.relaxit.domain.models.Product</class>
+        <class>com.relaxit.domain.models.User</class>
         
         <properties>
-            <property name="packagesToScan" value="com.relaxit.domain.models"/>
+            <!-- <property name="packagesToScan" value="com.relaxit.domain.models"/> -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/relaxit" />
             <property name="jakarta.persistence.jdbc.user" value="root" />

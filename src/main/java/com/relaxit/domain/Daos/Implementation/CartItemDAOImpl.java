@@ -125,7 +125,7 @@ public class CartItemDAOImpl implements CartItemDAO {
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
                 product.setPrice(new BigDecimal(rs.getDouble("price")));
-                product.setProductImage(rs.getBlob("image_url") == null ? null : rs.getBytes("product_image"));
+                product.setProductImage(rs.getString("product_image"));
                 
                 CartItem cartItem = new CartItem();
                 cartItem.setCartId((long)rs.getInt("cart_id"));
@@ -223,7 +223,7 @@ public class CartItemDAOImpl implements CartItemDAO {
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
                 product.setPrice(new BigDecimal(rs.getString("price")));
-                product.setProductImage(rs.getBlob("image_url") == null ? null : rs.getBytes("product_image"));
+                product.setProductImage(rs.getString("product_image"));
             } 
             
         } catch (SQLException e) {
