@@ -3,7 +3,7 @@ package com.relaxit.repository.impl;
 import com.relaxit.domain.models.User;
 import com.relaxit.repository.interfaces.UserRepository;
 import com.relaxit.utils.EntityManagerFactorySingleton;
-import com.relaxit.domain.utils.TransactionUtils; // إضافة الـ import
+import com.relaxit.domain.utils.TransactionUtils; 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
