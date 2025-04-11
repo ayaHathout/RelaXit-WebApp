@@ -29,6 +29,24 @@
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>com.relaxit.presentation.controllers.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/thankyou</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GoogleLoginServlet</servlet-name>
+        <servlet-class>com.relaxit.presentation.controllers.GoogleLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GoogleLoginServlet</servlet-name>
+        <url-pattern>/googleLogin</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>views/login.jsp</welcome-file>
     </welcome-file-list>
