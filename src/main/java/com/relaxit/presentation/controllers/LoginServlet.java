@@ -3,6 +3,7 @@ package com.relaxit.presentation.controllers;
 import com.relaxit.domain.models.User;
 import com.relaxit.domain.services.UserService;
 import com.relaxit.repository.impl.UserRepositoryImpl;
+import com.relaxit.domain.enums.UserRole;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -20,11 +21,12 @@ public class LoginServlet extends HttpServlet {
     public void init() throws ServletException {
         userService = new UserService(new UserRepositoryImpl());
     }
+
     @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
-}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -32,14 +34,28 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         String email = request.getParameter("luxuryEmail");
         String password = request.getParameter("luxuryPassword");
 
-        User user = userService.loginUser(email, password);
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            response.sendRedirect(request.getContextPath() + "/profile");
-        } else {
-            request.setAttribute("error", "Invalid email or password");
-            request.getRequestDispatcher("views/login.jsp").forward(request, response);
+        try {
+            User user = userService.loginUser(email, password);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+
+                // Check user role and redirect accordingly
+                if (user.getRole() == UserRole.ADMIN) {
+                    response.sendRedirect(request.getContextPath() + "/thankyou"); // Assuming /thankyou is mapped to AdminServlet
+                } else if (user.getRole() == UserRole.USER) {
+                    response.sendRedirect(request.getContextPath() + "/profile"); // Mapped to ProfileServlet
+                } else {
+                    request.setAttribute("error", "Unknown user role");
+                    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("error", "Invalid email or password");
+                request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+            }
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
         }
     }
 }
