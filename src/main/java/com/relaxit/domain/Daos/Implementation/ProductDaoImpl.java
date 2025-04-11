@@ -41,7 +41,7 @@ public class ProductDaoImpl implements ProductDAO {
                 curProduct.setDescription(rs.getString("description"));
                 curProduct.setPrice(rs.getBigDecimal("price"));
                 // curProduct.setQuantity(rs.getInt("quantity"));
-                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+                curProduct.setProductImage(rs.getString("product_image") == null ? null : rs.getString("product_image"));
 
                 products.add(curProduct);
             }
@@ -95,7 +95,7 @@ public class ProductDaoImpl implements ProductDAO {
                 curProduct.setDescription(rs.getString("description"));
                 curProduct.setPrice(rs.getBigDecimal("price"));
                 // curProduct.setQuantity(rs.getInt("quantity"));
-                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+                curProduct.setProductImage(rs.getString("product_image") == null ? null : rs.getString("product_image"));
 
                 products.add(curProduct);
             }
@@ -121,7 +121,7 @@ public class ProductDaoImpl implements ProductDAO {
                     product.setName(rs.getString("name"));
                     product.setDescription(rs.getString("description"));
                     product.setPrice(new BigDecimal(rs.getString("price")));
-                    product.setProductImage(rs.getBlob("image_url") == null ? null : rs.getBytes("product_image"));
+                    product.setProductImage(rs.getString("image_url") == null ? null : rs.getString("product_image"));
                     
                     return product;
                 }
@@ -152,7 +152,7 @@ public class ProductDaoImpl implements ProductDAO {
                 curProduct.setDescription(rs.getString("description"));
                 curProduct.setPrice(rs.getBigDecimal("price"));
                 // curProduct.setQuantity(rs.getInt("quantity"));
-                curProduct.setProductImage(rs.getBlob("product_image") == null ? null : rs.getBytes("product_image"));
+                curProduct.setProductImage(rs.getString("product_image") == null ? null : rs.getString("product_image"));
 
                 products.add(curProduct);
             }

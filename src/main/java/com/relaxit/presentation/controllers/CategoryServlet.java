@@ -2,6 +2,7 @@ package com.relaxit.presentation.controllers;
 
 import com.relaxit.domain.Daos.Implementation.ProductDaoImpl;
 import com.relaxit.domain.models.Product;
+import com.relaxit.domain.services.ProductService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +13,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryServlet extends HttpServlet {
-    ProductDaoImpl myProductDaoImpl = new ProductDaoImpl();
+    //ProductDaoImpl myProductDaoImpl = new ProductDaoImpl();
+    private ProductService productService = new ProductService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,19 +28,16 @@ public class CategoryServlet extends HttpServlet {
 
         int categoryId = Integer.parseInt(req.getParameter("category-id"));
 
-        try {
-            List<Product> allProducts = myProductDaoImpl.getProductsOfCategory(pageNumber, pageSize, categoryId);
-            int totalNumberOfProducts = myProductDaoImpl.getTotalProductsCountOfCategory(categoryId);
 
-            req.setAttribute("products", allProducts);
-            req.setAttribute("totalProducts", totalNumberOfProducts);
-            req.setAttribute("pageNumber", pageNumber);
-            req.setAttribute("pageSize", pageSize);
-            req.setAttribute("totalPages", (int) Math.ceil((double) totalNumberOfProducts / pageSize));
-            req.setAttribute("categoryId", categoryId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        List<Product> allProducts = productService.getProductsOfCategory(pageNumber, pageSize, categoryId);
+        long totalNumberOfProducts = productService.getTotalProductsCountOfCategory(categoryId);
+
+        req.setAttribute("products", allProducts);
+        req.setAttribute("totalProducts", totalNumberOfProducts);
+        req.setAttribute("pageNumber", pageNumber);
+        req.setAttribute("pageSize", pageSize);
+        req.setAttribute("totalPages", (int) Math.ceil((double) totalNumberOfProducts / pageSize));
+        req.setAttribute("categoryId", categoryId);
 
         switch (categoryId) {
             case 1:
