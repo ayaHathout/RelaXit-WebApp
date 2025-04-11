@@ -24,9 +24,10 @@ import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.Collections;
 // import java.util.Properties;
-import com.sendgrid.*;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.*;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class GoogleLoginServlet extends HttpServlet {
     private UserService userService;
@@ -62,7 +63,7 @@ public class GoogleLoginServlet extends HttpServlet {
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
             String email = payload.getEmail();
             String name = (String) payload.get("name");
-            String picture = (String) payload.get("picture"); // جيب الصورة
+            String picture = (String) payload.get("picture"); 
 
             System.out.println(
                     "ID Token verified successfully, Email: " + email + ", Name: " + name + ", Picture: " + picture);
@@ -125,24 +126,35 @@ public class GoogleLoginServlet extends HttpServlet {
     }
 
     private void sendWelcomeEmail(String toEmail, String name) {
-        String apiKey = "hcqc qfvx ftcy wnca"; // استبدل بـ API Key الحقيقي بتاع SendGrid
-        Email from = new Email("hazimkaram159@gmail.com", "RelaXit"); // البريد واسم المرسل
-        Email to = new Email(toEmail);
-        String subject = "Welcome to Relaxit!";
-        Content content = new Content("text/plain",
-                "Hello " + name + ",\n\nWelcome to Relaxit! Enjoy your time with us.");
-        Mail mail = new Mail(from, subject, to, content);
-    
-        SendGrid sg = new SendGrid(apiKey);
-        Request request = new Request();
+        final String fromEmail = "excelmohamed@gmail.com"; 
+        final String password = "hcqcqfvxftcywnca"; 
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(fromEmail, password);
+            }
+        });
+
         try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sg.api(request);
-            System.out.println("Email sent successfully to " + toEmail + " with status: " + response.getStatusCode());
-        } catch (IOException e) {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail, "RelaXit")); // هنا بنحدد الاسم "RelaXit"
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Welcome to Relaxit!");
+            message.setText("Hello " + name + ",\n\nWelcome to Relaxit! Enjoy your time with us.");
+
+            Transport.send(message);
+            System.out.println("Email sent successfully to: " + toEmail);
+        } catch (MessagingException e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
             e.printStackTrace();
         }
     }
