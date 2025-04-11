@@ -26,5 +26,4 @@ public class JPAUtil {
     public static void close() {
         emf.close();
     }
-
 }

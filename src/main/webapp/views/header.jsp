@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarsFurni">
         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
           <li class="nav-item ${param.activePage == 'home' ? 'active' : ''}">
-            <a class="nav-link" href="<c:url value='home'/>">Home</a>
+            <a class="nav-link" href="<c:url value='/home'/>">Home</a>
           </li>
           <li class="nav-item ${param.activePage == 'shop' ? 'active' : ''}">
             <a class="nav-link" href="<c:url value='/shop'/>">Shop</a>

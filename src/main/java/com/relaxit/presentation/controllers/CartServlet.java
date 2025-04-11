@@ -4,6 +4,7 @@ import com.relaxit.domain.Daos.Implementation.CartItemDAOImpl;
 import com.relaxit.domain.Daos.Interfaces.CartItemDAO;
 import com.relaxit.domain.models.CartItem;
 import com.relaxit.domain.models.Product;
+import com.relaxit.domain.services.CartService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,18 +27,18 @@ import java.lang.reflect.Type;
 
 @WebServlet("/cart/*")
 public class CartServlet extends HttpServlet {
-    private CartItemDAO cartItemDAO;
+    private CartService cartService ;
     private Gson gson;
-    
+
     @Override
     public void init() throws ServletException {
         super.init();
-        cartItemDAO = new CartItemDAOImpl();
-        
+        cartService = new CartService();
+
         this.gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
     }
 
     private static class LocalDateTimeSerializer implements JsonSerializer<LocalDateTime> {
@@ -83,7 +84,7 @@ public class CartServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             Integer userId = (Integer) session.getAttribute("userId");
             boolean isLoggedIn = (userId != null && userId > 0);
-            
+
             System.out.println("User ID: " + userId + ", isLoggedIn: " + isLoggedIn);
 
             if (pathInfo != null && pathInfo.equals("/update")) {
@@ -94,7 +95,7 @@ public class CartServlet extends HttpServlet {
             }
 
             prepareCartResponse(session, userId, isLoggedIn, jsonResponse);
-            
+
             Map<String, Object> simplifiedResponse = simplifyResponse(jsonResponse);
             out.print(gson.toJson(simplifiedResponse));
 
@@ -106,8 +107,8 @@ public class CartServlet extends HttpServlet {
         }
     }
 
-    private void handleCartUpdate(String action, HttpServletRequest request, HttpSession session, 
-                                Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+    private void handleCartUpdate(String action, HttpServletRequest request, HttpSession session,
+                                  Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         switch (action) {
             case "add":
                 handleAddToCart(request, session, userId, isLoggedIn, jsonResponse);
@@ -127,36 +128,51 @@ public class CartServlet extends HttpServlet {
         }
     }
 
-    private void handleAddToCart(HttpServletRequest request, HttpSession session, 
-                               Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+    private void handleAddToCart(HttpServletRequest request, HttpSession session,
+                                 Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         try {
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
-            
+            String productIdParam = request.getParameter("productId");
+            String quantityParam = request.getParameter("quantity");
+
+            if (productIdParam == null || productIdParam.isEmpty()) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("error", "Product ID is required");
+                return;
+            }
+
+            if (quantityParam == null || quantityParam.isEmpty()) {
+                quantityParam = "1"; // Default to 1 if not provided
+            }
+
+            int productId = Integer.parseInt(productIdParam);
+            int quantity = Integer.parseInt(quantityParam);
+
             if (productId <= 0) {
                 jsonResponse.put("success", false);
                 jsonResponse.put("error", "Invalid product ID");
                 return;
             }
-            
+
             if (quantity <= 0) {
                 jsonResponse.put("success", false);
                 jsonResponse.put("error", "Quantity must be at least 1");
                 return;
             }
-            
+
             boolean added = false;
-            
-            if (isLoggedIn) {
-                added = cartItemDAO.addToCart(userId, productId, quantity);
+
+            // Only try to add to user's cart if logged in
+            if (isLoggedIn && userId != null) {
+                added = cartService.addToCart(userId, productId, quantity);
             }
-            
-            if (!added) {
+
+            // If not logged in or if adding to user's cart failed, add to session cart
+            if (!isLoggedIn || !added) {
                 added = addToSessionCart(session, productId, quantity);
             }
-            
+
             jsonResponse.put("success", added);
-            
+
             if (!added) {
                 jsonResponse.put("error", "Failed to add item to cart");
             }
@@ -167,18 +183,18 @@ public class CartServlet extends HttpServlet {
     }
 
     private void handleRemoveFromCart(HttpServletRequest request, HttpSession session,
-                                    Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+                                      Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         try {
             int cartId = Integer.parseInt(request.getParameter("cartId"));
             boolean removed = false;
-            
+
             if (isLoggedIn) {
-                removed = cartItemDAO.removeFromCart(cartId);
+                removed = cartService.removeFromCart(cartId);
             }
-            
+
             boolean sessionRemoved = removeFromSessionCart(session, cartId);
             removed = removed || sessionRemoved;
-            
+
             jsonResponse.put("success", removed);
         } catch (NumberFormatException e) {
             jsonResponse.put("success", false);
@@ -187,19 +203,19 @@ public class CartServlet extends HttpServlet {
     }
 
     private void handleUpdateCartItem(HttpServletRequest request, HttpSession session,
-                                    Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+                                      Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         try {
             int itemCartId = Integer.parseInt(request.getParameter("cartId"));
             int newQuantity = Integer.parseInt(request.getParameter("quantity"));
             boolean updated = false;
-            
+
             if (isLoggedIn) {
-                updated = cartItemDAO.updateCartItemQuantity(itemCartId, newQuantity);
+                updated = cartService.updateCartItemQuantity(itemCartId, newQuantity);
             }
-            
+
             boolean sessionUpdated = updateSessionCartItemQuantity(session, itemCartId, newQuantity);
             updated = updated || sessionUpdated;
-            
+
             jsonResponse.put("success", updated);
         } catch (NumberFormatException e) {
             jsonResponse.put("success", false);
@@ -207,29 +223,29 @@ public class CartServlet extends HttpServlet {
         }
     }
 
-    private void handleClearCart(HttpSession session, Integer userId, 
-                               boolean isLoggedIn, Map<String, Object> jsonResponse) {
+    private void handleClearCart(HttpSession session, Integer userId,
+                                 boolean isLoggedIn, Map<String, Object> jsonResponse) {
         boolean cleared = true;
-        
+
         if (isLoggedIn) {
-            cleared = cartItemDAO.clearCart(userId);
+            cleared = cartService.clearCart(userId);
         }
-        
+
         clearSessionCart(session);
         jsonResponse.put("success", cleared);
     }
 
-    private void prepareCartResponse(HttpSession session, Integer userId, 
-                                   boolean isLoggedIn, Map<String, Object> jsonResponse) {
+    private void prepareCartResponse(HttpSession session, Integer userId,
+                                     boolean isLoggedIn, Map<String, Object> jsonResponse) {
         List<CartItem> cartItems;
         int cartItemCount;
         BigDecimal cartTotal;
-        
+
         if (isLoggedIn) {
-            cartItems = cartItemDAO.getCartItemsByUserId(userId);
-            cartItemCount = cartItemDAO.getCartItemCount(userId);
-            cartTotal = BigDecimal.valueOf(cartItemDAO.getCartTotal(userId));
-            
+            cartItems = cartService.getCartItemsByUserId(userId);
+            cartItemCount =cartService.getCartItemCount(userId);
+            cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
+
             if (cartItems.isEmpty()) {
                 cartItems = getSessionCart(session);
                 cartItemCount = cartItems.size();
@@ -244,9 +260,9 @@ public class CartServlet extends HttpServlet {
         jsonResponse.put("cartItems", cartItems);
         jsonResponse.put("cartItemCount", cartItemCount);
         jsonResponse.put("cartTotal", cartTotal);
-        jsonResponse.put("grandTotal", cartItemCount > 0 
-            ? cartTotal.add(BigDecimal.valueOf(20.00)) 
-            : BigDecimal.ZERO);
+        jsonResponse.put("grandTotal", cartItemCount > 0
+                ? cartTotal.add(BigDecimal.valueOf(20.00))
+                : BigDecimal.ZERO);
     }
 
     private Map<String, Object> simplifyResponse(Map<String, Object> response) {
@@ -254,10 +270,15 @@ public class CartServlet extends HttpServlet {
         simplified.put("success", response.get("success"));
         simplified.put("error", response.get("error"));
         simplified.put("cartItemCount", response.get("cartItemCount"));
-        simplified.put("cartTotal", ((BigDecimal) response.get("cartTotal")).doubleValue());
-        simplified.put("grandTotal", ((BigDecimal) response.get("grandTotal")).doubleValue());
-        
-        
+
+        // Handle potential null values
+        BigDecimal cartTotal = (BigDecimal) response.get("cartTotal");
+        BigDecimal grandTotal = (BigDecimal) response.get("grandTotal");
+
+        simplified.put("cartTotal", cartTotal != null ? cartTotal.doubleValue() : 0.0);
+        simplified.put("grandTotal", grandTotal != null ? grandTotal.doubleValue() : 0.0);
+
+
         List<Map<String, Object>> simpleItems = new ArrayList<>();
         @SuppressWarnings("unchecked")
         List<CartItem> items = (List<CartItem>) response.get("cartItems");
@@ -266,18 +287,18 @@ public class CartServlet extends HttpServlet {
             simpleItem.put("cartId", item.getCartId());
             simpleItem.put("quantity", item.getQuantity());
             simpleItem.put("itemTotal", item.getItemTotal().doubleValue());
-            
+
             Map<String, Object> simpleProduct = new HashMap<>();
             simpleProduct.put("productId", item.getProduct().getProductId());
             simpleProduct.put("name", item.getProduct().getName());
             simpleProduct.put("price", item.getProduct().getPrice().doubleValue());
             simpleProduct.put("imageUrl", item.getProduct().getProductImage() != null ? item.getProduct().getProductImage() : "/assets/images/holder.png");
-            
+
             simpleItem.put("product", simpleProduct);
             simpleItems.add(simpleItem);
         }
         simplified.put("cartItems", simpleItems);
-        
+
         return simplified;
     }
 
@@ -286,16 +307,16 @@ public class CartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
         boolean isLoggedIn = (userId != null && userId > 0);
-        
+
         List<CartItem> cartItems;
         int cartItemCount;
         BigDecimal cartTotal;
-        
+
         if (isLoggedIn) {
-            cartItems = cartItemDAO.getCartItemsByUserId(userId);
-            cartItemCount = cartItemDAO.getCartItemCount(userId);
-            cartTotal = BigDecimal.valueOf(cartItemDAO.getCartTotal(userId));
-            
+            cartItems = cartService.getCartItemsByUserId(userId);
+            cartItemCount = cartService.getCartItemCount(userId);
+            cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
+
             if (cartItems.isEmpty()) {
                 cartItems = getSessionCart(session);
                 cartItemCount = cartItems.size();
@@ -310,9 +331,9 @@ public class CartServlet extends HttpServlet {
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("cartItemCount", cartItemCount);
         request.setAttribute("cartTotal", cartTotal);
-        request.setAttribute("grandTotal", cartItemCount > 0 
-            ? cartTotal.add(BigDecimal.valueOf(20.00)) 
-            : BigDecimal.ZERO);
+        request.setAttribute("grandTotal", cartItemCount > 0
+                ? cartTotal.add(BigDecimal.valueOf(20.00))
+                : BigDecimal.ZERO);
 
         request.getRequestDispatcher("/views/cart.jsp").forward(request, response);
     }
@@ -321,16 +342,16 @@ public class CartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
         boolean isLoggedIn = (userId != null && userId > 0);
-        
+
         List<CartItem> cartItems;
         int cartItemCount;
         BigDecimal cartTotal;
-        
+
         if (isLoggedIn) {
-            cartItems = cartItemDAO.getCartItemsByUserId(userId);
-            cartItemCount = cartItemDAO.getCartItemCount(userId);
-            cartTotal = BigDecimal.valueOf(cartItemDAO.getCartTotal(userId));
-            
+            cartItems = cartService.getCartItemsByUserId(userId);
+            cartItemCount = cartService.getCartItemCount(userId);
+            cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
+
             if (cartItems.isEmpty()) {
                 cartItems = getSessionCart(session);
                 cartItemCount = cartItems.size();
@@ -346,9 +367,9 @@ public class CartServlet extends HttpServlet {
         result.put("cartItems", cartItems);
         result.put("cartItemCount", cartItemCount);
         result.put("cartTotal", cartTotal);
-        result.put("grandTotal", cartItemCount > 0 
-            ? cartTotal.add(BigDecimal.valueOf(20.00)) 
-            : BigDecimal.ZERO);
+        result.put("grandTotal", cartItemCount > 0
+                ? cartTotal.add(BigDecimal.valueOf(20.00))
+                : BigDecimal.ZERO);
 
         response.setContentType("application/json");
         response.getWriter().write(gson.toJson(simplifyResponse(result)));
@@ -363,17 +384,17 @@ public class CartServlet extends HttpServlet {
         }
         return sessionCart;
     }
-    
+
     @SuppressWarnings("unchecked")
     private List<CartItem> getSessionCart(HttpSession session) {
         List<CartItem> sessionCart = (List<CartItem>) session.getAttribute("sessionCart");
         return sessionCart != null ? sessionCart : new ArrayList<>();
     }
-    
+
     private boolean addToSessionCart(HttpSession session, int productId, int quantity) {
         try {
             List<CartItem> sessionCart = getOrCreateSessionCart(session);
-            
+
             for (CartItem item : sessionCart) {
                 if (item.getProduct().getProductId() == productId) {
                     item.setQuantity(item.getQuantity() + quantity);
@@ -382,17 +403,17 @@ public class CartServlet extends HttpServlet {
                     return true;
                 }
             }
-            
 
-            Product product = cartItemDAO.getProductById(productId);
+
+            Product product = cartService.getProductById(productId);
             if (product == null) return false;
-            
+
             CartItem newItem = new CartItem();
             newItem.setCartId((long) generateTemporaryId());
             newItem.setProduct(product);
             newItem.setQuantity(quantity);
             newItem.setItemTotal(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
-            
+
             sessionCart.add(newItem);
             session.setAttribute("sessionCart", sessionCart);
             return true;
@@ -401,7 +422,7 @@ public class CartServlet extends HttpServlet {
             return false;
         }
     }
-    
+
     private boolean removeFromSessionCart(HttpSession session, int cartId) {
         List<CartItem> sessionCart = getSessionCart(session);
         boolean removed = sessionCart.removeIf(item -> item.getCartId() == cartId);
@@ -410,12 +431,12 @@ public class CartServlet extends HttpServlet {
         }
         return removed;
     }
-    
+
     private boolean updateSessionCartItemQuantity(HttpSession session, int cartId, int newQuantity) {
         if (newQuantity <= 0) {
             return removeFromSessionCart(session, cartId);
         }
-        
+
         List<CartItem> sessionCart = getSessionCart(session);
         for (CartItem item : sessionCart) {
             if (item.getCartId() == cartId) {
@@ -427,29 +448,29 @@ public class CartServlet extends HttpServlet {
         }
         return false;
     }
-    
+
     private boolean clearSessionCart(HttpSession session) {
         session.setAttribute("sessionCart", new ArrayList<CartItem>());
         return true;
     }
-    
+
     private BigDecimal calculateSessionCartTotal(List<CartItem> sessionCart) {
         return sessionCart.stream()
-            .map(CartItem::getItemTotal)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(CartItem::getItemTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-    
+
     private int generateTemporaryId() {
         return Math.abs(UUID.randomUUID().hashCode());
     }
-    
+
     public void mergeSessionCartWithUserCart(HttpSession session, int userId) {
         if (userId <= 0) return;
-        
+
         List<CartItem> sessionCart = getSessionCart(session);
         if (sessionCart != null && !sessionCart.isEmpty()) {
-            sessionCart.forEach(item -> 
-                cartItemDAO.addToCart(userId, item.getProduct().getProductId().intValue(), item.getQuantity())
+            sessionCart.forEach(item ->
+                    cartService.addToCart(userId, item.getProduct().getProductId().intValue(), item.getQuantity())
             );
             clearSessionCart(session);
         }

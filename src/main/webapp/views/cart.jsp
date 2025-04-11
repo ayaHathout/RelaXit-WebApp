@@ -56,7 +56,6 @@
                                         <i class="fas fa-shopping-cart fa-4x mb-3"></i>
                                         <h4>Your cart is empty</h4>
                                         <p class="text-muted">Looks like you haven't added any items to your cart yet.</p>
-                                        <a href="<c:url value='/shop'/>" class="btn btn-primary mt-3">Continue Shopping</a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
@@ -93,7 +92,7 @@
                         </div>
                     </div>
                     <div class="buttun-shopping">
-                        <a href="<c:url value='views/shop'/>" class="text-decoration-none">
+                        <a href="<c:url value='../shop'/>" class="text-decoration-none">
                             <i class="fa-solid fa-arrow-left"></i> Continue Shopping
                         </a>
                         <c:if test="${not empty cartItems}">
@@ -123,7 +122,7 @@
                                 <span class="text">Grand Total</span>
                                 <span class="dollar" id="grand-total">$${grandTotal}</span>
                             </div>
-                            <a href="<c:url value='/views/checkout.jsp'/>"
+                            <a href="<c:url value='/checkout?${grandTotal}'/>"
                                class="text-decoration-none all_button ${empty cartItems ? 'disabled' : ''}" 
                                id="checkout-button">
                                 Proceed to checkout <i class="fa-solid fa-arrow-right"></i>

@@ -9,4 +9,6 @@ public interface ProductRepository {
     public List<Product> getProductsOfCategory(int pageNumber, int pageSize, int categoryId);
     public long getTotalProductsCountOfCategory(int categoryId);
     public List<Product> getBestThreeProducts();
+
+    Product findById(Long id);
 }

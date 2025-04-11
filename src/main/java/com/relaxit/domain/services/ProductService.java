@@ -1,7 +1,7 @@
 package com.relaxit.domain.services;
 
 import com.relaxit.domain.models.Product;
-import com.relaxit.repository.Implementation.ProductRepositoryImpl;
+import com.relaxit.repository.Impl.ProductRepositoryImpl;
 import com.relaxit.repository.Interfaces.ProductRepository;
 
 import java.util.List;

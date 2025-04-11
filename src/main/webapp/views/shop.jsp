@@ -170,7 +170,7 @@
                                                 <p class="text-size-16">${curProduct.description}</p>
                                                 <div class="price_wrapper position-relative">
                                                     <span class="dollar">$<span class="counter">${curProduct.price}</span></span>
-                                                    <a href="views/cart.jsp"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
+                                                    <a href="views/cart.jsp" class="add-to-cart" data-product-id="${curProduct.productId}"><img src="/relaxit/assets/img/cart.png" alt="image" class="img-fluid"></a>
                                                 </div>
                                             </div>
                                         </div>

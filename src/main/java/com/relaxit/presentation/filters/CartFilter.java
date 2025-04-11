@@ -1,24 +1,25 @@
 package com.relaxit.presentation.filters;
 
 import com.relaxit.domain.models.CartItem;
-import com.relaxit.domain.Daos.Implementation.CartItemDAOImpl;
-import com.relaxit.domain.Daos.Interfaces.CartItemDAO;
+import com.relaxit.domain.services.CartService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.math.BigDecimal;
 
 @WebFilter("/*")
 public class CartFilter implements Filter {
-    private CartItemDAO cartItemDAO;
+    
+    private CartService cartService ;
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        cartItemDAO = new CartItemDAOImpl();
+        cartService = new CartService();
     }
     
     @Override
@@ -45,9 +46,9 @@ public class CartFilter implements Filter {
             BigDecimal cartTotal;
             
             if (isLoggedIn) {
-                cartItems = cartItemDAO.getCartItemsByUserId(userId);
-                cartItemCount = cartItemDAO.getCartItemCount(userId);
-                cartTotal = BigDecimal.valueOf(cartItemDAO.getCartTotal(userId));
+                cartItems = cartService.getCartItemsByUserId(userId);
+                cartItemCount = cartService.getCartItemCount(userId);
+                cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
                 
                 if (cartItems.isEmpty()) {
                     cartItems = getSessionCart(session);

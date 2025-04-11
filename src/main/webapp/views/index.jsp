@@ -186,7 +186,7 @@
             <h1>Perfect Posture. <span>Endless Comfort.</span></h1>
             <p class="hero-text">Experience revolutionary ergonomic designs that transform how you sit, rest, and live. Our scientifically crafted products align your spine for maximum comfort and long-term health benefits.</p>
             <div class="cta-buttons">
-                <a href="<c:url value='/shop.jsp'/>" class="cta-primary">Discover Collection</a>
+                <a href="<c:url value='/shop'/>" class="cta-primary">Discover Collection</a>
             </div>
         </div>
         
@@ -283,7 +283,7 @@
 					<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
 						<h2 class="mb-4 section-title">Engineered for Spinal Health</h2>
 						<p class="mb-4">Every RelaXit product is scientifically designed to support your natural spinal curvature. Our orthopedic materials adapt to your body, reducing pressure points and promoting perfect posture.</p>
-						<p><a href="<c:url value='/shop.jsp'/>" class="btn">Explore</a></p>
+						<p><a href="<c:url value='/shop'/>" class="btn">Explore</a></p>
 					</div> 
 					<!-- End Column 1 -->
 
@@ -307,7 +307,7 @@
                                         <span class="product-badge">Legs' best friend</span>
                                       </c:otherwise>
                                 </c:choose>
-                                <span class="icon-cross">
+                                <span class="icon-cross add-to-cart" data-product-id="${curProduct.productId}">
                                     <img src="<c:url value='/assets/images/cross.svg'/>" class="img-fluid">
                                 </span>
                             </a>

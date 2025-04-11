@@ -20,6 +20,11 @@
         <servlet-class>com.relaxit.presentation.controllers.IndexServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>checkoutServlet</servlet-name>
+        <servlet-class>com.relaxit.presentation.controllers.CheckoutServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>shopServlet</servlet-name>
         <url-pattern>/shop</url-pattern>
@@ -33,6 +38,11 @@
     <servlet-mapping>
         <servlet-name>indexServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>checkoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
 
   <!-- <servlet>

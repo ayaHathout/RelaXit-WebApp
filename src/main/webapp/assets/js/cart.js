@@ -498,7 +498,6 @@ function updateCartPage(items) {
                 <i class="fas fa-shopping-cart fa-4x mb-3"></i>
                 <h4>Your cart is empty</h4>
                 <p class="text-muted">Looks like you haven't added any items to your cart yet.</p>
-                <a href="${contextPath}/shop" class="btn btn-primary mt-3">Continue Shopping</a>
             </div>
         `;
         console.log("Cart page set to empty");
