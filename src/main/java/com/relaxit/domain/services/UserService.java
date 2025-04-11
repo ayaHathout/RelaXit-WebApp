@@ -20,12 +20,18 @@ public class UserService {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null!");
         }
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            user.setPassword("");
+        } else {
+            user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        }
         validateRequiredFields(user);
-
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        user.setRole(UserRole.USER);
-        user.setCreditLimit(1200.0);
-
+        if (user.getRole() == null) {
+            user.setRole(UserRole.USER);
+        }
+        if (user.getCreditLimit() == null) {
+            user.setCreditLimit(1200.0);
+        }
         userRepository.addUser(user);
     }
 
@@ -45,6 +51,13 @@ public class UserService {
             throw new IllegalArgumentException("User ID cannot be null!");
         }
         return userRepository.findById(userId);
+    }
+
+    public User getUserByEmail(String email) {
+        if (email == null) {
+            throw new IllegalArgumentException("Email cannot be null!");
+        }
+        return userRepository.findByEmail(email);
     }
 
     public void updateUser(User user) {
@@ -86,9 +99,7 @@ public class UserService {
         if (!user.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             throw new IllegalArgumentException("Invalid email format!");
         }
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            throw new IllegalArgumentException("Password is required!");
-        }
+        // الـ password مش إجباري لـ Google users
         if (user.getFullName() == null || user.getFullName().isEmpty()) {
             throw new IllegalArgumentException("Full name is required!");
         }
