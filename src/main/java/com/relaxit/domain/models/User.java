@@ -33,7 +33,6 @@ public class User implements Serializable {
 
     @Column(name = "credit_limit", columnDefinition = "DOUBLE DEFAULT 1200")
     private Double creditLimit = 1200.0;
-    
 
     @Column(nullable = false)
     private String address;
@@ -59,10 +58,28 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-    public User() {
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public User(String email, String password, String fullName, LocalDate birthdate, String job, String address, String interests ) {
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public User() {
+        
+    }
+
+    public User(String email, String password, String fullName, LocalDate birthdate, String job, String address, String interests) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
@@ -74,6 +91,10 @@ public class User implements Serializable {
         this.updatedAt = LocalDateTime.now();
     }
     // Getters and Setters (unchanged from your code, just added annotations)
+        this.role = UserRole.USER; // Default role
+    }
+
+    // Getters and Setters 
     public Long getUserId() {
         return userId;
     }
@@ -160,10 +181,6 @@ public class User implements Serializable {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
