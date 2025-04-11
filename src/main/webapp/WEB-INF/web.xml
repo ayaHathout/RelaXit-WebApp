@@ -47,6 +47,12 @@
         <url-pattern>/googleLogin</url-pattern>
     </servlet-mapping>
 
+
+    <listener>
+        <listener-class>com.relaxit.presentation.listeners.MyContextListener</listener-class>
+    </listener>
+    
+
     <welcome-file-list>
         <welcome-file>views/login.jsp</welcome-file>
     </welcome-file-list>
