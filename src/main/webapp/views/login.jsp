@@ -39,6 +39,7 @@
 <div class="luxury-form-section">
     <div class="brand-header">
         <h1 class="brand-title">RelaXit</h1>
+       <%-- < img src="${pageContext.request.contextPath}/assets/img/logo.jpeg" alt="RelaXit Logo" class="brand-logo"> --%>
         <p class="brand-tagline">Exclusive furniture for distinguished living</p>
     </div>
 
