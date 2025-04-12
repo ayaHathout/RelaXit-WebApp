@@ -113,5 +113,13 @@ public class Product implements Serializable {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

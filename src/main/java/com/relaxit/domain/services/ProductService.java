@@ -32,4 +32,8 @@ public class ProductService {
     public List<Product> getBestThreeProducts() {
         return productRepository.getBestThreeProducts();
     }
+
+    public boolean updateQuantity (Long productId, Integer newQuantity) {
+        return productRepository.updateQuantity(productId, newQuantity);
+    }
 }

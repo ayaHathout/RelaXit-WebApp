@@ -9,6 +9,7 @@ public interface ProductRepository {
     public List<Product> getProductsOfCategory(int pageNumber, int pageSize, int categoryId);
     public long getTotalProductsCountOfCategory(int categoryId);
     public List<Product> getBestThreeProducts();
+    public boolean updateQuantity(Long productId, Integer newQuantity);
 
     Product findById(Long id);
 }
