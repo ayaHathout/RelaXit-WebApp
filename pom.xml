@@ -40,7 +40,6 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>2.0.0</version>
         </dependency>
-
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
@@ -74,10 +73,48 @@
         </dependency>
 
         <dependency>
-           <groupId>com.google.code.gson</groupId>
-           <artifactId>gson</artifactId>
-           <version>2.10.1</version>
-       </dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-gson</artifactId>
+            <version>1.42.0</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+       
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
+        
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-people</artifactId>
+            <version>v1-rev20240313-2.0.0</version>
+        </dependency>
+       
+        
+        
 
     </dependencies>
 
@@ -90,16 +127,8 @@
                 <configuration>
                     <username>admin</username>
                     <password>admin</password>
-                    <url>http://localhost:9090/manager/text</url>
-                    <path>/relaxit1</path>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                    <url>http://localhost:8080/manager/text</url>
+                    <path>/relaxit</path>
                 </configuration>
             </plugin>
         </plugins>
