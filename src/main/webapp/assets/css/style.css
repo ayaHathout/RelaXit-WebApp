@@ -354,7 +354,7 @@ html{
     font-size: 22px;
     line-height: 22px;
     font-weight: 700;
-    color: var(--e-global-color-accent);
+    color:#378ac9;
 }
 .classic-con .classic-box .price_wrapper a {
     height: 46px;
@@ -365,14 +365,14 @@ html{
     position: absolute;
     border-radius: 100%;
     color: var(--e-global-color-white);
-    background-color: var(--e-global-color-dark-moderate-violet);
+    background-color: #5396c9;
     transition: all 0.3s ease-in-out;
 }
 .classic-con .classic-box:hover {
-    border: 1px solid var(--e-global-color-accent);
+    border: 1px solid #378ac9;
 }
 .classic-con .classic-box .price_wrapper a:hover {
-    background-color: var(--e-global-color-accent);
+    background-color: #378ac9;
 }
 .classic-con .owl-carousel .owl-dots {
     display: block !important;
@@ -390,14 +390,14 @@ html{
     background-color: #e1e1e2;
 }
 .classic-con .owl-carousel .owl-dots .owl-dot:hover span {
-    background-color: var(--e-global-color-accent);
+    background-color:#378ac9;
 }
 .classic-con .owl-carousel .owl-dots .owl-dot.active span {
     width: 19px;
     height: 19px;
     top: 3px;
     position: relative;
-    background-color: var(--e-global-color-accent);
+    background-color:#378ac9;
 }
 .classic-con .owl-carousel .owl-dots .owl-dot:focus {
     outline: none;
@@ -416,7 +416,7 @@ html{
     margin-bottom: 24px;
 }
 .categories-con .categories_content h2 span{
-    color: var(--e-global-color-accent);
+    color:#378ac9;
 }
 .categories-con .categories_content p{
     margin-bottom: 52px;
@@ -459,7 +459,7 @@ html{
     text-align: center;
     border-radius: 100%;
     color: var(--e-global-color-white);
-    background-color: var(--e-global-color-accent);
+    background-color: #378ac9;
     transition: all 0.8s ease-in-out;
 }
 .categories-con .categories-box .content i:hover{
@@ -586,7 +586,7 @@ html{
     margin-bottom: 18px;
 }
 .seller-con .seller_content h2 span{
-    color: var(--e-global-color-accent);
+    color: #378ac9;
 }
 .seller-con .seller_content p{
     margin-bottom: 50px;
@@ -681,7 +681,7 @@ html{
     font-size: 22px;
     line-height: 22px;
     font-weight: 700;
-    color: var(--e-global-color-accent);
+    color: #378ac9;
 }
 .seller-con .seller-box .price_wrapper a {
     height: 46px;
@@ -696,10 +696,10 @@ html{
     transition: all 0.3s ease-in-out;
 }
 .seller-con .seller-box:hover {
-    border: 1px solid var(--e-global-color-accent);
+    border: 1px solid #378ac9;
 }
 .seller-con .seller-box .price_wrapper a:hover {
-    background-color: var(--e-global-color-accent);
+    background-color:#378ac9;
 }
 .seller-con .owl-carousel .owl-dots {
     display: block !important;
@@ -3830,7 +3830,7 @@ to {
 
 .widget-categories li a:hover {
     color: white !important; 
-    background-color: #4CAF50 !important;
+    background-color: #5396c9 !important;
     border-radius: 4px; 
     padding: 2px 8px; 
 }

@@ -615,20 +615,20 @@
     color: var(--e-global-color-shop-text);
 }
 .shop1-con .sidebar .widget-categories ul li:hover:before {
-    border: 1px solid var(--e-global-color-accent);
+    border: 1px solid #5396c9;
 }
 .shop1-con .sidebar .widget-categories ul li:hover a{
-    color: var(--e-global-color-accent);
+    color: #5396c9;
 }
 
 /* Items */
 .shop1-con .classic-box {
     margin-bottom: 30px;
     box-shadow: 0 2px 73px 2px rgb(0 0 0 / 5%);
-    height: 440px !important;
+    height: 470px !important;
 }
 .shop1-con .classic-box .box5 {
-    background-color: #ffeff0 !important;
+    background-color: #efefff !important;
 }
 .shop1-con .classic-box .box6 {
     background-color: #fff3ea !important;

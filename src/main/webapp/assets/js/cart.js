@@ -28,9 +28,17 @@ function initCart() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const productId = this.getAttribute('data-product-id');
-            const quantityInput = document.querySelector('#quantity-' + productId);
-            const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
+            let quantity = 1;
             
+            const detailQuantityInput = document.getElementById('product-quantity');
+            if (detailQuantityInput) {
+                quantity = parseInt(detailQuantityInput.value) || 1;
+            } else {
+                const quantityInput = document.querySelector('#quantity-' + productId);
+                if (quantityInput) {
+                    quantity = parseInt(quantityInput.value) || 1;
+                }
+            }
             console.log('Adding to cart:', {productId, quantity});
             addToCart(productId, Math.max(1, quantity));
         });
@@ -152,6 +160,12 @@ function addToCart(productId, quantity) {
             broadcastCartUpdate(data);
             
             localStorage.setItem('cartLastUpdated', Date.now().toString());
+
+            const quantityInput = document.getElementById('product-quantity');
+            if (quantityInput) {
+                quantityInput.value = 1;
+                validateQuantity();
+            }
             
             showNotification('Product added to cart successfully!', 'success');
         } else {
@@ -164,6 +178,11 @@ function addToCart(productId, quantity) {
             .then(res => res.json())
             .then(latestData => {
                 updateCartDisplay(latestData);
+                const quantityInput = document.getElementById('product-quantity');
+                if (quantityInput) {
+                    quantityInput.value = 1;
+                    validateQuantity();
+                }
                 showNotification('Product may have been added - refreshing cart', 'success');
             })
             .catch(e => {
@@ -456,10 +475,12 @@ function updateMiniCart(items) {
     container.innerHTML = items.map(item => `
         <div class="single-cart clearfix" data-cart-id="${item.cartId}">
             <div class="cart-photo">
-                <a href="#"><img src="${item.product.imageUrl || contextPath + '/assets/images/pic.jpg'}" alt="${item.product.name}" /></a>
+                <a href="#"><img src="${item.product.productImage || contextPath + '/assets/images/pic-4.jpg'}" alt="${item.product.name}" class="product-image"/></a>
             </div>
             <div class="cart-info">
-                <h5><a href="#">${item.product.name}</a></h5>
+                <a href="${contextPath}/product/${item.product.productId}">
+					${item.product.name}
+				</a>
                 <p class="mb-0">Price: $${item.product.price.toFixed(2)}</p>
                 <p class="mb-0">Qty: ${item.quantity}</p>
                 <span class="cart-delete">
@@ -509,7 +530,7 @@ function updateCartPage(items) {
             <div class="product-details">
                 <div class="product-image">
                     <figure class="mb-0">
-                        <img src="${item.product.imageUrl || contextPath + '/assets/images/products/placeholder.jpg'}" alt="${item.product.name}" class="img-fluid">
+                        <img src="${item.product.productImage || contextPath + '/assets/images/pic-4.jpg'}" alt="${item.product.name}" class="img-fluid">
                     </figure>
                 </div>
                 <div class="product-content">
@@ -601,6 +622,50 @@ function updateCheckSummary() {
     console.log("Cart summary updated");
 }
 
+function validateQuantity() {
+    const quantityInput = document.getElementById('product-quantity');
+    if (!quantityInput) return;
+    
+    const minusBtn = document.querySelector('.quantity-left-minus');
+    const plusBtn = document.querySelector('.quantity-right-plus');
+    const warningBox = document.getElementById('stock-warning-message');
+    const warningText = document.getElementById('warning-text');
+    
+    const availableStock = parseInt(quantityInput.getAttribute('data-available')) || 0;
+    
+    let quantity = parseInt(quantityInput.value) || 0;
+    
+    if (quantity < 1) {
+        quantity = 1;
+    }
+    
+    if (quantity > availableStock) {
+        quantity = availableStock;
+
+        warningText.textContent = `Cannot add more than ${availableStock} item${availableStock != 1 ? 's' : ''} (available stock).`;
+        warningBox.style.display = 'block';
+        setTimeout(() => {
+            warningBox.style.display = 'none';
+        }, 3000);
+    } else {
+        warningBox.style.display = 'none';
+    }
+    
+    quantityInput.value = quantity;
+    
+    if (quantity >= availableStock) {
+        plusBtn.disabled = true;
+    } else {
+        plusBtn.disabled = false;
+    }
+    
+    if (quantity <= 1) {
+        minusBtn.disabled = true;
+    } else {
+        minusBtn.disabled = false;
+    }
+}
+
 
 function showNotification(message, type) {
     console.log(`Showing notification: ${message} (${type})`);
@@ -610,11 +675,28 @@ function showNotification(message, type) {
 
     const notification = document.createElement('div');
     notification.className = `cart-notification ${type}`;
-    notification.textContent = message;
+    notification.innerHTML = `
+        <i class="zmdi ${type === 'success' ? 'zmdi-check-circle' : 'zmdi-alert-circle'} icon"></i>
+        <span class="notification-text">${message}</span>
+        <div class="notification-progress"></div>
+    `;
     document.body.appendChild(notification);
 
-    setTimeout(() => notification.classList.add('show'), 10);
-    setTimeout(() => notification.remove(), 3000);
+    // Trigger animation
+    setTimeout(() => {
+        notification.classList.add('show');
+        
+        // Animate progress bar
+        const progressBar = notification.querySelector('.notification-progress');
+        progressBar.style.width = '100%';
+        progressBar.style.transition = `width 2.7s linear`;
+    }, 10);
+
+    // Auto-dismiss
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 2700);
 }
 
 if (!document.querySelector('style[data-cart-notification]')) {
@@ -625,25 +707,65 @@ if (!document.querySelector('style[data-cart-notification]')) {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 12px 24px;
-            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
             color: white;
-            font-weight: bold;
-            z-index: 1000;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transform: translateY(-30px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
         .cart-notification.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
+        
         .cart-notification.success {
-            background-color: #28a745;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(46, 125, 50, 0.95));
         }
+        
         .cart-notification.error {
-            background-color: #dc3545;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.9), rgba(183, 28, 28, 0.95));
+        }
+        
+        .cart-notification .icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        
+        .notification-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+        
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 0 3px 3px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-notification {
+                top: 12px;
+                right: 12px;
+                left: 12px;
+                max-width: calc(100% - 24px);
+            }
         }
     `;
     document.head.appendChild(style);

@@ -32,4 +32,9 @@ public class ProductService {
     public List<Product> getBestThreeProducts() {
         return productRepository.getBestThreeProducts();
     }
+
+    public Product findById(Long id) {
+        return productRepository.findById(id);
+    }
+
 }

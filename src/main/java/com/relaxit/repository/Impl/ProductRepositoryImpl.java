@@ -110,11 +110,26 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product findById(Long id) {
-        EntityManager em = JPAUtil.getEntityManager();
+        System.out.println("Finding product by ID: " + id);
         try {
-            return em.find(Product.class, id);
-        } finally {
-            em.close();
+            Product product = entityManager.find(Product.class, id);
+            if (product != null) {
+                product.getProductId(); 
+                product.getName();
+                product.getDescription();
+                product.getPrice();
+                product.getQuantity();
+                product.getProductImage();
+
+                System.out.println("Found product: " + product.getName());
+            } else {
+                System.out.println("Product not found with ID: " + id);
+            }
+            return product;
+        } catch (Exception e) {
+            System.out.println("Error finding product: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 }

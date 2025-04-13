@@ -91,7 +91,7 @@
                     <username>admin</username>
                     <password>admin</password>
                     <url>http://localhost:9090/manager/text</url>
-                    <path>/relaxit2</path>
+                    <path>/relaxit1</path>
                 </configuration>
             </plugin>
             <plugin>

@@ -179,7 +179,7 @@
                 <div class="disc" style="left: 53%; top: 86%;"></div>
                 <div class="vertebra" style="left: 54%; top: 88%;"></div>
             </div>
-            <div class="status" id="status">Healthy S-Shape</div>
+            <div class="status" id="status"></div>
         </div>
         
         <div class="hero-content">
@@ -241,7 +241,6 @@
             element.style.transition = 'left 1s ease';
             element.style.left = "40%";
         });
-        status.textContent = "Poor Posture - C-Shape";
         status.classList.add('highlight');
     }
     
@@ -251,7 +250,6 @@
             item.element.style.transition = 'left 1s ease';
             item.element.style.left = item.left;
         });
-        status.textContent = "Healthy S-Shape";
         status.classList.remove('highlight');
     }
     
@@ -290,7 +288,7 @@
 					<!-- Start Column 2 -->
 					<c:forEach var="curProduct" items="${products}" varStatus="status">
                         <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                            <a class="product-item" href="<c:url value='/product/detail?id=${status.index + 1}'/>">
+                            <a class="product-item" href="<c:url value='/product/${curProduct.productId}'/>">
                                 <div class="image">
                                     <img src="<c:url value='/assets/images/pic2.png'/>" class="img-fluid product-thumbnail">
                                 </div>

@@ -140,12 +140,21 @@ public class CartServlet extends HttpServlet {
                 return;
             }
 
-            if (quantityParam == null || quantityParam.isEmpty()) {
-                quantityParam = "1"; // Default to 1 if not provided
+            System.out.println("Received quantity parameter: " + quantityParam);
+
+            int quantity = 1;
+
+            if (quantityParam != null && !quantityParam.isEmpty()) {
+            try {
+                quantity = Integer.parseInt(quantityParam);
+                System.out.println("Parsed quantity: " + quantity);
+            } catch (NumberFormatException e) {
+                System.out.println("Error parsing quantity: " + e.getMessage());
+                quantity = 1;
             }
+        }
 
             int productId = Integer.parseInt(productIdParam);
-            int quantity = Integer.parseInt(quantityParam);
 
             if (productId <= 0) {
                 jsonResponse.put("success", false);
@@ -161,12 +170,10 @@ public class CartServlet extends HttpServlet {
 
             boolean added = false;
 
-            // Only try to add to user's cart if logged in
             if (isLoggedIn && userId != null) {
                 added = cartService.addToCart(userId, productId, quantity);
             }
 
-            // If not logged in or if adding to user's cart failed, add to session cart
             if (!isLoggedIn || !added) {
                 added = addToSessionCart(session, productId, quantity);
             }
