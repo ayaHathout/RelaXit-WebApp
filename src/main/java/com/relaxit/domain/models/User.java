@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -33,7 +31,6 @@ public class User implements Serializable {
 
     @Column(name = "credit_limit", columnDefinition = "DOUBLE DEFAULT 1200")
     private Double creditLimit = 1200.0;
-    
 
     @Column(nullable = false)
     private String address;
@@ -47,22 +44,29 @@ public class User implements Serializable {
     @Column(nullable = false)
     private UserRole role;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<CartItem> cartItems = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders = new ArrayList<>();
-
-    public User() {
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public User(String email, String password, String fullName, LocalDate birthdate, String job, String address, String interests ) {
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public User() {
+        
+    }
+
+    public User(String email, String password, String fullName, LocalDate birthdate, String job, String address,
+            String interests) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
@@ -70,10 +74,10 @@ public class User implements Serializable {
         this.job = job;
         this.address = address;
         this.interests = interests;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.role = UserRole.USER; // Default role
     }
-    // Getters and Setters (unchanged from your code, just added annotations)
+
+    // Getters and Setters 
     public Long getUserId() {
         return userId;
     }
@@ -162,15 +166,9 @@ public class User implements Serializable {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
