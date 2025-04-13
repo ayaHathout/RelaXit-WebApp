@@ -1,6 +1,5 @@
 package com.relaxit.presentation.controllers;
 
-import com.relaxit.domain.Daos.Implementation.ProductDaoImpl;
 import com.relaxit.domain.models.Product;
 import com.relaxit.domain.services.CartService;
 import com.relaxit.domain.services.ProductService;
