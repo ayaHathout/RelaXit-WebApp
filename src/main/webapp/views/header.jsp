@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   <!-- Start Header/Navigation -->
   <nav class="custom-navbar navbar navbar-expand-md navbar-dark" aria-label="Furni navigation bar">
     <div class="container">
@@ -35,40 +35,97 @@
           <!-- Login -->
           <li class="nav-item user-dropdown">
             <div class="user-icon">
-                <i class="fas fa-user"></i>
+                <c:choose>
+                    <c:when test="${not empty user}">
+                        <c:choose>
+                            <c:when test="${not empty user.profileImage}">
+                                <img src="${pageContext.request.contextPath}/images/${user.profileImage != null && !user.profileImage.isEmpty() ? user.profileImage : 'assets/img/default-avatar.png'}" alt="Profile Image" class="user-profile-img" />
+                            </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when test="${not empty user.fullName}">
+                                        <div class="user-initials">${fn:substring(user.fullName, 0, 1)}</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="user-initials">U</div> 
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="fas fa-user"></i>
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="user-menu">
-                <div class="user-menu-header">
-                    <p>New Customer?</p>
-                    <a href="<c:url value='/views/register.jsp'/>">Start Here</a>
-                </div>
-                <ul class="user-menu-links">
-                    <li><a href="<c:url value='/views/login'/>">Sign In</a></li>
-                    <li><a href="<c:url value='/account.jsp'/>">My Account</a></li>
-                    <li><a href="<c:url value='/views/orders.jsp'/>">My Orders</a></li>
-                </ul>
+                <c:choose>
+                    <c:when test="${not empty user}">
+                        <!-- Logged in user menu -->
+                        <div class="user-menu-header">
+                            <div class="user-info">
+                                <div class="user-name"><p>Welcome back, ${user.fullName}!</p></div>
+                                <div class="user-email">${user.email}</div>
+                            </div>
+                        </div>
+                        <ul class="user-menu-links">
+                            <li>
+                                <a href="<c:url value='/profile'/>">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>My Profile</span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="<c:url value='/logout'/>" class="logout-link">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="guest-menu-header">
+                            <h4>Welcome</h4>
+                            <p>New Customer? <a href="<c:url value='/register'/>" class="start-here-link">Start Here</a></p>
+                        </div>
+                        <div class="auth-buttons">
+                            <a href="<c:url value='/login'/>" class="btn btn-primary login-btn">Sign In</a>
+                            <a href="<c:url value='/register'/>" class="btn btn-outline register-btn">Register</a>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
-          </li>
+        </li>
   
           <!-- Shopping Cart -->
           <li class="nav-item mini-cart">
-            <a class="cart-icon nav-link" href="#">
+            <div class="cart-icon">
                 <i class="zmdi zmdi-shopping-cart"></i>
                 <span class="cart-counter">${cartItemCount != null ? cartItemCount : '0'}</span>
-            </a>
-            <div class="mini-cart-brief text-left">
+            </div>
+            <div class="mini-cart-brief">
                 <div class="cart-items">
-                    <p class="mb-0">You have <span class="item-count">${cartItemCount != null ? cartItemCount : '0'}</span> items in your shopping bag</p>
+                    <p>You have <span class="item-count">${cartItemCount != null ? cartItemCount : '0'}</span> items in your shopping bag</p>
                 </div>
-                <div class="all-cart-product clearfix">
-                    <!-- Items will be inserted here by JavaScript -->
+                <div class="all-cart-product">
+                    <c:choose>
+                        <c:when test="${empty cartItems}">
+                            <div class="empty-cart-message">
+                                <p>Your cart is empty</p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                      
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div class="cart-totals">
-                    <h5 class="mb-0">TOTAL<span class="float-end cart-total">$${cartTotal != null ? cartTotal : '0.00'}</span></h5>
+                    <h5>TOTAL <span class="cart-total">$${cartTotal != null ? cartTotal : '0.00'}</span></h5>
                 </div>
-                <div class="cart-bottom clearfix">
-                    <a href="<c:url value='/cart/view'/>" class="btn btn-outline-secondary float-start">VIEW CART</a>
-                    <a href="<c:url value='/views/checkout.jsp'/>" class="btn btn-primary float-end ${empty cartItems ? 'disabled' : ''}">CHECK OUT</a>
+                <div class="cart-bottom">
+                    <a href="<c:url value='/cart/view'/>" class="btn btn-outline-secondary">VIEW CART</a>
+                    <a href="<c:url value='/views/checkout.jsp'/>" class="btn btn-primary ${empty cartItems ? 'disabled' : ''}">CHECK OUT</a>
                 </div>
             </div>
         </li>
