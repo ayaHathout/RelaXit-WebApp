@@ -19,7 +19,7 @@ public class AdminServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             if (user.getRole() == UserRole.ADMIN) {
-                request.getRequestDispatcher("/views/thankyou.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/users").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/login");
             }
