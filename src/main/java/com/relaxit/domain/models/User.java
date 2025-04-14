@@ -1,5 +1,6 @@
 package com.relaxit.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.relaxit.domain.enums.UserRole;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class User implements Serializable {
     private String fullName;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
 
     @Column(nullable = false)
@@ -45,9 +47,11 @@ public class User implements Serializable {
     private UserRole role;
 
     @Column(name = "created_at", nullable = false, updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @PrePersist
