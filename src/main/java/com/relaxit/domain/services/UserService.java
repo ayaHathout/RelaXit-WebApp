@@ -13,6 +13,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
+        if (userRepository == null) {
+            throw new IllegalArgumentException("UserRepository cannot be null!");
+        }
         this.userRepository = userRepository;
     }
 
@@ -84,6 +87,12 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
+    public List<User> searchUsersByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return getAllUsers();
+        }
+        return userRepository.findByName(name);
+    }
 
     public boolean emailExists(String email) {
         if (email == null) {
@@ -99,7 +108,7 @@ public class UserService {
         if (!user.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             throw new IllegalArgumentException("Invalid email format!");
         }
-        // الـ password مش إجباري لـ Google users
+       
         if (user.getFullName() == null || user.getFullName().isEmpty()) {
             throw new IllegalArgumentException("Full name is required!");
         }
