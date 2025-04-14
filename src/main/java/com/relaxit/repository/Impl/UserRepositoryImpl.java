@@ -122,4 +122,16 @@ public class UserRepositoryImpl implements UserRepository {
             em.close();
         }
     }
+
+    @Override
+   public List<User> findByName(String name){
+        EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.fullName LIKE :name", User.class)
+                    .setParameter("name", "%" + name + "%")
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }
