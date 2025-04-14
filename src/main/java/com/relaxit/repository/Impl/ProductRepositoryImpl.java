@@ -4,6 +4,7 @@ import com.relaxit.domain.models.Product;
 import com.relaxit.domain.utils.JPAUtil;
 import com.relaxit.repository.Interfaces.ProductRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,33 @@ public class ProductRepositoryImpl implements ProductRepository {
             System.out.println("Error finding product: " + e.getMessage());
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public boolean updateQuantity(Long productId, Integer newQuantity) {
+        System.out.println("In updateQuantity() in ProductRepositoryImpl");
+
+        System.out.println(productId + ": " + newQuantity);
+
+        EntityTransaction entityTransaction = null;
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+
+            String sql = "UPDATE Product SET quantity = :newQuantity WHERE productId = :productId";
+            Query query = entityManager.createQuery(sql)
+                    .setParameter("newQuantity", newQuantity)
+                    .setParameter("productId", productId);
+
+            int updateCount = query.executeUpdate();
+            entityTransaction.commit();
+            return updateCount > 0;
+        } catch (Exception e) {
+            if (entityTransaction != null && entityTransaction.isActive())
+                entityTransaction.rollback();
+
+            throw new RuntimeException("Failed to update quantity", e);
         }
     }
 }

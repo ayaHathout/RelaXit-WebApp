@@ -104,13 +104,6 @@
             <div class="col-lg-4 col-12">
                 <div class="cart-total-outer" data-aos="fade-up">
                     <h4 class="mb-0">Order Summary</h4>
-                    <div class="coupon">
-                        <div class="ticket">
-                            <i class="fa-solid fa-ticket"></i>
-                            <span class="heading">Apply Coupons</span>
-                        </div>
-                        <a href="#" class="text-decoration-none" id="apply-coupon">Apply</a>
-                    </div>
                     <div class="detail">
                         <span class="heading">Product Details:</span>
                         <ul class="list-unstyled mb-0">
@@ -122,7 +115,7 @@
                                 <span class="text">Grand Total</span>
                                 <span class="dollar" id="grand-total">$${grandTotal}</span>
                             </div>
-                            <a href="<c:url value='/checkout?${grandTotal}'/>"
+                            <a href="<c:url value='/checkout'/>"
                                class="text-decoration-none all_button ${empty cartItems ? 'disabled' : ''}" 
                                id="checkout-button">
                                 Proceed to checkout <i class="fa-solid fa-arrow-right"></i>

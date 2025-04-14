@@ -3,6 +3,7 @@ package com.relaxit.domain.services;
 import com.relaxit.domain.enums.UserRole;
 import com.relaxit.domain.models.User;
 // import com.relaxit.repository.impl.UserRepositoryImpl;
+import com.relaxit.repository.Impl.UserRepositoryImpl;
 import com.relaxit.repository.Interfaces.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -15,6 +16,11 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    public UserService () {
+        userRepository = new UserRepositoryImpl();
+    }
+
 
     public void registerUser(User user) {
         if (user == null) {
@@ -112,5 +118,14 @@ public class UserService {
         if (user.getAddress() == null || user.getAddress().isEmpty()) {
             throw new IllegalArgumentException("Address is required!");
         }
+    }
+
+    public Double getCreditLimitByUserId (Long id) {
+        User curUser = userRepository.findById(id);
+        return curUser.getCreditLimit();
+    }
+
+    public boolean updateCreditLimit (Long userId, Double creditLimit) {
+        return userRepository.updateCreditLimit(userId, creditLimit);
     }
 }

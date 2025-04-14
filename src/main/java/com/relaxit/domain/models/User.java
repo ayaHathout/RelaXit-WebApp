@@ -166,9 +166,26 @@ public class User implements Serializable {
         return createdAt;
     }
 
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthdate=" + birthdate +
+                ", job='" + job + '\'' +
+                ", creditLimit=" + creditLimit +
+                ", address='" + address + '\'' +
+                ", interests='" + interests + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", role=" + role +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

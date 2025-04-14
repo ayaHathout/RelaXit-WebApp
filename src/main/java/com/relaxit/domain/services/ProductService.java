@@ -37,4 +37,7 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    public boolean updateQuantity (Long productId, Integer newQuantity) {
+        return productRepository.updateQuantity(productId, newQuantity);
+    }
 }

@@ -257,6 +257,12 @@ public class CartServlet extends HttpServlet {
                 cartItemCount = cartItems.size();
                 cartTotal = calculateSessionCartTotal(cartItems);
             }
+
+            // For Checkout
+            session.setAttribute("grandTotal", cartItemCount > 0
+                    ? cartTotal.add(BigDecimal.valueOf(20.00))
+                    : BigDecimal.ZERO);
+            session.setAttribute("cartItems", cartItems);
         } else {
             cartItems = getSessionCart(session);
             cartItemCount = cartItems.size();
@@ -269,6 +275,7 @@ public class CartServlet extends HttpServlet {
         jsonResponse.put("grandTotal", cartItemCount > 0
                 ? cartTotal.add(BigDecimal.valueOf(20.00))
                 : BigDecimal.ZERO);
+
     }
 
     private Map<String, Object> simplifyResponse(Map<String, Object> response) {
