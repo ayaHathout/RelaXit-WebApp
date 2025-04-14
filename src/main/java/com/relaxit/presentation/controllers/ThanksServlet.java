@@ -30,7 +30,7 @@ public class ThanksServlet extends HttpServlet {
         double grandTotal = 0;
         String paymentMethod = null, confirmMessage = null;;
         // long userId = -1;
-        long userId = 1;
+        long userId = 2;
         List<CartItem> cartItems = new ArrayList<>();
 
         HttpSession session = req.getSession(false);

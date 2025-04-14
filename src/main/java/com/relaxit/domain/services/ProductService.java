@@ -1,6 +1,7 @@
 package com.relaxit.domain.services;
 
 import com.relaxit.domain.models.Product;
+import com.relaxit.presentation.utils.ProductDTO;
 import com.relaxit.repository.Impl.ProductRepositoryImpl;
 import com.relaxit.repository.Interfaces.ProductRepository;
 
@@ -15,6 +16,10 @@ public class ProductService {
 
     public List<Product> getAllProducts(int pageNumber, int pageSize) {
         return productRepository.getAllProducts(pageNumber, pageSize);
+    }
+
+    public List<ProductDTO> getAllProductsInProductDTO(int pageNumber, int pageSize) {
+        return productRepository.getAllProductsInProductDTO(pageNumber, pageSize);
     }
 
     public long getTotalProductsCount() {
@@ -32,6 +37,7 @@ public class ProductService {
     public List<Product> getBestThreeProducts() {
         return productRepository.getBestThreeProducts();
     }
+
 
     public boolean updateQuantity (Long productId, Integer newQuantity) {
         return productRepository.updateQuantity(productId, newQuantity);

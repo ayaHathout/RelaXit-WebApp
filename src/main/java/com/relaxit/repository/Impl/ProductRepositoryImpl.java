@@ -2,10 +2,13 @@ package com.relaxit.repository.Impl;
 
 import com.relaxit.domain.models.Product;
 import com.relaxit.domain.utils.JPAUtil;
+import com.relaxit.presentation.utils.ProductDTO;
 import com.relaxit.repository.Interfaces.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +44,32 @@ public class ProductRepositoryImpl implements ProductRepository {
             curProduct.setProductImage(product.getProductImage() == null ? null : product.getProductImage());
 
             products.add(curProduct);
+        }
+        return products;
+    }
+
+    @Override
+    public List<ProductDTO> getAllProductsInProductDTO(int pageNumber, int pageSize) {
+        System.out.println("In getAllProductsInProductDTO() in ProductRepositoryImpl");
+
+        int startIndex = (pageNumber - 1) *  pageSize;
+
+        String sql = "SELECT name, description, price, image_url FROM products LIMIT ?, ?";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter(1, startIndex);
+        query.setParameter(2, pageSize);
+
+        List<Object[]> resultList = query.getResultList();
+        List<ProductDTO> products = new ArrayList<>();
+
+        for (Object[] row : resultList) {
+            ProductDTO dto = new ProductDTO();
+            dto.setName((String) row[0]);
+            dto.setDescription((String) row[1]);
+            dto.setPrice((BigDecimal) row[2]);
+            dto.setProductImage((String) row[3]);
+
+            products.add(dto);
         }
         return products;
     }
