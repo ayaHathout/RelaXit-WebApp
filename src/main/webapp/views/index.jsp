@@ -95,7 +95,7 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="<c:url value='/logout'/>" class="logout-link">
+                                    <a href="<c:url value='/logoutClient'/>" class="logout-link">
                                         <i class="fas fa-sign-out-alt"></i>
                                         <span>Sign Out</span>
                                     </a>
