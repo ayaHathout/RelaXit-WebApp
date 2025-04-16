@@ -13,6 +13,8 @@ public interface UserRepository {
     void deleteById(Long userId);
     List<User> getAllUsers();
     boolean existsByEmail(String email);
-
+   
+    List<User> findByName(String name);
+   
     boolean updateCreditLimit(Long userId, Double creditLimit);
 }
