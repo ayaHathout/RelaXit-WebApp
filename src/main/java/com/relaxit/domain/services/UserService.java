@@ -2,7 +2,6 @@ package com.relaxit.domain.services;
 
 import com.relaxit.domain.enums.UserRole;
 import com.relaxit.domain.models.User;
-// import com.relaxit.repository.impl.UserRepositoryImpl;
 import com.relaxit.repository.Interfaces.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -31,9 +30,6 @@ public class UserService {
         validateRequiredFields(user);
         if (user.getRole() == null) {
             user.setRole(UserRole.USER);
-        }
-        if (user.getCreditLimit() == null) {
-            user.setCreditLimit(1200.0);
         }
         userRepository.addUser(user);
     }
@@ -64,11 +60,14 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null!");
+        }
         User existingUser = userRepository.findById(user.getUserId());
         if (existingUser == null) {
             throw new IllegalArgumentException("User not found!");
         }
+        validateRequiredFields(user); // Apply the same validations as during registration
         userRepository.updateUser(user);
     }
 
@@ -87,6 +86,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
+
     public List<User> searchUsersByName(String name) {
         if (name == null || name.trim().isEmpty()) {
             return getAllUsers();
@@ -120,6 +120,12 @@ public class UserService {
         }
         if (user.getAddress() == null || user.getAddress().isEmpty()) {
             throw new IllegalArgumentException("Address is required!");
+        }
+        if (user.getCreditLimit() == null) {
+            throw new IllegalArgumentException("Credit Limit is required!");
+        }
+        if (user.getCreditLimit() > 100000) {
+            throw new IllegalArgumentException("Credit Limit cannot exceed $100,000!");
         }
     }
 }
