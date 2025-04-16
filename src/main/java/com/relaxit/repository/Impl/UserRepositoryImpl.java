@@ -1,7 +1,6 @@
 package com.relaxit.repository.Impl;
 
 import com.relaxit.domain.models.User;
-import com.relaxit.domain.utils.JPAUtil;
 import com.relaxit.repository.Interfaces.UserRepository;
 import com.relaxit.utils.EntityManagerFactorySingleton;
 import com.relaxit.domain.utils.TransactionUtils; 
@@ -10,18 +9,15 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-    private final EntityManager entityManager;
-    private String sql;
-    private Query query;
 
-    public UserRepositoryImpl () {
-        entityManager = JPAUtil.getEntityManager();
-        sql = null;
-        query = null;
-    }
+    private EntityManager entityManager;
+    // private String sql;
+    // private Query query;
 
     @Override
     public void addUser(User user) {
@@ -73,6 +69,11 @@ public class UserRepositoryImpl implements UserRepository {
             if (user.getRole() != null && !user.getRole().equals(existingUser.getRole())) {
                 existingUser.setRole(user.getRole());
             }
+            if (user.getCreditLimit() != null && !user.getCreditLimit().equals(existingUser.getCreditLimit())) {
+                existingUser.setCreditLimit(user.getCreditLimit());
+            }
+            // Update the updatedAt timestamp
+            existingUser.setUpdatedAt(LocalDateTime.now());
             em.merge(existingUser);
         });
     }
@@ -136,6 +137,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public List<User> findByName(String name) {
+        EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.fullName LIKE :name", User.class)
+                    .setParameter("name", "%" + name + "%")
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+     @Override
     public boolean updateCreditLimit(Long userId, Double newCreditLimit) {
         System.out.println("In updateCreditLimit() in UserRepositoryImpl");
 
