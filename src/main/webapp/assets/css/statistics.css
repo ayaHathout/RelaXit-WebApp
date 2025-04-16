@@ -1,0 +1,122 @@
+/* statistics.css */
+.container-fluid {
+    /* padding: 25px; */
+    /* background-color: #f4f7fa; */
+    /* min-height: 100vh;  */
+    /* Ensure full viewport height */
+    visibility: visible; /* Explicitly visible */
+}
+
+h2.mb-4 {
+    font-weight: 700;
+    color: #1e2a44;
+    animation: fadeInDown 0.8s ease-out;
+    visibility: visible;
+}
+
+.stats-card {
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #ffffff, #e8ecef);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: visible;
+    visibility: visible;
+}
+
+.stats-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stats-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(43, 108, 176, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stats-card:hover::after {
+    opacity: 1;
+}
+
+.card-body {
+    padding: 20px;
+    text-align: center;
+    visibility: visible;
+}
+
+.card-title {
+    font-size: 1rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.card-text.display-4 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #2b6cb0;
+}
+
+.zero-data {
+    color: #e53e3e;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+canvas#usersChart {
+    max-height: 350px !important;
+    width: 100% !important;
+    visibility: visible;
+}
+
+.row {
+    margin: 0;
+    overflow: visible;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 992px) {
+    .card-text.display-4 {
+        font-size: 2rem;
+    }
+    .card-body {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-text.display-4 {
+        font-size: 1.6rem;
+    }
+    h2.mb-4 {
+        font-size: 1.4rem;
+    }
+    .container-fluid {
+        padding: 15px;
+    }
+}
