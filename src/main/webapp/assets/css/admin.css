@@ -1,0 +1,182 @@
+/* admin.css */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f6f9;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #343a40;
+    z-index: 1000;
+    animation: slideInLeft 0.5s ease-out;
+    transition: transform 0.3s ease;
+}
+
+.sidebar .nav-item {
+    margin: 5px 0;
+}
+
+.sidebar .nav-link {
+    border-radius: 5px;
+    margin: 0 15px;
+    padding: 10px 15px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, border-left-color 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar .nav-link:hover {
+    background: linear-gradient(145deg, #007bff, #2b6cb0);
+    transform: translateX(5px);
+    border-left-color: #ffffff;
+}
+
+.sidebar .nav-link.active {
+    background-color: #007bff;
+    border-left-color: #ffffff;
+    font-weight: bold;
+}
+
+.sidebar .statistics-link {
+    border-left: 4px solid #2b6cb0;
+}
+
+main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    padding: 20px;
+    visibility: visible;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+header h1 {
+    margin-left: 16px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table-dark th {
+    background-color: #343a40;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        transform: translateX(-100%);
+    }
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    main {
+        margin-left: 0;
+        width: 100%;
+    }
+    header {
+        margin-left: 0;
+    }
+    header h1 {
+        margin-left: 10px;
+        font-size: 1.25rem;
+    }
+}
+
+
+/* Existing styles for users.jsp and sidebar (assumed) */
+.sidebar {
+    width: 250px;
+    /* Add other sidebar styles from your setup */
+}
+main {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+    visibility: visible;
+}
+
+/* Styles for users.jsp (assumed, ensuring compatibility) */
+.card {
+    border-radius: 8px;
+}
+.table {
+    margin-bottom: 0;
+}
+
+/* New styles for product-management.jsp */
+.product-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+.placeholder {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #6c757d;
+    font-size: 24px;
+}
+#viewProductImage {
+    width: 100%;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f8f9fa;
+}
+.actions-column {
+    min-width: 140px;
+}
+.product-form {
+    display: none;
+}
+#searchForm {
+    margin-bottom: 20px;
+}
+.pagination {
+    margin-top: 20px;
+}
