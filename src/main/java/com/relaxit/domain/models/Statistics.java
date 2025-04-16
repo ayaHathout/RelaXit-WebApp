@@ -1,5 +1,6 @@
 package com.relaxit.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import java.util.List;
 
 public class Statistics {
@@ -10,11 +11,8 @@ public class Statistics {
     private List<String> chartLabels;
     private List<Long> chartData;
 
-   
-
     // Default constructor
     public Statistics() {
-       
     }
 
     public Statistics(long totalUsers, long totalProducts, double avgCreditLimit, long totalStock,
@@ -41,10 +39,13 @@ public class Statistics {
     public List<Long> getChartData() { return chartData; }
     public void setChartData(List<Long> chartData) { this.chartData = chartData; }
 
-    // For JSP JSON rendering
+    // For JSP JSON rendering (used in statistics.jsp)
+    @JsonGetter("chartLabelsJson")
     public String getChartLabelsJson() {
         return new com.google.gson.Gson().toJson(chartLabels);
     }
+
+    @JsonGetter("chartDataJson")
     public String getChartDataJson() {
         return new com.google.gson.Gson().toJson(chartData);
     }
