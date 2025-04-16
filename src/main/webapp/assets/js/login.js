@@ -21,9 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
         fullName: document.getElementById('luxuryFullName'),
         email: document.getElementById('luxuryRegEmail'),
         password: document.getElementById('luxuryRegPassword'),
+        confirmPassword: document.getElementById('luxuryConfirmPassword'),
         birthdate: document.getElementById('luxuryBirthdate'),
         profession: document.getElementById('luxuryProfession'),
         residence: document.getElementById('luxuryResidence'),
+        creditLimit: document.getElementById('luxuryCreditLimit'),
         interests: document.getElementById('luxuryInterests')
     };
 
@@ -32,9 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
         fullName: document.getElementById('fullNameError'),
         email: document.getElementById('emailError'),
         password: document.getElementById('passwordError'),
+        confirmPassword: document.getElementById('confirmPasswordError'),
         birthdate: document.getElementById('birthdateError'),
         profession: document.getElementById('professionError'),
         residence: document.getElementById('residenceError'),
+        creditLimit: document.getElementById('creditLimitError'),
         interests: document.getElementById('interestsError')
     };
 
@@ -71,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     }
 
-    // إضافة الـ event listeners للـ navigation buttons
     loginNav.addEventListener('click', (e) => {
         e.preventDefault();
         showLoginForm();
@@ -152,6 +155,62 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    async function validateConfirmPassword() {
+        const password = inputs.password.value.trim();
+        const confirmPassword = inputs.confirmPassword.value.trim();
+        if (!confirmPassword) {
+            setError(errors.confirmPassword, 'Confirm Password is required');
+            return false;
+        }
+        try {
+            const response = await fetch(`${window.contextPath}/checkPasswordMatch`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `password=${encodeURIComponent(password)}&confirmPassword=${encodeURIComponent(confirmPassword)}`
+            });
+            const data = await response.json();
+            if (!data.match) {
+                setError(errors.confirmPassword, 'Passwords do not match');
+                return false;
+            }
+            setSuccess(errors.confirmPassword);
+            return true;
+        } catch (error) {
+            setError(errors.confirmPassword, 'Error validating password match');
+            return false;
+        }
+    }
+
+    async function validateCreditLimit() {
+        const value = inputs.creditLimit.value.trim();
+        if (!value) {
+            setError(errors.creditLimit, 'Credit Limit is required');
+            return false;
+        }
+        const creditLimit = parseFloat(value);
+        if (isNaN(creditLimit) || creditLimit < 0) {
+            setError(errors.creditLimit, 'Credit Limit must be a positive number');
+            return false;
+        }
+        try {
+            const response = await fetch(`${window.contextPath}/checkCreditLimit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `creditLimit=${encodeURIComponent(creditLimit)}`
+            });
+            const data = await response.json();
+            if (!data.valid) {
+                setError(errors.creditLimit, 'Credit Limit cannot exceed $100,000');
+                return false;
+            }
+            setSuccess(errors.creditLimit);
+            return true;
+        } catch (error) {
+            setError(errors.creditLimit, 'Error validating credit limit');
+            return false;
+        }
+    }
+
     function validateForm() {
         const isValid = (
             validateField(inputs.fullName, errors.fullName, regex.name, 'Full name is required', 'Only letters and spaces allowed') &&
@@ -218,6 +277,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     inputs.password.addEventListener('input', () => {
         validateField(inputs.password, errors.password, regex.password, 'Password is required', 'At least 8 characters, 1 uppercase, 1 lowercase, 1 number');
+        validateConfirmPassword(); // Re-validate confirm password when password changes
+        validateForm();
+    });
+
+    inputs.confirmPassword.addEventListener('input', async () => {
+        await validateConfirmPassword();
         validateForm();
     });
 
@@ -233,6 +298,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     inputs.residence.addEventListener('input', () => {
         validateField(inputs.residence, errors.residence, regex.residence, 'Residence is required', 'Only letters, numbers, spaces, and basic punctuation allowed');
+        validateForm();
+    });
+
+    inputs.creditLimit.addEventListener('input', async () => {
+        await validateCreditLimit();
         validateForm();
     });
 
@@ -263,7 +333,9 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         console.log("Raw password before validation:", inputs.password.value);
         const emailValid = await validateEmail();
-        const formValid = validateForm() && emailValid;
+        const confirmPasswordValid = await validateConfirmPassword();
+        const creditLimitValid = await validateCreditLimit();
+        const formValid = validateForm() && emailValid && confirmPasswordValid && creditLimitValid;
         if (formValid) {
             console.log("Register form submitting with email:", inputs.email.value, "password:", inputs.password.value);
             this.submit();
