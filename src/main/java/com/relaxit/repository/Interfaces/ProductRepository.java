@@ -1,5 +1,6 @@
 package com.relaxit.repository.Interfaces;
 
+import com.relaxit.domain.dtos.ProductDTO;
 import com.relaxit.domain.models.Product;
 import java.util.List;
 
@@ -17,5 +18,8 @@ public interface ProductRepository {
 
     List<Product> searchProducts(String keyword, int pageNumber, int pageSize);
     public long getTotalSearchProductsCount(String keyword);
+
+    public List<ProductDTO> getAllProductsInProductDTO(int pageNumber, int pageSize);
+    public List<ProductDTO> getProductsOfCategoryInProductDTO(int pageNumber, int pageSize, int categoryId);
     void close();
 }

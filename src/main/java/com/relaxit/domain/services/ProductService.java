@@ -1,5 +1,6 @@
 package com.relaxit.domain.services;
 
+import com.relaxit.domain.dtos.ProductDTO;
 import com.relaxit.domain.models.Product;
 import com.relaxit.repository.Impl.ProductRepositoryImpl;
 import com.relaxit.repository.Interfaces.ProductRepository;
@@ -24,6 +25,14 @@ public class ProductService {
 
     public List<Product> getProductsOfCategory(int pageNumber, int pageSize, int categoryId) {
         return productRepository.getProductsOfCategory(pageNumber, pageSize, categoryId);
+    }
+
+    public List<ProductDTO> getAllProductsInProductDTO(int pageNumber, int pageSize) {
+        return productRepository.getAllProductsInProductDTO(pageNumber, pageSize);
+    }
+
+    public List<ProductDTO> getProductsOfCategoryInProductDTO(int pageNumber, int pageSize, int categoryId) {
+        return productRepository.getProductsOfCategoryInProductDTO(pageNumber, pageSize, categoryId);
     }
 
     public long getTotalProductsCountOfCategory(int categoryId) {

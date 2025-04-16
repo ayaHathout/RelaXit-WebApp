@@ -286,7 +286,7 @@
 							</div>
 						</div>
 						<div class="col-lg-9">
-							<div class="row shop-products-con" data-aos="fade-up">
+							<div class="row shop-products-con" data-aos="fade-up" id="productsContainer">
 								<c:forEach var="curProduct" items="${products}" varStatus="status">
 									<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
 										<div class="classic-box product-card">
@@ -354,7 +354,61 @@
 			<jsp:include page="footer.jsp" />
 
 
+			<script>
+			    document.addEventListener("DOMContentLoaded", function () {
+                    const eventSource = new EventSource("/relaxit/shop");
+                    eventSource.onmessage = function(event) {
+                        const data = JSON.parse(event.data);
+                        const totalPages = data.totalPages;
+                        const pageNumber = data.pageNumber;
+                        const paginationContainer = document.getElementById("pagination");
+                        paginationContainer.innerHTML = "";
+
+                        console.log("pagination1" + paginationContainer);
+
+                        // Previous
+                        if (data.pageNumber > 1) {
+                            paginationContainer.innerHTML += `
+                                <li class="page-item next">
+                                     <a class="page-link" href="views/shop.jsp?page=${data.pageNumber - 1}">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            `;
+                        }
+
+                        console.log("pagination1" + paginationContainer);
+
+                        // Page numbers
+                        for (let i = 1; i <= data.totalPages; i++) {
+                            paginationContainer.innerHTML += `
+                                <li class="page-item ${i == data.pageNumber ? 'active' : ''}">
+                                    <a class="page-link" href="shop?page=${i}">${i}</a>
+                                </li>
+                            `;
+                        }
+
+                        console.log("pagination2" + paginationContainer);
+
+                        // Next
+                        if (data.pageNumber < data.totalPages) {
+                            paginationContainer.innerHTML += `
+                                <li class="page-item next">
+                                    <a class="page-link" href="shop?page=${data.pageNumber + 1}">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            `;
+                        }
+
+                        console.log("pagination2" + paginationContainer);
+                    }
+                });
+			</script>
+
+
 			<script src="${pageContext.request.contextPath}/assets/js/cart.js"></script>
+			<script src="${pageContext.request.contextPath}/assets/js/shop.js"></script>
 
 			<script src="<c:url value='/assets/js/bootstrap.bundle.min.js'/>"></script>
 			<script src="<c:url value='/assets/js/custom.js'/>"></script>

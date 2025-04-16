@@ -1,5 +1,6 @@
 package com.relaxit.repository.Impl;
 
+import com.relaxit.domain.dtos.ProductDTO;
 import com.relaxit.domain.models.Product;
 import com.relaxit.domain.models.Category;
 import com.relaxit.domain.utils.JPAUtil;
@@ -10,6 +11,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,33 @@ public class ProductRepositoryImpl implements ProductRepository {
         return products;
     }
 
+    @Override
+    public List<ProductDTO> getAllProductsInProductDTO(int pageNumber, int pageSize) {
+        System.out.println("In getAllProductsInProductDTO() in ProductRepositoryImpl");
+
+        int startIndex = (pageNumber - 1) *  pageSize;
+
+        entityManager.clear();
+        String sql = "SELECT name, description, price, image_url FROM products LIMIT ?, ?";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter(1, startIndex);
+        query.setParameter(2, pageSize);
+
+        List<Object[]> resultList = query.getResultList();
+        List<ProductDTO> products = new ArrayList<>();
+
+        for (Object[] row : resultList) {
+            ProductDTO dto = new ProductDTO();
+            dto.setName((String) row[0]);
+            dto.setDescription((String) row[1]);
+            dto.setPrice((BigDecimal) row[2]);
+            dto.setProductImage((String) row[3]);
+
+            products.add(dto);
+        }
+        return products;
+    }
+
     public long getTotalProductsCount() {
         System.out.println("In getTotalProductsCount() in ProductRepositoryImpl");
         entityManager.clear();
@@ -91,6 +120,30 @@ public class ProductRepositoryImpl implements ProductRepository {
             curProduct.setDescription(product.getDescription());
             curProduct.setPrice(product.getPrice());
             curProduct.setQuantity(product.getQuantity());
+            curProduct.setProductImage(product.getProductImage() == null ? null : product.getProductImage());
+
+            products.add(curProduct);
+        }
+        return products;
+    }
+
+    @Override
+    public List<ProductDTO> getProductsOfCategoryInProductDTO(int pageNumber, int pageSize, int categoryId) {
+        System.out.println("In getProductsOfCategory() in ProductRepositoryImpl");
+
+        int startIndex = (pageNumber - 1) *  pageSize;
+
+        entityManager.clear();
+        sql = "SELECT name, description, price, image_url from products where category_id = ?1 limit ?2, ?3";
+        query = entityManager.createNativeQuery(sql, Product.class).setParameter(1, categoryId).setParameter(2, startIndex).setParameter(3, pageSize);
+        List<ProductDTO> resultList = query.getResultList();
+
+        List<ProductDTO> products = new ArrayList();
+        for (ProductDTO product: resultList) {
+            ProductDTO curProduct = new ProductDTO();
+            curProduct.setName(product.getName());
+            curProduct.setDescription(product.getDescription());
+            curProduct.setPrice(product.getPrice());
             curProduct.setProductImage(product.getProductImage() == null ? null : product.getProductImage());
 
             products.add(curProduct);
