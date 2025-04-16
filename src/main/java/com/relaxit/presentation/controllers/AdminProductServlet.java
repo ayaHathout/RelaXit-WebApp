@@ -172,10 +172,12 @@ public class AdminProductServlet extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalProducts", totalProducts);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("contentPage", "product-management.jsp");
+        request.setAttribute("activePage", "products");
 
-        System.out.println("Forwarding to /views/admin/product-management.jsp");
+        System.out.println("Forwarding to /views/admin/layout.jsp");
         try {
-            request.getRequestDispatcher("/views/admin/product-management.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/admin/layout.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println("Forwarding failed: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to render page");
