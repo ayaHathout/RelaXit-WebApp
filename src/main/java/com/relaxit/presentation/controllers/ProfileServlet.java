@@ -55,14 +55,17 @@ public class ProfileServlet extends HttpServlet {
         }
         User user = (User) session.getAttribute("user");
 
+        // Step 1: Update user details (excluding file upload)
         String fullName = request.getParameter("editFullName");
         String job = request.getParameter("editJob");
         String address = request.getParameter("editAddress");
         String interests = request.getParameter("editInterests");
         String birthdateStr = request.getParameter("editBirthdate");
+        String creditLimitStr = request.getParameter("editCreditLimit");
 
         if (fullName == null || fullName.isEmpty() || job == null || job.isEmpty() ||
-                address == null || address.isEmpty() || birthdateStr == null || birthdateStr.isEmpty()) {
+                address == null || address.isEmpty() || birthdateStr == null || birthdateStr.isEmpty() ||
+                creditLimitStr == null || creditLimitStr.isEmpty()) {
             request.setAttribute("errorMessage", "All required fields must be filled!");
             request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
             return;
@@ -80,6 +83,31 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
 
+        try {
+            double creditLimit = Double.parseDouble(creditLimitStr);
+            if (creditLimit > 100000) {
+                request.setAttribute("errorMessage", "Credit Limit cannot exceed $100,000!");
+                request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
+                return;
+            }
+            user.setCreditLimit(creditLimit);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid credit limit format!");
+            request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
+            return;
+        }
+
+        // Save user details to the database
+        try {
+            userService.updateUser(user);
+            session.setAttribute("user", user);
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
+            return;
+        }
+
+        // Step 2: Handle file upload separately
         File uploadDir = new File(UPLOAD_PATH);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
@@ -100,18 +128,21 @@ public class ProfileServlet extends HttpServlet {
             LOGGER.info("Saving image to: " + fullFilePath);
             filePart.write(fullFilePath);
             user.setProfileImage(filePath);
+
+            // Update the user again with the new profile image
+            try {
+                userService.updateUser(user);
+                session.setAttribute("user", user);
+            } catch (IllegalArgumentException e) {
+                request.setAttribute("errorMessage", "Profile updated, but failed to save image: " + e.getMessage());
+                request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
+                return;
+            }
         } else {
             LOGGER.info("No new image uploaded, keeping existing: " + user.getProfileImage());
         }
 
-        try {
-            userService.updateUser(user);
-            session.setAttribute("user", user);
-            response.sendRedirect(request.getContextPath() + "/profile");
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
-        }
+        response.sendRedirect(request.getContextPath() + "/profile");
     }
 
     private String extractFileName(Part part) {
