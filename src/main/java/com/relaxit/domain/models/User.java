@@ -31,8 +31,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String job;
 
-    @Column(name = "credit_limit", columnDefinition = "DOUBLE DEFAULT 1200")
-    private Double creditLimit = 1200.0;
+    @Column(name = "credit_limit")
+    private Double creditLimit;
 
     @Column(nullable = false)
     private String address;
@@ -70,7 +70,7 @@ public class User implements Serializable {
     }
 
     public User(String email, String password, String fullName, LocalDate birthdate, String job, String address,
-            String interests) {
+            String interests , Double creditLimit) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
@@ -79,6 +79,7 @@ public class User implements Serializable {
         this.address = address;
         this.interests = interests;
         this.role = UserRole.USER; // Default role
+        this.creditLimit = creditLimit;
     }
 
     // Getters and Setters 
@@ -170,9 +171,10 @@ public class User implements Serializable {
         return createdAt;
     }
 
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-
+    public void setUpdatedAt(LocalDateTime updatedAt){
+        this.updatedAt = updatedAt;
+    }
 }
