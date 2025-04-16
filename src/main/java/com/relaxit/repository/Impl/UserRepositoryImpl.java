@@ -7,6 +7,7 @@ import com.relaxit.domain.utils.TransactionUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
@@ -61,6 +62,11 @@ public class UserRepositoryImpl implements UserRepository {
             if (user.getRole() != null && !user.getRole().equals(existingUser.getRole())) {
                 existingUser.setRole(user.getRole());
             }
+            if (user.getCreditLimit() != null && !user.getCreditLimit().equals(existingUser.getCreditLimit())) {
+                existingUser.setCreditLimit(user.getCreditLimit());
+            }
+            // Update the updatedAt timestamp
+            existingUser.setUpdatedAt(LocalDateTime.now());
             em.merge(existingUser);
         });
     }
@@ -124,7 +130,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-   public List<User> findByName(String name){
+    public List<User> findByName(String name) {
         EntityManager em = EntityManagerFactorySingleton.getEntityManagerFactory().createEntityManager();
         try {
             return em.createQuery("SELECT u FROM User u WHERE u.fullName LIKE :name", User.class)
