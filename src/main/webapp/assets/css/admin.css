@@ -2,7 +2,6 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f6f9;
-    overflow: hidden; /* Prevent body scrollbars */
 }
 
 .sidebar {
@@ -53,7 +52,8 @@ main {
     margin-left: 250px;
     width: calc(100% - 250px);
     min-height: 100vh;
-    overflow: hidden; /* Prevent scrollbars */
+    padding: 20px;
+    visibility: visible;
 }
 
 header {
