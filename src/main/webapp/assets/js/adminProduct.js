@@ -1,73 +1,124 @@
+
 const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 let currentProductId = null;
-const setZeroProductModal = new bootstrap.Modal(document.getElementById('setZeroProductModal'));
-const viewProductModal = new bootstrap.Modal(document.getElementById('viewProductModal'));
+let setZeroProductModal, viewProductModal;
 
+// Initialize modals after DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('adminProduct.js loaded');
 
-    document.getElementById('addProductBtn').addEventListener('click', function() {
-        resetProductForm();
-        document.getElementById('productForm').style.display = 'block';
-        window.scrollTo(0, 0);
-    });
+    // Initialize Bootstrap modals
+    try {
+        setZeroProductModal = new bootstrap.Modal(document.getElementById('setZeroProductModal'));
+        viewProductModal = new bootstrap.Modal(document.getElementById('viewProductModal'));
+    } catch (e) {
+        console.error('Error initializing modals:', e);
+    }
 
-    document.getElementById('cancelProductBtn').addEventListener('click', function() {
-        document.getElementById('productForm').style.display = 'none';
-    });
-
-    document.getElementById('saveProductForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        saveProduct();
-    });
-
-    document.querySelectorAll('.edit-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            editProduct(productId);
+    // Add New Product button
+    const addProductBtn = document.getElementById('addProductBtn');
+    if (addProductBtn) {
+        addProductBtn.addEventListener('click', function() {
+            console.log('Add New Product clicked');
+            resetProductForm();
+            document.getElementById('productForm').style.display = 'block';
+            window.scrollTo(0, 0);
         });
-    });
+    } else {
+        console.warn('addProductBtn not found');
+    }
 
-    document.querySelectorAll('.set-zero-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            const productName = this.getAttribute('data-name');
-            document.getElementById('setZeroProductName').textContent = productName;
-            currentProductId = productId;
-            setZeroProductModal.show();
+    // Cancel button
+    const cancelProductBtn = document.getElementById('cancelProductBtn');
+    if (cancelProductBtn) {
+        cancelProductBtn.addEventListener('click', function() {
+            console.log('Cancel clicked');
+            document.getElementById('productForm').style.display = 'none';
         });
-    });
+    }
 
-    document.getElementById('confirmSetZeroBtn').addEventListener('click', function() {
-        setProductQuantityToZero(currentProductId);
-        setZeroProductModal.hide();
-    });
-
-    document.querySelectorAll('.view-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            viewProduct(productId);
+    // Form submission
+    const saveProductForm = document.getElementById('saveProductForm');
+    if (saveProductForm) {
+        saveProductForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            saveProduct();
         });
-    });
+    }
 
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        loadProducts(1);
-    });
+    // Search form
+    const searchForm = document.getElementById('searchForm');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Search submitted');
+            loadProducts(1);
+        });
+    }
 
-    document.getElementById('categoryFilter').addEventListener('change', function() {
-        loadProducts(1);
-    });
+    // Category filter
+    const categoryFilter = document.getElementById('categoryFilter');
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', function() {
+            console.log('Category filter changed:', this.value);
+            loadProducts(1);
+        });
+    }
 
-    document.getElementById('pageSize').addEventListener('change', function () {
-        console.log('Page size changed to:', this.value);
-        loadProducts(1);
-    });
+    // Page size
+    const pageSize = document.getElementById('pageSize');
+    if (pageSize) {
+        pageSize.addEventListener('change', function() {
+            console.log('Page size changed to:', this.value);
+            loadProducts(1);
+        });
+    }
+
+    // Event delegation for table actions
+    const tableBody = document.getElementById('productsTableBody');
+    if (tableBody) {
+        tableBody.addEventListener('click', function(e) {
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const productId = target.getAttribute('data-id');
+            const productName = target.getAttribute('data-name');
+
+            if (target.classList.contains('edit-btn')) {
+                console.log('Edit clicked, ID:', productId);
+                editProduct(productId);
+            } else if (target.classList.contains('set-zero-btn')) {
+                console.log('Set Zero clicked, ID:', productId);
+                document.getElementById('setZeroProductName').textContent = productName;
+                currentProductId = productId;
+                setZeroProductModal.show();
+            } else if (target.classList.contains('view-btn')) {
+                console.log('View clicked, ID:', productId);
+                viewProduct(productId);
+            }
+        });
+    } else {
+        console.warn('productsTableBody not found');
+    }
+
+    // Confirm Set Zero
+    const confirmSetZeroBtn = document.getElementById('confirmSetZeroBtn');
+    if (confirmSetZeroBtn) {
+        confirmSetZeroBtn.addEventListener('click', function() {
+            console.log('Confirm Set Zero clicked, ID:', currentProductId);
+            setProductQuantityToZero(currentProductId);
+            setZeroProductModal.hide();
+        });
+    }
 
     setupRealTimeSearch();
+    loadProducts(1); // Initial load
 });
 
 function setupPaginationListeners() {
-    document.querySelectorAll('.pagination .page-link').forEach(link => {
+    const paginationLinks = document.querySelectorAll('.pagination .page-link');
+    paginationLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const page = this.getAttribute('data-page');
@@ -80,10 +131,12 @@ function setupPaginationListeners() {
 }
 
 function resetProductForm() {
-    document.getElementById('saveProductForm').reset();
+    const form = document.getElementById('saveProductForm');
+    if (form) form.reset();
     document.getElementById('productId').value = '';
     document.getElementById('currentImageContainer').style.display = 'none';
     currentProductId = null;
+    console.log('Form reset');
 }
 
 function saveProduct() {
@@ -91,17 +144,20 @@ function saveProduct() {
     const formData = new FormData(form);
     const url = currentProductId ? contextPath + '/admin/products/update' : contextPath + '/admin/products/add';
 
+    console.log('Saving product, URL:', url);
     fetch(url, {
         method: 'POST',
         body: formData
     })
     .then(response => {
+        console.log('Save response status:', response.status);
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.status);
         }
         return response.json();
     })
     .then(data => {
+        console.log('Save response data:', data);
         if (data.success) {
             document.getElementById('productForm').style.display = 'none';
             loadProducts(1);
@@ -111,14 +167,16 @@ function saveProduct() {
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Save error:', error);
         showAlert('Failed to save product: ' + error.message, 'danger');
     });
 }
 
 function editProduct(productId) {
+    console.log('Fetching product, ID:', productId);
     fetch(contextPath + '/admin/products/' + productId)
     .then(response => {
+        console.log('Edit response status:', response.status);
         if (!response.ok) {
             if (response.status === 404) {
                 throw new Error('Product not found');
@@ -128,6 +186,7 @@ function editProduct(productId) {
         return response.json();
     })
     .then(product => {
+        console.log('Edit product data:', product);
         currentProductId = product.productId;
         document.getElementById('productId').value = product.productId;
         document.getElementById('name').value = product.name;
@@ -135,37 +194,45 @@ function editProduct(productId) {
         document.getElementById('price').value = product.price;
         document.getElementById('quantity').value = product.quantity;
 
+        const categorySelect = document.getElementById('category');
         if (product.category && product.category.categoryId) {
-            document.getElementById('category').value = product.category.categoryId;
+            categorySelect.value = product.category.categoryId;
         } else {
-            document.getElementById('category').value = '';
+            categorySelect.value = '';
         }
+
+        const currentImageContainer = document.getElementById('currentImageContainer');
+        const currentImage = document.getElementById('currentImage');
         if (product.productImage && product.productImage !== '') {
-            document.getElementById('currentImage').src = contextPath + '/images' + product.productImage;
-            document.getElementById('currentImageContainer').style.display = 'block';
+            currentImage.src = contextPath + '/images' + product.productImage;
+            currentImageContainer.style.display = 'block';
         } else {
-            document.getElementById('currentImageContainer').style.display = 'none';
+            currentImageContainer.style.display = 'none';
         }
+
         document.getElementById('productForm').style.display = 'block';
         window.scrollTo(0, 0);
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Edit error:', error);
         showAlert('Failed to load product for editing: ' + error.message, 'danger');
     });
 }
 
 function setProductQuantityToZero(productId) {
+    console.log('Setting quantity to zero, ID:', productId);
     fetch(contextPath + '/admin/products/delete/' + productId, {
         method: 'POST'
     })
     .then(response => {
+        console.log('Set zero response status:', response.status);
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.status);
         }
         return response.json();
     })
     .then(data => {
+        console.log('Set zero response data:', data);
         if (data.success) {
             loadProducts(document.querySelector('.pagination .page-item.active .page-link')?.getAttribute('data-page') || 1);
             showAlert(data.message, 'success');
@@ -174,14 +241,16 @@ function setProductQuantityToZero(productId) {
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Set zero error:', error);
         showAlert('Failed to set product quantity to zero: ' + error.message, 'danger');
     });
 }
 
 function viewProduct(productId) {
+    console.log('Viewing product, ID:', productId);
     fetch(contextPath + '/admin/products/' + productId)
     .then(response => {
+        console.log('View response status:', response.status);
         if (!response.ok) {
             if (response.status === 404) {
                 throw new Error('Product not found');
@@ -200,6 +269,7 @@ function viewProduct(productId) {
         }).format(product.price);
         document.getElementById('viewProductQuantity').textContent = product.quantity;
         document.getElementById('viewProductDescription').textContent = product.description || 'No description available';
+        
         const viewProductImage = document.getElementById('viewProductImage');
         if (product.productImage && product.productImage !== '') {
             const imageUrl = contextPath + '/images' + product.productImage + '?t=' + new Date().getTime();
@@ -210,10 +280,11 @@ function viewProduct(productId) {
             viewProductImage.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 bg-light text-secondary">' +
                                         '<i class="fas fa-image fa-3x"></i></div>';
         }
+        
         viewProductModal.show();
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('View error:', error);
         showAlert('Failed to load product details: ' + error.message, 'danger');
     });
 }
@@ -237,6 +308,7 @@ function loadProducts(page) {
 
     fetch(url)
     .then(response => {
+        console.log('Load products response status:', response.status);
         if (!response.ok) {
             throw new Error('Network response was not ok: ' + response.status);
         }
@@ -249,7 +321,7 @@ function loadProducts(page) {
         setupPaginationListeners();
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Load products error:', error);
         showAlert('Failed to load products: ' + error.message, 'danger');
     });
 }
@@ -315,9 +387,6 @@ function updateProductsTable(products) {
         editBtn.className = 'btn btn-sm btn-primary edit-btn me-1';
         editBtn.setAttribute('data-id', product.productId);
         editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-        editBtn.addEventListener('click', function() {
-            editProduct(product.productId);
-        });
         actionsCell.appendChild(editBtn);
 
         const setZeroBtn = document.createElement('button');
@@ -325,24 +394,15 @@ function updateProductsTable(products) {
         setZeroBtn.setAttribute('data-id', product.productId);
         setZeroBtn.setAttribute('data-name', product.name);
         setZeroBtn.innerHTML = '<i class="fas fa-ban"></i>';
-        setZeroBtn.addEventListener('click', function() {
-            document.getElementById('setZeroProductName').textContent = product.name;
-            currentProductId = product.productId;
-            setZeroProductModal.show();
-        });
         actionsCell.appendChild(setZeroBtn);
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'btn btn-sm btn-info view-btn';
         viewBtn.setAttribute('data-id', product.productId);
         viewBtn.innerHTML = '<i class="fas fa-eye"></i>';
-        viewBtn.addEventListener('click', function() {
-            viewProduct(product.productId);
-        });
         actionsCell.appendChild(viewBtn);
 
         row.appendChild(actionsCell);
-
         tableBody.appendChild(row);
     });
 }
@@ -397,13 +457,16 @@ function updatePagination(currentPage, totalPages, pageSize) {
 
 function setupRealTimeSearch() {
     const searchInput = document.getElementById('searchKeyword');
-    if (!searchInput) return;
+    if (!searchInput) {
+        console.warn('searchKeyword input not found');
+        return;
+    }
 
     let debounceTimer;
-
     searchInput.addEventListener('input', function() {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
+            console.log('Real-time search triggered');
             loadProducts(1);
         }, 500);
     });
@@ -419,10 +482,13 @@ function showAlert(message, type) {
     `;
 
     const cardBody = document.querySelector('.card-body');
-    cardBody.insertBefore(alert, cardBody.firstChild);
-
-    setTimeout(() => {
-        const bsAlert = new bootstrap.Alert(alert);
-        bsAlert.close();
-    }, 5000);
+    if (cardBody) {
+        cardBody.insertBefore(alert, cardBody.firstChild);
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }, 5000);
+    } else {
+        console.warn('card-body not found for alert');
+    }
 }
