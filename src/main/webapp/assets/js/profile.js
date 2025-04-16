@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmPasswordInput = document.getElementById('confirmNewPassword');
     const savePasswordBtn = document.getElementById('savePasswordBtn');
     const passwordCheckResult = document.getElementById('passwordCheckResult');
+    const creditLimitInput = document.getElementById('editCreditLimit');
+    const creditLimitValidationResult = document.getElementById('creditLimitValidationResult');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
 
-   
     const luxeSides = document.querySelectorAll('.luxe-side');
     const canvas = document.getElementById('confettiCanvas');
     const ctx = canvas.getContext('2d');
@@ -42,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     let animationFrame;
 
-  
     if (editProfileBtn) {
         editProfileBtn.addEventListener('click', function() {
             profileView.classList.remove('active');
@@ -87,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-   
     if (changePasswordBtn) {
         changePasswordBtn.addEventListener('click', function() {
             document.body.classList.add('modal-open');
@@ -103,12 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmPasswordInput.value = '';
         passwordCheckResult.textContent = '';
     }
+
     function showSuccessPopup() {
         const popup = document.getElementById('successPopup');
         popup.classList.add('show');
         setTimeout(() => {
             popup.classList.remove('show');
-        }, 4000); // تختفي بعد 2 ثانية
+        }, 4000);
     }
 
     modalCloseBtn.addEventListener('click', closePasswordModal);
@@ -118,136 +119,168 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const passwordMatchResult = document.getElementById('passwordMatchResult');
 
-    // أضف هذا بعد تعريف المتغيرات في بداية الملف
-const passwordMatchResult = document.getElementById('passwordMatchResult');
+    confirmPasswordInput.addEventListener('input', function() {
+        const newPassword = newPasswordInput.value.trim();
+        const confirmPassword = this.value.trim();
 
-// أضف Event Listener لـ confirmNewPassword
-confirmPasswordInput.addEventListener('input', function() {
-    const newPassword = newPasswordInput.value.trim();
-    const confirmPassword = this.value.trim();
+        if (confirmPassword.length < 1) {
+            passwordMatchResult.textContent = '';
+            savePasswordBtn.disabled = true;
+            return;
+        }
 
-    if (confirmPassword.length < 1) {
-        passwordMatchResult.textContent = '';
-        savePasswordBtn.disabled = true;
-        return;
-    }
+        if (newPassword === confirmPassword) {
+            passwordMatchResult.textContent = '✓ Matching';
+            passwordMatchResult.style.color = '#28a745';
+            savePasswordBtn.disabled = !currentPasswordInput.value || !passwordCheckResult.textContent.includes('Correct');
+        } else {
+            passwordMatchResult.textContent = '✗ Not Match!';
+            passwordMatchResult.style.color = '#dc3545';
+            savePasswordBtn.disabled = true;
+        }
+    });
 
-    if (newPassword === confirmPassword) {
-        passwordMatchResult.textContent = '✓ Matching';
-        passwordMatchResult.style.color = '#28a745';
-        savePasswordBtn.disabled = !currentPasswordInput.value || !passwordCheckResult.textContent.includes('Correct');
-    } else {
-        passwordMatchResult.textContent = '✗ Not Match!';
-        passwordMatchResult.style.color = '#dc3545';
-        savePasswordBtn.disabled = true;
-    }
-});
+    newPasswordInput.addEventListener('input', function() {
+        const newPassword = this.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
 
-// عدل newPasswordInput عشان يتحقق من التطابق كمان
-newPasswordInput.addEventListener('input', function() {
-    const newPassword = this.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
+        if (newPassword.length < 1) {
+            passwordMatchResult.textContent = '';
+            savePasswordBtn.disabled = true;
+            return;
+        }
 
-    if (newPassword.length < 1) {
-        passwordMatchResult.textContent = '';
-        savePasswordBtn.disabled = true;
-        return;
-    }
+        if (confirmPassword && newPassword === confirmPassword) {
+            passwordMatchResult.textContent = '✓ Matching';
+            passwordMatchResult.style.color = '#28a745';
+            savePasswordBtn.disabled = !currentPasswordInput.value || !passwordCheckResult.textContent.includes('Correct');
+        } else if (confirmPassword) {
+            passwordMatchResult.textContent = '✗ Not Match!';
+            passwordMatchResult.style.color = '#dc3545';
+            savePasswordBtn.disabled = true;
+        }
+    });
 
-    if (confirmPassword && newPassword === confirmPassword) {
-        passwordMatchResult.textContent = '✓ Matching';
-        passwordMatchResult.style.color = '#28a745';
-        savePasswordBtn.disabled = !currentPasswordInput.value || !passwordCheckResult.textContent.includes('Correct');
-    } else if (confirmPassword) {
-        passwordMatchResult.textContent = '✗ Not Match!';
-        passwordMatchResult.style.color = '#dc3545';
-        savePasswordBtn.disabled = true;
-    }
-});
+    currentPasswordInput.addEventListener('input', function() {
+        clearTimeout(debounceTimeout);
+        const password = this.value.trim();
+        
+        if (password.length < 1) {
+            passwordCheckResult.textContent = '';
+            return;
+        }
 
-   // Inside currentPasswordInput event listener
-currentPasswordInput.addEventListener('input', function() { // Removed async here since debounce handles it
-    clearTimeout(debounceTimeout);
-    const password = this.value.trim();
-    
-    if (password.length < 1) {
-        passwordCheckResult.textContent = '';
-        return;
-    }
+        debounceTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`${window.contextPath}/checkPassword`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `currentPassword=${encodeURIComponent(password)}`
+                });
 
-    debounceTimeout = setTimeout(async () => {
+                console.log('Check Password Response Status:', response.status);
+                if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
+                const data = await response.json();
+                console.log('Check Password Response Data:', data);
+                passwordCheckResult.textContent = data.valid ? '✓ Correct' : '✗ Incorrect';
+                passwordCheckResult.style.color = data.valid ? '#28a745' : '#dc3545';
+                savePasswordBtn.disabled = !data.valid;
+            } catch (error) {
+                console.error('Check Password Error:', error);
+                passwordCheckResult.textContent = '✗ Error';
+                passwordCheckResult.style.color = '#dc3545';
+                savePasswordBtn.disabled = true;
+            }
+        }, 300);
+    });
+
+    creditLimitInput.addEventListener('input', function() {
+        clearTimeout(debounceTimeout);
+        const creditLimit = this.value.trim();
+
+        if (creditLimit.length < 1) {
+            creditLimitValidationResult.textContent = '';
+            saveProfileBtn.disabled = true;
+            return;
+        }
+
+        debounceTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`${window.contextPath}/checkCreditLimit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `creditLimit=${encodeURIComponent(creditLimit)}`
+                });
+
+                console.log('Check Credit Limit Response Status:', response.status);
+                if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
+                const data = await response.json();
+                console.log('Check Credit Limit Response Data:', data);
+                creditLimitValidationResult.textContent = data.valid ? '✓ Valid' : '✗ Exceeds $100,000';
+                creditLimitValidationResult.style.color = data.valid ? '#28a745' : '#dc3545';
+                saveProfileBtn.disabled = !data.valid;
+            } catch (error) {
+                console.error('Check Credit Limit Error:', error);
+                creditLimitValidationResult.textContent = '✗ Error';
+                creditLimitValidationResult.style.color = '#dc3545';
+                saveProfileBtn.disabled = true;
+            }
+        }, 300);
+    });
+
+    savePasswordBtn.addEventListener('click', async function() {
+        const currentPassword = currentPasswordInput.value.trim();
+        const newPassword = newPasswordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            alert('Please fill in all password fields');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            passwordMatchResult.textContent = '✗ Not Match!';
+            passwordMatchResult.style.color = '#dc3545';
+            return;
+        }
+
         try {
-            const response = await fetch(`${window.contextPath}/checkPassword`, {
+            const response = await fetch(`${window.contextPath}/updatePassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: `currentPassword=${encodeURIComponent(password)}`
+                body: `currentPassword=${encodeURIComponent(currentPassword)}&newPassword=${encodeURIComponent(newPassword)}`
             });
 
-            console.log('Check Password Response Status:', response.status);
+            console.log('Update Password Response Status:', response.status);
             if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
             const data = await response.json();
-            console.log('Check Password Response Data:', data);
-            passwordCheckResult.textContent = data.valid ? '✓ Correct' : '✗ Incorrect';
-            passwordCheckResult.style.color = data.valid ? '#28a745' : '#dc3545';
-            savePasswordBtn.disabled = !data.valid;
+            console.log('Update Password Response Data:', data);
+            
+            if (data.success) {
+                showSuccessPopup();
+                closePasswordModal();
+                celebrate();
+            } else {
+                alert(data.message || 'Failed to change password. Please try again.');
+            }
         } catch (error) {
-            console.error('Check Password Error:', error);
-            passwordCheckResult.textContent = '✗ Error';
-            passwordCheckResult.style.color = '#dc3545';
-            savePasswordBtn.disabled = true;
+            console.error('Update Password Error:', error);
+            alert('An error occurred while changing password: ' + error.message);
         }
-    }, 300);
-});
+    });
 
-savePasswordBtn.addEventListener('click', async function() {
-    const currentPassword = currentPasswordInput.value.trim();
-    const newPassword = newPasswordInput.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
-
-    if (!currentPassword || !newPassword || !confirmPassword) {
-        alert('Please fill in all password fields');
-        return;
-    }
-
-    if (newPassword !== confirmPassword) {
-        passwordMatchResult.textContent = '✗ Not Match!';
-        passwordMatchResult.style.color = '#dc3545';
-        return; // مش هيظهر alert تاني لأن الرسالة هتكون واضحة تحت
-    }
-
-    try {
-        const response = await fetch(`${window.contextPath}/updatePassword`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: `currentPassword=${encodeURIComponent(currentPassword)}&newPassword=${encodeURIComponent(newPassword)}`
-        });
-
-        console.log('Update Password Response Status:', response.status);
-        if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
-        const data = await response.json();
-        console.log('Update Password Response Data:', data);
-        
-        if (data.success) {
-            showSuccessPopup(); // استبدل الـ alert بالـ popup الجديدة
-            closePasswordModal();
-            celebrate();
-        } else {
-            alert(data.message || 'Failed to change password. Please try again.');
-        }
-    } catch (error) {
-        console.error('Update Password Error:', error);
-        alert('An error occurred while changing password: ' + error.message);
-    }
-});
-
-// Confetti Functions
+    // Confetti Functions
     function randomRange(min, max) {
         return Math.random() * (max - min) + min;
     }
@@ -340,7 +373,6 @@ savePasswordBtn.addEventListener('click', async function() {
             existingElements.push(confetti);
         }
 
-       
         setTimeout(() => {
             celebration.style.display = 'none';
             stopConfetti();
@@ -350,25 +382,20 @@ savePasswordBtn.addEventListener('click', async function() {
         }, 1000);
     }
 
-   
     luxeSides.forEach(side => {
         side.addEventListener('click', function(e) {
             const item = e.target.closest('.chair, .pillow, .table, .lamp, .clock');
             if (!item) return;
 
-           
             item.style.transition = 'transform 0.3s, opacity 0.3s';
             item.style.transform = 'scale(1.5)';
             item.style.opacity = '0';
 
-           
             celebrate();
 
-           
             setTimeout(() => {
                 item.remove();
 
-               
                 const newItem = document.createElement('div');
                 const classNames = ['chair', 'pillow', 'table', 'lamp', 'clock'];
                 const randomClass = classNames[Math.floor(Math.random() * classNames.length)];
@@ -378,7 +405,6 @@ savePasswordBtn.addEventListener('click', async function() {
                 newItem.style.left = `${Math.random() * 60 + 20}%`;
                 side.appendChild(newItem);
 
-            
                 setTimeout(() => {
                     newItem.style.transition = 'none';
                     newItem.style.transform = 'scale(1)';
@@ -388,7 +414,6 @@ savePasswordBtn.addEventListener('click', async function() {
         });
     });
 
-    
     luxeSides.forEach(side => {
         const items = side.querySelectorAll('.chair, .pillow, .table, .lamp, .clock');
         while (items.length < 4) {
