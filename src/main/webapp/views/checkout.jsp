@@ -38,7 +38,7 @@
                         <div class="product-detail-box">
                             <form id="checkoutForm" method="post" class="position-relative">
                                 <div class="upper-form" data-aos="fade-up">
-                                    <span class="address">Billing Address:</span>
+                                    <h2><span class="address">Billing Address:</span></h2>
                                     <div class="form-group input1 float-left">
                                         <label for="fname">First name</label>
                                         <input type="text" class="form_style" name="fname" id="fname" placeholder="Enter your first name" required>
