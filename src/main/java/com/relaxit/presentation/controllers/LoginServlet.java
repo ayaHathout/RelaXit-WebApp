@@ -43,8 +43,10 @@ public class LoginServlet extends HttpServlet {
                 // Check user role and redirect accordingly
                 if (user.getRole() == UserRole.ADMIN) {
                     response.sendRedirect(request.getContextPath() + "/admin/users"); 
+                    // admin/users
                 } else if (user.getRole() == UserRole.USER) {
-                    response.sendRedirect(request.getContextPath() + "/home"); 
+                    response.sendRedirect(request.getContextPath() + "/profile"); 
+                    // home
                 } else {
                     request.setAttribute("error", "Unknown user role");
                     request.getRequestDispatcher("/views/login.jsp").forward(request, response);
