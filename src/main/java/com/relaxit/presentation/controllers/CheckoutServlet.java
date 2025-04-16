@@ -5,6 +5,8 @@ import com.relaxit.domain.models.User;
 import com.relaxit.domain.services.CartService;
 import com.relaxit.domain.services.ProductService;
 import com.relaxit.domain.services.UserService;
+import com.relaxit.repository.Impl.UserRepositoryImpl;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +31,7 @@ public class CheckoutServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         cartService = new CartService();
-        userService = new UserService();
+       userService = new UserService(new UserRepositoryImpl());
         productService = new ProductService();
     }
 
