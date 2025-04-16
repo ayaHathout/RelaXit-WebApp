@@ -1,5 +1,6 @@
 package com.relaxit.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.relaxit.domain.enums.UserRole;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -24,13 +25,14 @@ public class User implements Serializable {
     private String fullName;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
 
     @Column(nullable = false)
     private String job;
 
-    @Column(name = "credit_limit", columnDefinition = "DOUBLE DEFAULT 1200")
-    private Double creditLimit = 1200.0;
+    @Column(name = "credit_limit")
+    private Double creditLimit;
 
     @Column(nullable = false)
     private String address;
@@ -45,9 +47,11 @@ public class User implements Serializable {
     private UserRole role;
 
     @Column(name = "created_at", nullable = false, updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -62,11 +66,11 @@ public class User implements Serializable {
     }
 
     public User() {
-        
+
     }
 
     public User(String email, String password, String fullName, LocalDate birthdate, String job, String address,
-            String interests) {
+            String interests, Double creditLimit) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
@@ -75,9 +79,10 @@ public class User implements Serializable {
         this.address = address;
         this.interests = interests;
         this.role = UserRole.USER; // Default role
+        this.creditLimit = creditLimit;
     }
 
-    // Getters and Setters 
+    // Getters and Setters
     public Long getUserId() {
         return userId;
     }
@@ -168,6 +173,10 @@ public class User implements Serializable {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
