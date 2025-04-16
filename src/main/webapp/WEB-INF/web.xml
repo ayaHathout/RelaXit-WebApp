@@ -118,7 +118,7 @@
 
     <servlet-mapping>
        <servlet-name>LogoutServlet</servlet-name>
-       <url-pattern>/logout</url-pattern>
+       <url-pattern>/logoutClient</url-pattern>
     </servlet-mapping>
 
     <!-- <welcome-file-list>
