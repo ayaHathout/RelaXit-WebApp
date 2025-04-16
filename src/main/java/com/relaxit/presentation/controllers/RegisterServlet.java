@@ -42,6 +42,7 @@ public class RegisterServlet extends HttpServlet {
         String job = request.getParameter("luxuryProfession");
         String address = request.getParameter("luxuryResidence");
         String interests = request.getParameter("luxuryInterests");
+        String creditLimitStr = request.getParameter("luxuryCreditLimit");
     
         LOGGER.info("Form data: fullName=" + fullName + ", email=" + email + ", birthdate=" + birthdateStr +
                 ", job=" + job + ", address=" + address + ", interests=" + interests);
@@ -62,6 +63,8 @@ public class RegisterServlet extends HttpServlet {
         user.setPassword(password);
         try {
             user.setBirthdate(LocalDate.parse(birthdateStr));
+            Double creditLimit = creditLimitStr != null && !creditLimitStr.isEmpty() ? Double.parseDouble(creditLimitStr) : null;
+            user.setCreditLimit(creditLimit);
         } catch (Exception e) {
             LOGGER.warning("Invalid birthdate format: " + e.getMessage());
             request.setAttribute("errorMessage", "Invalid birthdate format! Use YYYY-MM-DD.");
@@ -72,7 +75,7 @@ public class RegisterServlet extends HttpServlet {
         user.setAddress(address);
         user.setInterests(interests);
         user.setRole(UserRole.USER);
-        user.setCreditLimit(1200.0);
+       
     
         File uploadDir = new File(UPLOAD_PATH);
         if (!uploadDir.exists()) {
