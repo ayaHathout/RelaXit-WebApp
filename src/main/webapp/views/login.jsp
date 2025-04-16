@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
    
-   <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <meta name="google-signin-client_id" content="1000171418756-7fohbjvk79c7rovji8b6gu7lks2csgi2.apps.googleusercontent.com">
    
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
-   <style>
+    <style>
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -35,38 +35,36 @@
         </div>
         
         <!-- Form Section -->
-       <!-- في الـ luxury-form-section بعد الـ form-navigation مثلاً -->
-<div class="luxury-form-section">
-    <div class="brand-header">
-        <h1 class="brand-title">RelaXit</h1>
-       <%-- < img src="${pageContext.request.contextPath}/assets/img/logo.jpeg" alt="RelaXit Logo" class="brand-logo"> --%>
-        <p class="brand-tagline">Exclusive furniture for distinguished living</p>
-    </div>
+        <div class="luxury-form-section">
+            <div class="brand-header">
+                <h1 class="brand-title">RelaXit</h1>
+                <p class="brand-tagline">Exclusive furniture for distinguished living</p>
+            </div>
 
-  <% if (request.getAttribute("successMessage") != null) { %>
-    <div style=" 
-        background-color: #d4edda;
-        color: #155724;
-        padding: 15px;
-        margin: 15px 0;
-        border: 1px solid #c3e6cb;
-        border-radius: 8px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 16px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: all 0.3s ease-in-out;
-        animation: fadeIn 0.8s ease-in-out;
-    ">
-        ✅ <%= request.getAttribute("successMessage") %>
-    </div>
-<% } %>
+            <% if (request.getAttribute("successMessage") != null) { %>
+                <div style=" 
+                    background-color: #d4edda;
+                    color: #155724;
+                    padding: 15px;
+                    margin: 15px 0;
+                    border: 1px solid #c3e6cb;
+                    border-radius: 8px;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    font-size: 16px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    transition: all 0.3s ease-in-out;
+                    animation: fadeIn 0.8s ease-in-out;
+                ">
+                    ✅ <%= request.getAttribute("successMessage") %>
+                </div>
+            <% } %>
 
-    <div class="form-navigation">
-        <button class="nav-btn active" id="loginNav">Sign In</button>
-        <button class="nav-btn" id="registerNav">Register</button>
-        <div class="nav-indicator"></div>
-    </div>
-    
+            <div class="form-navigation">
+                <button class="nav-btn active" id="loginNav">Sign In</button>
+                <button class="nav-btn" id="registerNav">Register</button>
+                <div class="nav-indicator"></div>
+            </div>
+            
             <!-- Login Form -->
             <form id="luxuryLoginForm" class="auth-form active" action="${pageContext.request.contextPath}/login" method="POST">
                 <div class="form-group">
@@ -105,19 +103,19 @@
                     <p class="divider-text">or continue with</p>
                     <div class="social-buttons">
                         <button type="button" class="social-btn"><i class="fab fa-apple"></i></button>
-                    <div id="g_id_onload"
-     data-client_id="1000171418756-7fohbjvk79c7rovji8b6gu7lks2csgi2.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="false">
-</div>
-<div class="g_id_signin"
-     data-type="standard"
-     data-size="large"
-     data-theme="filled_black"
-     data-text="sign_in_with"
-     data-shape="rectangular"
-     data-logo_alignment="left">
-</div>
+                        <div id="g_id_onload"
+                            data-client_id="1000171418756-7fohbjvk79c7rovji8b6gu7lks2csgi2.apps.googleusercontent.com"
+                            data-callback="handleCredentialResponse"
+                            data-auto_prompt="false">
+                        </div>
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-size="large"
+                            data-theme="filled_black"
+                            data-text="sign_in_with"
+                            data-shape="rectangular"
+                            data-logo_alignment="left">
+                        </div>
                         <button type="button" class="social-btn"><i class="fab fa-linkedin-in"></i></button>
                     </div>
                 </div>
@@ -162,6 +160,14 @@
                         <span id="passwordError" class="validation-error"></span>
                     </div>
                     
+                    <div class="form-group password-group">
+                        <input type="password" id="luxuryConfirmPassword" name="luxuryConfirmPassword" required>
+                        <label for="luxuryConfirmPassword">Confirm Password</label>
+                        <i class="fas fa-lock password-icon"></i>
+                        <button type="button" class="password-toggle"><i class="fas fa-eye"></i></button>
+                        <span id="confirmPasswordError" class="validation-error"></span>
+                    </div>
+                    
                     <div class="form-group">
                         <input type="date" id="luxuryBirthdate" name="luxuryBirthdate" required>
                         <label for="luxuryBirthdate" class="date-label">Date of Birth</label>
@@ -182,6 +188,13 @@
                         <span id="residenceError" class="validation-error"></span>
                     </div>
                     
+                    <div class="form-group">
+                        <input type="number" id="luxuryCreditLimit" name="luxuryCreditLimit" required min="0" step="100">
+                        <label for="luxuryCreditLimit">Credit Limit ($)</label>
+                        <i class="fas fa-dollar-sign input-icon"></i>
+                        <span id="creditLimitError" class="validation-error"></span>
+                    </div>
+                    
                     <div class="form-group full-width interests-group">
                         <input type="text" id="luxuryInterests" name="luxuryInterests">
                         <label for="luxuryInterests">Design Preferences</label>
@@ -199,8 +212,6 @@
                     Already have an account? <a href="#" class="text-link" id="switchToLoginLink">Sign in</a>
                 </p>
             </form>
-
-           
         </div>
     </div>
 <script>
