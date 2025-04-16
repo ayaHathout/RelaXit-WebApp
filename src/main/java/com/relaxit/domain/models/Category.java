@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "categories")
 public class Category implements Serializable {
@@ -12,12 +14,15 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
+    @Expose
     private Long categoryId;
 
     @Column(name = "name", nullable = false, length = 50)
+    @Expose
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
+    @Expose
     private String description;
 
     @OneToMany(mappedBy = "category")

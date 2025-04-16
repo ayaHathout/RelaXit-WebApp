@@ -1,8 +1,8 @@
 package com.relaxit.presentation.controllers;
 
-
 import com.relaxit.domain.models.CartItem;
 import com.relaxit.domain.models.Product;
+import com.relaxit.domain.models.User;
 import com.relaxit.domain.services.CartService;
 
 import jakarta.servlet.ServletException;
@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
 
 @WebServlet("/cart/*")
 public class CartServlet extends HttpServlet {
-    private CartService cartService ;
+    private CartService cartService;
     private Gson gson;
 
     @Override
@@ -70,7 +70,6 @@ public class CartServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
         String action = request.getParameter("action");
 
-        // Prevent caching
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
@@ -81,9 +80,12 @@ public class CartServlet extends HttpServlet {
 
         try {
             HttpSession session = request.getSession(true);
-            Integer userId = (Integer) session.getAttribute("userId");
-            boolean isLoggedIn = (userId != null && userId > 0);
+            User user = (User) session.getAttribute("user");
+            Long userId = user != null ? user.getUserId() : null;
+            boolean isLoggedIn = userId != null;
 
+            System.out.println("Session ID: " + session.getId());
+            System.out.println("User: " + (user != null ? user.getUserId() : "null"));
             System.out.println("User ID: " + userId + ", isLoggedIn: " + isLoggedIn);
 
             if (pathInfo != null && pathInfo.equals("/update")) {
@@ -107,7 +109,7 @@ public class CartServlet extends HttpServlet {
     }
 
     private void handleCartUpdate(String action, HttpServletRequest request, HttpSession session,
-                                  Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+                                  Long userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         switch (action) {
             case "add":
                 handleAddToCart(request, session, userId, isLoggedIn, jsonResponse);
@@ -128,7 +130,7 @@ public class CartServlet extends HttpServlet {
     }
 
     private void handleAddToCart(HttpServletRequest request, HttpSession session,
-                                 Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+                                 Long userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         try {
             String productIdParam = request.getParameter("productId");
             String quantityParam = request.getParameter("quantity");
@@ -142,18 +144,17 @@ public class CartServlet extends HttpServlet {
             System.out.println("Received quantity parameter: " + quantityParam);
 
             int quantity = 1;
-
             if (quantityParam != null && !quantityParam.isEmpty()) {
-            try {
-                quantity = Integer.parseInt(quantityParam);
-                System.out.println("Parsed quantity: " + quantity);
-            } catch (NumberFormatException e) {
-                System.out.println("Error parsing quantity: " + e.getMessage());
-                quantity = 1;
+                try {
+                    quantity = Integer.parseInt(quantityParam);
+                    System.out.println("Parsed quantity: " + quantity);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error parsing quantity: " + e.getMessage());
+                    quantity = 1;
+                }
             }
-        }
 
-            int productId = Integer.parseInt(productIdParam);
+            Long productId = Long.parseLong(productIdParam);
 
             if (productId <= 0) {
                 jsonResponse.put("success", false);
@@ -167,13 +168,41 @@ public class CartServlet extends HttpServlet {
                 return;
             }
 
+            Product product = cartService.getProductById(productId);
+            if (product == null) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("error", "Product not found");
+                return;
+            }
+
+            int availableQuantity = product.getQuantity();
+            int existingQuantity = 0;
+
+            if (isLoggedIn && userId != null) {
+                existingQuantity = cartService.getExistingCartQuantity(userId, productId);
+            } else {
+                List<CartItem> sessionItems = getSessionCart(session);
+                for (CartItem item : sessionItems) {
+                    if (item.getProduct().getProductId().equals(productId)) {
+                        existingQuantity += item.getQuantity();
+                    }
+                }
+            }
+
+            int totalRequested = existingQuantity + quantity;
+
+            if (totalRequested > availableQuantity) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("error", "Cannot add " + quantity + " items. Only " +
+                        (availableQuantity - existingQuantity) + " more available.");
+                return;
+            }
+
             boolean added = false;
 
             if (isLoggedIn && userId != null) {
                 added = cartService.addToCart(userId, productId, quantity);
-            }
-
-            if (!isLoggedIn || !added) {
+            } else {
                 added = addToSessionCart(session, productId, quantity);
             }
 
@@ -189,12 +218,12 @@ public class CartServlet extends HttpServlet {
     }
 
     private void handleRemoveFromCart(HttpServletRequest request, HttpSession session,
-                                      Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+                                      Long userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         try {
-            int cartId = Integer.parseInt(request.getParameter("cartId"));
+            Long cartId = Long.parseLong(request.getParameter("cartId"));
             boolean removed = false;
 
-            if (isLoggedIn) {
+            if (isLoggedIn && userId != null) {
                 removed = cartService.removeFromCart(cartId);
             }
 
@@ -209,13 +238,13 @@ public class CartServlet extends HttpServlet {
     }
 
     private void handleUpdateCartItem(HttpServletRequest request, HttpSession session,
-                                      Integer userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
+                                      Long userId, boolean isLoggedIn, Map<String, Object> jsonResponse) {
         try {
-            int itemCartId = Integer.parseInt(request.getParameter("cartId"));
+            Long itemCartId = Long.parseLong(request.getParameter("cartId"));
             int newQuantity = Integer.parseInt(request.getParameter("quantity"));
             boolean updated = false;
 
-            if (isLoggedIn) {
+            if (isLoggedIn && userId != null) {
                 updated = cartService.updateCartItemQuantity(itemCartId, newQuantity);
             }
 
@@ -229,11 +258,11 @@ public class CartServlet extends HttpServlet {
         }
     }
 
-    private void handleClearCart(HttpSession session, Integer userId,
+    private void handleClearCart(HttpSession session, Long userId,
                                  boolean isLoggedIn, Map<String, Object> jsonResponse) {
         boolean cleared = true;
 
-        if (isLoggedIn) {
+        if (isLoggedIn && userId != null) {
             cleared = cartService.clearCart(userId);
         }
 
@@ -241,31 +270,19 @@ public class CartServlet extends HttpServlet {
         jsonResponse.put("success", cleared);
     }
 
-    private void prepareCartResponse(HttpSession session, Integer userId,
+    private void prepareCartResponse(HttpSession session, Long userId,
                                      boolean isLoggedIn, Map<String, Object> jsonResponse) {
         List<CartItem> cartItems;
         int cartItemCount;
         BigDecimal cartTotal;
 
-        if (isLoggedIn) {
+        if (isLoggedIn && userId != null) {
             cartItems = cartService.getCartItemsByUserId(userId);
-            cartItemCount =cartService.getCartItemCount(userId);
+            cartItemCount = cartService.getCartItemCount(userId);
             cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
-
-            if (cartItems.isEmpty()) {
-                cartItems = getSessionCart(session);
-                cartItemCount = cartItems.size();
-                cartTotal = calculateSessionCartTotal(cartItems);
-            }
-
-            // For Checkout
-            session.setAttribute("grandTotal", cartItemCount > 0
-                    ? cartTotal.add(BigDecimal.valueOf(20.00))
-                    : BigDecimal.ZERO);
-            session.setAttribute("cartItems", cartItems);
         } else {
             cartItems = getSessionCart(session);
-            cartItemCount = cartItems.size();
+            cartItemCount = calculateSessionCartItemCount(cartItems);
             cartTotal = calculateSessionCartTotal(cartItems);
         }
 
@@ -276,6 +293,10 @@ public class CartServlet extends HttpServlet {
                 ? cartTotal.add(BigDecimal.valueOf(20.00))
                 : BigDecimal.ZERO);
 
+        session.setAttribute("grandTotal", cartItemCount > 0
+                ? cartTotal.add(BigDecimal.valueOf(20.00))
+                : BigDecimal.ZERO);
+        session.setAttribute("cartItems", cartItems);
     }
 
     private Map<String, Object> simplifyResponse(Map<String, Object> response) {
@@ -284,13 +305,11 @@ public class CartServlet extends HttpServlet {
         simplified.put("error", response.get("error"));
         simplified.put("cartItemCount", response.get("cartItemCount"));
 
-        // Handle potential null values
         BigDecimal cartTotal = (BigDecimal) response.get("cartTotal");
         BigDecimal grandTotal = (BigDecimal) response.get("grandTotal");
 
         simplified.put("cartTotal", cartTotal != null ? cartTotal.doubleValue() : 0.0);
         simplified.put("grandTotal", grandTotal != null ? grandTotal.doubleValue() : 0.0);
-
 
         List<Map<String, Object>> simpleItems = new ArrayList<>();
         @SuppressWarnings("unchecked")
@@ -305,8 +324,15 @@ public class CartServlet extends HttpServlet {
             simpleProduct.put("productId", item.getProduct().getProductId());
             simpleProduct.put("name", item.getProduct().getName());
             simpleProduct.put("price", item.getProduct().getPrice().doubleValue());
-            simpleProduct.put("imageUrl", item.getProduct().getProductImage() != null ? item.getProduct().getProductImage() : "/assets/images/holder.png");
-
+            //simpleProduct.put("imageUrl", item.getProduct().getProductImage() != null ? item.getProduct().getProductImage() : "/assets/images/holder.png");
+            String imageUrl = item.getProduct().getProductImage();
+            if (imageUrl == null || imageUrl.isEmpty()) {
+                imageUrl = "/Uploads/0e5d4160-83af-4e54-8fe2-6d091d580215.jpg";
+            } else {
+                imageUrl = imageUrl.replaceFirst("(?i)^/Uploads/", "/uploads/");
+            }
+            simpleProduct.put("imageUrl", imageUrl);
+            
             simpleItem.put("product", simpleProduct);
             simpleItems.add(simpleItem);
         }
@@ -318,26 +344,21 @@ public class CartServlet extends HttpServlet {
     private void showCart(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
-        boolean isLoggedIn = (userId != null && userId > 0);
+        User user = (User) session.getAttribute("user");
+        Long userId = user != null ? user.getUserId() : null;
+        boolean isLoggedIn = userId != null;
 
         List<CartItem> cartItems;
         int cartItemCount;
         BigDecimal cartTotal;
 
-        if (isLoggedIn) {
+        if (isLoggedIn && userId != null) {
             cartItems = cartService.getCartItemsByUserId(userId);
             cartItemCount = cartService.getCartItemCount(userId);
             cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
-
-            if (cartItems.isEmpty()) {
-                cartItems = getSessionCart(session);
-                cartItemCount = cartItems.size();
-                cartTotal = calculateSessionCartTotal(cartItems);
-            }
         } else {
             cartItems = getSessionCart(session);
-            cartItemCount = cartItems.size();
+            cartItemCount = calculateSessionCartItemCount(cartItems);
             cartTotal = calculateSessionCartTotal(cartItems);
         }
 
@@ -353,26 +374,21 @@ public class CartServlet extends HttpServlet {
 
     private void getCartItemsAsJson(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
-        boolean isLoggedIn = (userId != null && userId > 0);
+        User user = (User) session.getAttribute("user");
+        Long userId = user != null ? user.getUserId() : null;
+        boolean isLoggedIn = userId != null;
 
         List<CartItem> cartItems;
         int cartItemCount;
         BigDecimal cartTotal;
 
-        if (isLoggedIn) {
+        if (isLoggedIn && userId != null) {
             cartItems = cartService.getCartItemsByUserId(userId);
             cartItemCount = cartService.getCartItemCount(userId);
             cartTotal = BigDecimal.valueOf(cartService.getCartTotal(userId));
-
-            if (cartItems.isEmpty()) {
-                cartItems = getSessionCart(session);
-                cartItemCount = cartItems.size();
-                cartTotal = calculateSessionCartTotal(cartItems);
-            }
         } else {
             cartItems = getSessionCart(session);
-            cartItemCount = cartItems.size();
+            cartItemCount = calculateSessionCartItemCount(cartItems);
             cartTotal = calculateSessionCartTotal(cartItems);
         }
 
@@ -404,19 +420,18 @@ public class CartServlet extends HttpServlet {
         return sessionCart != null ? sessionCart : new ArrayList<>();
     }
 
-    private boolean addToSessionCart(HttpSession session, int productId, int quantity) {
+    private boolean addToSessionCart(HttpSession session, Long productId, int quantity) {
         try {
             List<CartItem> sessionCart = getOrCreateSessionCart(session);
 
             for (CartItem item : sessionCart) {
-                if (item.getProduct().getProductId() == productId) {
+                if (item.getProduct().getProductId().equals(productId)) {
                     item.setQuantity(item.getQuantity() + quantity);
                     item.setItemTotal(item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
                     session.setAttribute("sessionCart", sessionCart);
                     return true;
                 }
             }
-
 
             Product product = cartService.getProductById(productId);
             if (product == null) return false;
@@ -436,23 +451,23 @@ public class CartServlet extends HttpServlet {
         }
     }
 
-    private boolean removeFromSessionCart(HttpSession session, int cartId) {
+    private boolean removeFromSessionCart(HttpSession session, Long cartId) {
         List<CartItem> sessionCart = getSessionCart(session);
-        boolean removed = sessionCart.removeIf(item -> item.getCartId() == cartId);
+        boolean removed = sessionCart.removeIf(item -> item.getCartId().equals(cartId));
         if (removed) {
             session.setAttribute("sessionCart", sessionCart);
         }
         return removed;
     }
 
-    private boolean updateSessionCartItemQuantity(HttpSession session, int cartId, int newQuantity) {
+    private boolean updateSessionCartItemQuantity(HttpSession session, Long cartId, int newQuantity) {
         if (newQuantity <= 0) {
             return removeFromSessionCart(session, cartId);
         }
 
         List<CartItem> sessionCart = getSessionCart(session);
         for (CartItem item : sessionCart) {
-            if (item.getCartId() == cartId) {
+            if (item.getCartId().equals(cartId)) {
                 item.setQuantity(newQuantity);
                 item.setItemTotal(item.getProduct().getPrice().multiply(BigDecimal.valueOf(newQuantity)));
                 session.setAttribute("sessionCart", sessionCart);
@@ -473,19 +488,13 @@ public class CartServlet extends HttpServlet {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private int generateTemporaryId() {
-        return Math.abs(UUID.randomUUID().hashCode());
+    private int calculateSessionCartItemCount(List<CartItem> sessionCart) {
+        return sessionCart.stream()
+                .mapToInt(CartItem::getQuantity)
+                .sum();
     }
 
-    public void mergeSessionCartWithUserCart(HttpSession session, int userId) {
-        if (userId <= 0) return;
-
-        List<CartItem> sessionCart = getSessionCart(session);
-        if (sessionCart != null && !sessionCart.isEmpty()) {
-            sessionCart.forEach(item ->
-                    cartService.addToCart(userId, item.getProduct().getProductId().intValue(), item.getQuantity())
-            );
-            clearSessionCart(session);
-        }
+    private int generateTemporaryId() {
+        return Math.abs(UUID.randomUUID().hashCode());
     }
 }

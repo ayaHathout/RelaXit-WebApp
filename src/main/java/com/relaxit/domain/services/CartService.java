@@ -10,7 +10,6 @@ import com.relaxit.repository.Interfaces.CartItemRepository;
 import com.relaxit.repository.Interfaces.ProductRepository;
 import com.relaxit.repository.Interfaces.UserRepository;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +26,33 @@ public class CartService {
         this.userRepository = new UserRepositoryImpl();
     }
 
-    public boolean addToCart(int userId, int productId, int quantity) {
-        if (userId <= 0 || quantity <= 0) {
+    public boolean addToCart(Long userId, Long productId, int quantity) {
+        if (userId == null || userId <= 0 || productId == null || productId <= 0 || quantity <= 0) {
             return false;
         }
 
         try {
-            User user = userRepository.findById((long) userId);
-            Product product = productRepository.findById((long) productId);
+            User user = userRepository.findById(userId);
+            Product product = productRepository.findById(productId);
 
             if (user == null || product == null) {
                 return false;
             }
 
-            List<CartItem> existingItems = cartItemRepository.findByUserIdAndProductId((long) userId, (long) productId);
+            // Check stock availability
+            if (quantity > product.getQuantity()) {
+                return false;
+            }
+
+            List<CartItem> existingItems = cartItemRepository.findByUserIdAndProductId(userId, productId);
 
             if (!existingItems.isEmpty()) {
                 CartItem item = existingItems.get(0);
-                item.setQuantity(item.getQuantity() + quantity);
+                int newQuantity = item.getQuantity() + quantity;
+                if (newQuantity > product.getQuantity()) {
+                    return false;
+                }
+                item.setQuantity(newQuantity);
                 cartItemRepository.update(item);
             } else {
                 CartItem newItem = new CartItem();
@@ -58,45 +66,39 @@ public class CartService {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public boolean removeFromCart(int cartId) {
-        if (cartId <= 0) {
+    public boolean removeFromCart(Long cartId) {
+        if (cartId == null || cartId <= 0) {
             return false;
         }
 
         try {
-            cartItemRepository.deleteById((long) cartId);
+            cartItemRepository.deleteById(cartId);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public boolean removeProductFromCart(int userId, int productId) {
-        if (userId <= 0 || productId <= 0) {
+    public boolean removeProductFromCart(Long userId, Long productId) {
+        if (userId == null || userId <= 0 || productId == null || productId <= 0) {
             return false;
         }
 
         try {
-            cartItemRepository.deleteByUserIdAndProductId((long) userId, (long) productId);
+            cartItemRepository.deleteByUserIdAndProductId(userId, productId);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public boolean updateCartItemQuantity(int cartId, int quantity) {
-        if (cartId <= 0) {
+    public boolean updateCartItemQuantity(Long cartId, int quantity) {
+        if (cartId == null || cartId <= 0) {
             return false;
         }
 
@@ -105,8 +107,14 @@ public class CartService {
         }
 
         try {
-            CartItem cartItem = cartItemRepository.findById((long) cartId);
+            CartItem cartItem = cartItemRepository.findById(cartId);
             if (cartItem == null) {
+                return false;
+            }
+
+            // Check stock availability
+            Product product = cartItem.getProduct();
+            if (quantity > product.getQuantity()) {
                 return false;
             }
 
@@ -116,87 +124,112 @@ public class CartService {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public List<CartItem> getCartItemsByUserId(int userId) {
-        if (userId <= 0) {
+    public List<CartItem> getCartItemsByUserId(Long userId) {
+        if (userId == null || userId <= 0) {
             return new ArrayList<>();
         }
 
         try {
-            return cartItemRepository.findByUserId((long) userId);
+            return cartItemRepository.findByUserId(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public int getCartItemCount(int userId) {
-        if (userId <= 0) {
+    public int getCartItemCount(Long userId) {
+        if (userId == null || userId <= 0) {
             return 0;
         }
 
         try {
-            Long count = cartItemRepository.countItemsByUserId((long) userId);
+            Long count = cartItemRepository.countItemsByUserId(userId);
             return count != null ? count.intValue() : 0;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-
-    public double getCartTotal(int userId) {
-        if (userId <= 0) {
+    public double getCartTotal(Long userId) {
+        if (userId == null || userId <= 0) {
             return 0.0;
         }
 
         try {
-            BigDecimal total = cartItemRepository.calculateTotalByUserId((long) userId);
+            BigDecimal total = cartItemRepository.calculateTotalByUserId(userId);
             return total != null ? total.doubleValue() : 0.0;
         } catch (Exception e) {
             e.printStackTrace();
             return 0.0;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public boolean clearCart(int userId) {
-        if (userId <= 0) {
+    public boolean clearCart(Long userId) {
+        if (userId == null || userId <= 0) {
             return false;
         }
 
         try {
-            cartItemRepository.deleteByUserId((long) userId);
+            cartItemRepository.deleteByUserId(userId);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } finally {
-            cartItemRepository.close();
         }
     }
 
-    public Product getProductById(int productId) {
-        if (productId <= 0) {
+    public Product getProductById(Long productId) {
+        if (productId == null || productId <= 0) {
             return null;
         }
 
         try {
-            return productRepository.findById((long) productId);
+            return productRepository.findById(productId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            cartItemRepository.close();
+        }
+    }
+
+    public int getExistingCartQuantity(Long userId, Long productId) {
+        if (userId == null || userId <= 0 || productId == null || productId <= 0) {
+            return 0;
+        }
+
+        try {
+            List<CartItem> items = cartItemRepository.findByUserIdAndProductId(userId, productId);
+            return items.isEmpty() ? 0 : items.get(0).getQuantity();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public void mergeSessionCartWithUserCart(Long userId, List<CartItem> sessionCart) {
+        if (userId == null || sessionCart == null || sessionCart.isEmpty()) {
+            return;
+        }
+
+        try {
+            for (CartItem item : sessionCart) {
+                Long productId = item.getProduct().getProductId();
+                int quantity = item.getQuantity();
+                Product product = getProductById(productId);
+                if (product != null) {
+                    int availableQuantity = product.getQuantity();
+                    int existingQuantity = getExistingCartQuantity(userId, productId);
+                    int totalRequested = existingQuantity + quantity;
+                    if (totalRequested <= availableQuantity) {
+                        addToCart(userId, productId, quantity);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

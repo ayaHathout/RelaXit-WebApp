@@ -48,6 +48,7 @@ public class CartItemRepositoryImpl implements CartItemRepository {
             trans.begin();
             em.persist(cartItem);
             trans.commit();
+            em.clear();
         } catch (Exception e) {
             if (trans.isActive()) {
                 trans.rollback();

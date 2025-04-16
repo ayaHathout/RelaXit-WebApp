@@ -33,20 +33,31 @@
                 }
 
                 .product-image-container {
-                    position: relative;
-                    border-radius: var(--border-radius);
-                    overflow: hidden;
-                    box-shadow: var(--box-shadow);
-                    margin-bottom: 1.5rem;
+                  position: relative;
+                  border-radius: var(--border-radius);
+                  overflow: hidden;
+                  box-shadow: var(--box-shadow);
+                  margin-bottom: 1.5rem;
+                  height: 500px; 
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  background-color: #f8f9fa; 
                 }
 
-                .product-image {
-                    width: 100%;
-                    height: auto;
-                    object-fit: cover;
-                    border-radius: var(--border-radius);
+               .product-image {
+                  width: 100%;
+                  max-height: 100%;
+                  object-fit: contain; 
+                  border-radius: var(--border-radius);
+                  display: block;
                 }
 
+               @media (max-width: 768px) {
+                 .product-image-container {
+                     height: 300px; 
+                    }
+                }
                 .product-info {
                     padding: 2rem;
                 }
@@ -320,8 +331,8 @@
                                 <!-- Product Image -->
                                 <div class="col-lg-6">
                                     <div class="product-image-container">
-                                        <img src="${product.productImage != null ? product.productImage : pageContext.request.contextPath.concat('/assets/images/pic-4.jpg')}"
-                                            alt="${product.name}" class="product-image">
+                                        <img src="${product.productImage != null && !product.productImage.isEmpty() ? pageContext.request.contextPath.concat('/images').concat(product.productImage).concat('?t=').concat(currentTimeMillis) : '/relaxit/assets/images/pic.png'}"
+                                                     alt="${product.name}" class="product-image">
                                     </div>
                                 </div>
 

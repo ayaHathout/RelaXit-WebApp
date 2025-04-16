@@ -450,6 +450,8 @@
 		<!-- Include the footer -->
         <jsp:include page="footer.jsp" />
 
+        <script src="${pageContext.request.contextPath}/assets/js/cart.js"></script>
+
 		<!-- all js here -->
 		<script src="<c:url value='/assets/js/bootstrap.bundle.min.js'/>"></script>
 		<script src="<c:url value='/assets/js/tiny-slider.js'/>"></script>

@@ -48,13 +48,269 @@ function initCart() {
     if (document.querySelector('.shopping-cart')) {
         initCartPage();
     }
-
    
     initMiniCart();
     
     loadCartData();
 }
 
+function initCartPage() {
+    console.log("Initializing cart page...");
+    document.querySelectorAll('.increase-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const cartId = this.getAttribute('data-cart-id');
+            console.log("Increasing quantity for cart ID:", cartId);
+            const input = this.parentElement.querySelector('.number');
+            const newQuantity = parseInt(input.value || input.textContent) + 1;
+            updateCartItemQuantity(cartId, newQuantity);
+        });
+    });
+
+    document.querySelectorAll('.decrease-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const cartId = this.getAttribute('data-cart-id');
+            console.log("Decreasing quantity for cart ID:", cartId);
+            const input = this.parentElement.querySelector('.number');
+            const currentQuantity = parseInt(input.value || input.textContent);
+            if (currentQuantity > 1) {
+                updateCartItemQuantity(cartId, currentQuantity - 1);
+            }
+        });
+    });
+
+    document.querySelectorAll('.remove-product, .remove-cart-item').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const cartId = this.getAttribute('data-cart-id');
+            console.log("Prompting removal for cart ID:", cartId);
+            showConfirmationDialog(
+                'Remove Item',
+                'Are you sure you want to remove this item from your cart?',
+                () => removeCartItem(cartId)
+            );
+        });
+    });
+
+    const clearCartButton = document.querySelector('#clear-cart');
+    if (clearCartButton) {
+        clearCartButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Prompting to clear cart");
+            showConfirmationDialog(
+                'Clear Cart',
+                'Are you sure you want to clear all items from your cart?',
+                () => clearCart()
+            );
+        });
+    }
+}
+
+function updateMiniCart(items) {
+    const container = document.querySelector('.all-cart-product');
+    if (!container) {
+        console.warn("Mini cart container not found");
+        return;
+    }
+
+    console.log("Updating mini cart with", items.length, "items");
+
+    if (!items || items.length === 0) {
+        container.innerHTML = '<p class="text-center p-3">Your cart is empty</p>';
+        console.log("Mini cart set to empty");
+        return;
+    }
+
+    container.innerHTML = items.map(item => `
+        <div class="single-cart clearfix" data-cart-id="${item.cartId}">
+            <div class="cart-photo">
+                <img src="${contextPath}/images${item.product.imageUrl}?t=${Date.now()}"
+                     alt="${item.product.name}" class="img-fluid">
+            </div>
+            <div class="cart-info">
+                <a href="${contextPath}/product/${item.product.productId}">
+                    ${item.product.name}
+                </a>
+                <p class="mb-0">Price: $${item.product.price.toFixed(2)}</p>
+                <p class="mb-0">Qty: ${item.quantity}</p>
+                <span class="cart-delete">
+                    <a href="#" class="remove-cart-item" data-cart-id="${item.cartId}">
+                        <i class="zmdi zmdi-close"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+    `).join('');
+
+    console.log("Mini cart updated");
+
+    document.querySelectorAll('.remove-cart-item').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const cartId = this.getAttribute('data-cart-id');
+            showConfirmationDialog(
+                'Remove Item',
+                'Are you sure you want to remove this item from your cart?',
+                () => removeCartItem(cartId)
+            );
+        });
+    });
+}
+
+function showConfirmationDialog(title, message, onConfirm) {
+    // Remove any existing dialog
+    const existing = document.querySelector('.confirmation-dialog');
+    if (existing) existing.remove();
+
+    // Create dialog container
+    const dialog = document.createElement('div');
+    dialog.className = 'confirmation-dialog';
+    dialog.innerHTML = `
+        <div class="dialog-content">
+            <h3 class="dialog-title">${title}</h3>
+            <p class="dialog-message">${message}</p>
+            <div class="dialog-buttons">
+                <button class="dialog-button cancel">Cancel</button>
+                <button class="dialog-button confirm">Confirm</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(dialog);
+
+    // Add event listeners
+    const cancelButton = dialog.querySelector('.cancel');
+    const confirmButton = dialog.querySelector('.confirm');
+
+    cancelButton.addEventListener('click', () => {
+        dialog.classList.remove('show');
+        setTimeout(() => dialog.remove(), 300);
+    });
+
+    confirmButton.addEventListener('click', () => {
+        onConfirm();
+        dialog.classList.remove('show');
+        setTimeout(() => dialog.remove(), 300);
+    });
+
+    // Show dialog with animation
+    setTimeout(() => dialog.classList.add('show'), 10);
+
+    // Close on click outside
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+            dialog.classList.remove('show');
+            setTimeout(() => dialog.remove(), 300);
+        }
+    });
+}
+
+// Add confirmation dialog styles
+if (!document.querySelector('style[data-confirmation-dialog]')) {
+    const style = document.createElement('style');
+    style.setAttribute('data-confirmation-dialog', 'true');
+    style.textContent = `
+        .confirmation-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .confirmation-dialog.show {
+            opacity: 1;
+        }
+        
+        .dialog-content {
+            background: linear-gradient(135deg, rgba(50, 50, 50, 0.95), rgba(30, 30, 30, 0.95));
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            color: #ffffff !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .confirmation-dialog.show .dialog-content {
+            transform: translateY(0);
+        }
+        
+        .dialog-title {
+            color: #ffffff !important;
+            margin: 0 0 12px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .dialog-message {
+            margin: 0 0 20px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .dialog-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .dialog-button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .dialog-button.cancel {
+            background: rgba(100, 100, 100, 0.7);
+            color: #ffffff !important;
+        }
+        
+        .dialog-button.cancel:hover {
+            background: rgba(120, 120, 120, 0.7);
+        }
+        
+        .dialog-button.confirm {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: #ffffff !important;
+        }
+        
+        .dialog-button.confirm:hover {
+            background: linear-gradient(135deg, #66BB6A, #388E3C);
+        }
+        
+        @media (max-width: 768px) {
+            .dialog-content {
+                width: 95%;
+                padding: 16px;
+            }
+            
+            .dialog-title {
+                font-size: 18px;
+            }
+            
+            .dialog-message {
+                font-size: 14px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Existing functions (unchanged for brevity, but included for completeness)
 function checkForCartUpdates() {
     const currentCartUpdate = localStorage.getItem('cartLastUpdated') || '0';
     const lastChecked = localStorage.getItem('lastCartUpdate') || '0';
@@ -147,9 +403,7 @@ function addToCart(productId, quantity) {
     .then(data => {
         console.log("Parsed response data:", data);
         
-        const operationSuccess = data.success !== false && 
-                               (data.cartItemCount !== undefined || 
-                                data.cartItems !== undefined);
+        const operationSuccess = data.success !== false && (data.cartItemCount !== undefined || data.cartItems !== undefined);
         
         if (operationSuccess) {
 
@@ -197,53 +451,6 @@ function addToCart(productId, quantity) {
     });
 }
 
-function initCartPage() {
-    console.log("Initializing cart page...");
-    document.querySelectorAll('.increase-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const cartId = this.getAttribute('data-cart-id');
-            console.log("Increasing quantity for cart ID:", cartId);
-            const input = this.parentElement.querySelector('.number');
-            const newQuantity = parseInt(input.value || input.textContent) + 1;
-            updateCartItemQuantity(cartId, newQuantity);
-        });
-    });
-
-    document.querySelectorAll('.decrease-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const cartId = this.getAttribute('data-cart-id');
-            console.log("Decreasing quantity for cart ID:", cartId);
-            const input = this.parentElement.querySelector('.number');
-            const currentQuantity = parseInt(input.value || input.textContent);
-            if (currentQuantity > 1) {
-                updateCartItemQuantity(cartId, currentQuantity - 1);
-            }
-        });
-    });
-
-    document.querySelectorAll('.remove-product, .remove-cart-item').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const cartId = this.getAttribute('data-cart-id');
-            console.log("Removing item with cart ID:", cartId);
-            if (confirm('Are you sure you want to remove this item?')) {
-                removeCartItem(cartId);
-            }
-        });
-    });
-
-    const clearCartButton = document.querySelector('#clear-cart');
-    if (clearCartButton) {
-        clearCartButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log("Clearing cart");
-            if (confirm('Are you sure you want to clear your cart?')) {
-                clearCart();
-            }
-        });
-    }
-}
-
 function initMiniCart() {
     const cartIcon = document.querySelector('.cart-icon');
     const miniCart = document.querySelector('.mini-cart-brief');
@@ -284,11 +491,8 @@ function updateCartItemQuantity(cartId, quantity) {
         console.log("Update quantity response:", data);
         if (data.success) {
             globalCartData = data;
-
             updateCartDisplay(data);
-            
             broadcastCartUpdate(data);
-            
             localStorage.setItem('cartLastUpdated', Date.now().toString());
         } else {
             showNotification(data.error || 'Failed to update quantity', 'error');
@@ -318,13 +522,9 @@ function removeCartItem(cartId) {
         console.log("Remove item response:", data);
         if (data.success) {
             globalCartData = data;
-            
             updateCartDisplay(data);
-
             broadcastCartUpdate(data);
-            
             localStorage.setItem('cartLastUpdated', Date.now().toString());
-            
             showNotification('Item removed from cart', 'success');
         } else {
             showNotification(data.error || 'Failed to remove item', 'error');
@@ -353,15 +553,10 @@ function clearCart() {
     .then(data => {
         console.log("Clear cart response:", data);
         if (data.success) {
-            
             globalCartData = data;
-
             updateCartDisplay(data);
-            
             broadcastCartUpdate(data);
-            
             localStorage.setItem('cartLastUpdated', Date.now().toString());
-            
             showNotification('Cart cleared successfully', 'success');
         } else {
             showNotification(data.error || 'Failed to clear cart', 'error');
@@ -376,7 +571,6 @@ function clearCart() {
 function updateCartDisplay(data) {
     console.log("Updating cart display with:", data);
     
-
     const counters = document.querySelectorAll(
         '.cart-icon span, #cart-count, .cart-items span.item-count, .cart-counter'
     );
@@ -394,7 +588,6 @@ function updateCartDisplay(data) {
         console.log("Updated cart items text");
     }
 
-    // 2. Update all price displays
     document.querySelectorAll('#subtotal, .cart-totals span.float-end, .cart-total').forEach(el => {
         if (el) {
             el.textContent = `$${data.cartTotal.toFixed(2)}`;
@@ -418,7 +611,6 @@ function updateCartDisplay(data) {
         });
     }
 
-    // 3. Update mini-cart items
     const miniCartContainer = document.querySelector('.all-cart-product');
     if (miniCartContainer) {
         updateMiniCart(data.cartItems);
@@ -426,7 +618,6 @@ function updateCartDisplay(data) {
         console.log("Mini cart container not found, skipping update");
     }
 
-    // 4. Update main cart items
     const cartContainer = document.querySelector('#cart-items-container');
     if (cartContainer) {
         updateCartPage(data.cartItems);
@@ -434,7 +625,6 @@ function updateCartDisplay(data) {
         console.log("Not on cart page, skipping cart page update");
     }
 
-    // 5. Update checkout button state
     document.querySelectorAll('.cart-bottom a.btn-primary, #checkout-button').forEach(btn => {
         if (btn) {
             if (data.cartItemCount > 0) {
@@ -447,61 +637,13 @@ function updateCartDisplay(data) {
         }
     });
 
-     // 6. Update cart summary section
-     const checkoutContainer = document.getElementById('checkout-con');
-     if (checkoutContainer) {
-         updateCheckSummary();
-         console.log("Cart summary section updated");
-     } else {
-         console.log("Cart summary section not found, skipping update");
-     }
-}
-
-function updateMiniCart(items) {
-    const container = document.querySelector('.all-cart-product');
-    if (!container) {
-        console.warn("Mini cart container not found");
-        return;
+    const checkoutContainer = document.getElementById('checkout-con');
+    if (checkoutContainer) {
+        updateCheckSummary();
+        console.log("Cart summary section updated");
+    } else {
+        console.log("Cart summary section not found, skipping update");
     }
-
-    console.log("Updating mini cart with", items.length, "items");
-
-    if (!items || items.length === 0) {
-        container.innerHTML = '<p class="text-center p-3">Your cart is empty</p>';
-        console.log("Mini cart set to empty");
-        return;
-    }
-
-    container.innerHTML = items.map(item => `
-        <div class="single-cart clearfix" data-cart-id="${item.cartId}">
-            <div class="cart-photo">
-                <a href="#"><img src="${item.product.productImage || contextPath + '/assets/images/pic-4.jpg'}" alt="${item.product.name}" class="product-image"/></a>
-            </div>
-            <div class="cart-info">
-                <a href="${contextPath}/product/${item.product.productId}">
-					${item.product.name}
-				</a>
-                <p class="mb-0">Price: $${item.product.price.toFixed(2)}</p>
-                <p class="mb-0">Qty: ${item.quantity}</p>
-                <span class="cart-delete">
-                    <a href="#" class="remove-cart-item" data-cart-id="${item.cartId}">
-                        <i class="zmdi zmdi-close"></i>
-                    </a>
-                </span>
-            </div>
-        </div>
-    `).join('');
-
-    console.log("Mini cart updated");
-
-    document.querySelectorAll('.remove-cart-item').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (confirm('Remove this item?')) {
-                removeCartItem(this.getAttribute('data-cart-id'));
-            }
-        });
-    });
 }
 
 function updateCartPage(items) {
@@ -530,7 +672,8 @@ function updateCartPage(items) {
             <div class="product-details">
                 <div class="product-image">
                     <figure class="mb-0">
-                        <img src="${item.product.productImage || contextPath + '/assets/images/pic-4.jpg'}" alt="${item.product.name}" class="img-fluid">
+                        <img src="${contextPath}/images${item.product.imageUrl}?t=${Date.now()}"
+                             alt="${item.product.name}" class="img-fluid">
                     </figure>
                 </div>
                 <div class="product-content">
@@ -615,8 +758,6 @@ function updateCheckSummary() {
         </div>
     `;
 
-    cartSummaryHTML += '</div>';
-
     cartTotalOuter.innerHTML = cartSummaryHTML;
     
     console.log("Cart summary updated");
@@ -641,7 +782,6 @@ function validateQuantity() {
     
     if (quantity > availableStock) {
         quantity = availableStock;
-
         warningText.textContent = `Cannot add more than ${availableStock} item${availableStock != 1 ? 's' : ''} (available stock).`;
         warningBox.style.display = 'block';
         setTimeout(() => {
@@ -666,7 +806,6 @@ function validateQuantity() {
     }
 }
 
-
 function showNotification(message, type) {
     console.log(`Showing notification: ${message} (${type})`);
 
@@ -682,17 +821,13 @@ function showNotification(message, type) {
     `;
     document.body.appendChild(notification);
 
-    // Trigger animation
     setTimeout(() => {
         notification.classList.add('show');
-        
-        // Animate progress bar
         const progressBar = notification.querySelector('.notification-progress');
         progressBar.style.width = '100%';
         progressBar.style.transition = `width 2.7s linear`;
     }, 10);
 
-    // Auto-dismiss
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
@@ -713,7 +848,7 @@ if (!document.querySelector('style[data-cart-notification]')) {
             padding: 16px 24px;
             border-radius: 12px;
             backdrop-filter: blur(8px);
-            color: white;
+            color: #ffffff !important;
             font-weight: 500;
             font-size: 15px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);

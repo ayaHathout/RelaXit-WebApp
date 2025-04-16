@@ -105,11 +105,11 @@
                         <c:otherwise>
                             <div class="guest-menu-header">
                                 <h4>Welcome</h4>
-                                <p>New Customer? <a href="<c:url value='/register'/>" class="start-here-link">Start Here</a></p>
+                                <p>New Customer? <a href="<c:url value='/login'/>" class="start-here-link">Start Here</a></p>
                             </div>
                             <div class="auth-buttons">
                                 <a href="<c:url value='/login'/>" class="btn btn-primary login-btn">Sign In</a>
-                                <a href="<c:url value='/register'/>" class="btn btn-outline register-btn">Register</a>
+                                <a href="<c:url value='/login'/>" class="btn btn-outline register-btn">Register</a>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -348,7 +348,8 @@
                         <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
                             <a class="product-item" href="<c:url value='/product/${curProduct.productId}'/>">
                                 <div class="image">
-                                    <img src="<c:url value='/assets/images/pic2.png'/>" class="img-fluid product-thumbnail">
+                                    <img src="${curProduct.productImage != null && !curProduct.productImage.isEmpty() ? pageContext.request.contextPath.concat('/images').concat(curProduct.productImage).concat('?t=').concat(currentTimeMillis) : '/relaxit/assets/images/pic.png'}"
+                                                          alt="${curProduct.name}" class="img-fluid">
                                 </div>
                                 <h3 class="product-title">${curProduct.name}</h3>
                                 <strong class="product-price">$${curProduct.price}</strong>

@@ -295,8 +295,8 @@
 												class="product-link">
 												<div class="classic_image_box box${status.index + 1}">
 													<figure class="mb-0">
-														<img src="${curProduct.productImage != null ? curProduct.productImage : '/relaxit/assets/images/pic.png'}"
-															alt="${curProduct.name}" class="img-fluid">
+														<img src="${curProduct.productImage != null && !curProduct.productImage.isEmpty() ? pageContext.request.contextPath.concat('/images').concat(curProduct.productImage).concat('?t=').concat(currentTimeMillis) : '/relaxit/assets/images/pic.png'}"
+                                                          alt="${curProduct.name}" class="img-fluid">
 													</figure>
 												</div>
 												<div class="classic_box_content">

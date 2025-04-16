@@ -12,4 +12,10 @@ public interface ProductRepository {
     public boolean updateQuantity(Long productId, Integer newQuantity);
 
     Product findById(Long id);
+    Product save(Product product);
+    void delete(Long id);
+
+    List<Product> searchProducts(String keyword, int pageNumber, int pageSize);
+    public long getTotalSearchProductsCount(String keyword);
+    void close();
 }

@@ -64,7 +64,8 @@
                                             <div class="product-details">
                                                 <div class="product-image">
                                                     <figure class="mb-0">
-                                                        <img src="<c:url value='${empty item.product.productImage ? "/relaxit/assets/images/products/holder.png" : item.product.productImage}'/>" alt="${item.product.name}" class="img-fluid">
+                                                        <img src="${product.productImage != null && !product.productImage.isEmpty() ? pageContext.request.contextPath.concat('/images').concat(product.productImage).concat('?t=').concat(currentTimeMillis) : '/relaxit/assets/images/pic.png'}"
+                                                     alt="${product.name}" class="img-fluid">
                                                     </figure>
                                                 </div>
                                                 <div class="product-content">

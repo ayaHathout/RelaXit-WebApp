@@ -5,31 +5,40 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "products")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
+    @Expose
     private Long productId;
 
     @Column(name = "name", nullable = false, length = 100)
+    @Expose
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
+    @Expose
     private String description;
 
     @Column(name = "price", nullable = false)
+    @Expose
     private BigDecimal price;
 
     @Column(name = "quantity", nullable = false)
+    @Expose
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
+    @Expose
     private Category category;
 
     @Column(name = "image_url", length = 255)
+    @Expose
     private String productImage;
 
     @OneToMany(mappedBy = "product")
