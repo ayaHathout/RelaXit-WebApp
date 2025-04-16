@@ -15,22 +15,17 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
     <style>
-        /* Ensure main content fits correctly */
         main {
             flex-grow: 1;
             padding: 20px;
-          /*  background-color: #f8f9fa;
-             overflow: hidden;  */
-           /* min-height: 100vh;  Full viewport height */
+            background-color: #f8f9fa;
+            visibility: visible;
         }
         .debug-section {
             border: 2px solid #ffc107;
             padding: 10px;
             margin-bottom: 20px;
             background-color: #fff3cd;
-        }
-        body {
-       /*     overflow: hidden;  Prevent body scrollbars */
         }
     </style>
 </head>
