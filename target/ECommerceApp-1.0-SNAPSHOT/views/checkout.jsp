@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-12">
                             <div class="product-detail-box">
-                                <form action="/relaxit2/thanks" id="contactpage" method="post" class="position-relative">
+                                <form action="/relaxit/thanks" id="contactpage" method="post" class="position-relative">
                                     <div class="upper-form" data-aos="fade-up">
                                         <span class="address">Billing Address:</span>
                                             <div class="form-group input1 float-left">
@@ -133,7 +133,7 @@
                                         Place Order Now <i class="fa-solid fa-arrow-right"></i>
                                     </button>
 
-                                   <!-- <a href="/relaxit2/thanks" data-aos="fade-up" type="submit" id="submit" class="submit_now text-decoration-none">Palce Order Now<i class="fa-solid fa-arrow-right"></i></a> -->
+                                   <!-- <a href="/relaxit/thanks" data-aos="fade-up" type="submit" id="submit" class="submit_now text-decoration-none">Palce Order Now<i class="fa-solid fa-arrow-right"></i></a> -->
                                 </form>
                             </div>
                         </div>
