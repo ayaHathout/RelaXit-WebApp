@@ -50,7 +50,26 @@ function initCart() {
     }
    
     initMiniCart();
-    
+
+    function addCheckoutButtonListeners() {
+        document.querySelectorAll('#checkout-button, .cart-bottom a.btn-primary').forEach(button => {
+            if (!button.classList.contains('disabled')) {
+                button.addEventListener('click', handleCheckoutClick);
+            }
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        initCart();
+        addCheckoutButtonListeners();
+        
+        const originalUpdateCartDisplay = updateCartDisplay;
+        updateCartDisplay = function(data) {
+            originalUpdateCartDisplay(data);
+            addCheckoutButtonListeners();
+        };
+        
+        setInterval(checkForCartUpdates, 5000);
+    });
     loadCartData();
 }
 
@@ -103,6 +122,39 @@ function initCartPage() {
             );
         });
     }
+}
+function handleCheckoutClick(e) {
+    e.preventDefault();
+    fetch(contextPath + '/check-login', {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.loggedIn) {
+            window.location.href = contextPath + '/checkout';
+        } else {
+            showConfirmationDialog(
+                'Login Required',
+                'You need to be logged in to proceed to checkout. Would you like to log in now?',
+                () => {
+                    window.location.href = contextPath + '/login?redirect=' + encodeURIComponent(contextPath + '/checkout');
+                }
+            );
+        }
+    })
+    .catch(error => {
+        console.error('Error checking login status:', error);
+        showConfirmationDialog(
+            'Login Required',
+            'You need to be logged in to proceed to checkout. Would you like to log in now?',
+            () => {
+                window.location.href = contextPath + '/login?redirect=' + encodeURIComponent(contextPath + '/checkout');
+            }
+        );
+    });
 }
 
 function updateMiniCart(items) {

@@ -10,34 +10,56 @@
 	<link href="<c:url value='/assets/css/bootstrap.min.css'/>" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 	<link href="<c:url value='/assets/css/first.css'/>" rel="stylesheet">
-	<link href="<c:url value='/assets/css/aos.css'/>" rel="stylesheet">
+	<!-- <link href="<c:url value='/assets/css/aos.css'/>" rel="stylesheet"> -->
 
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-	<link rel="stylesheet" href="<c:url value='/assets/css/default.css'/>">
+	<!-- <link rel="stylesheet" href="<c:url value='/assets/css/default.css'/>"> -->
 
     <style>
-		body {
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
 }
-                        
-        /* Contact Page*/
-        .contact-section {
-            padding: 80px 0 40px;
-            background-color: #f8fafc;
-            position: relative;
-        }
-        
+
+
+/* Ensure all direct children of body participate in flex layout */
+body > * {
+    flex-shrink: 0;
+}                
+.contact-section {
+    /* Remove these: */
+    /* height: 80%; */
+    /* padding: 80px 0 40px; */
+    
+    /* Keep these: */
+    margin: 0;
+    background-color: #f8fafc;
+    position: relative;
+    flex: 1;
+    
+    /* Add these: */
+    padding: 80px 20px 40px;
+    box-sizing: border-box;
+}
         .contact-section::before {
             content: '';
             position: absolute;
             top: -50%;
             right: -20%;
             width: 80%;
-            height: 200%;
+            /* height: 200%; */
             background: radial-gradient(ellipse at center, rgba(3, 105, 161, 0.05) 0%, rgba(248, 250, 252, 0) 70%);
             transform: rotate(-20deg);
             pointer-events: none;
@@ -390,10 +412,6 @@
         </div>
     </section>
         
-
-	<!-- Include the footer -->
-	  <jsp:include page="footer.jsp" />
-
     <script>
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -431,12 +449,15 @@
         });
     </script>
 
+    	<!-- Include the footer -->
+        <jsp:include page="footer.jsp" />
+
   <script src="${pageContext.request.contextPath}/assets/js/cart.js"></script>
   <script src="<c:url value='/assets/js/bootstrap.bundle.min.js'/>"></script>
         <script src="<c:url value='/assets/js/custom.js'/>"></script>
 
         <script src="<c:url value='/assets/js/aos.js'/>"></script>
-        <script src="<c:url value='/assets/js/animation.js'/>"></script>
+        <script src="<c:url value='/assets/js/animation.js'/>"></script> 
 
 </body>
 </html>

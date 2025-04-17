@@ -143,7 +143,7 @@
                     </div>
                     <div class="cart-bottom">
                         <a href="<c:url value='/cart/view'/>" class="btn btn-outline-secondary">VIEW CART</a>
-                        <a href="<c:url value='/views/checkout.jsp'/>" class="btn btn-primary ${empty cartItems ? 'disabled' : ''}">CHECK OUT</a>
+                        <a href="<c:url value='/checkout'/>" class="btn btn-primary ${empty cartItems ? 'disabled' : ''}">CHECK OUT</a>
                     </div>
                 </div>
             </li>
