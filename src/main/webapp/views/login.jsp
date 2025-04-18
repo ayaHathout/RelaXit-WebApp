@@ -26,7 +26,7 @@
         <div class="luxury-background-section">
             <div class="background-overlay"></div>
             <div class="background-content">
-                <img src="${pageContext.request.contextPath}/assets/img/relaxit-logo.png" alt="RelaXit Logo" class="background-logo">
+                <img src="${pageContext.request.contextPath}/assets/img/main_logo.jpg" alt="RelaXit Logo" class="background-logo">
                 <div class="brand-message">
                     <h2>Experience Unparalleled Comfort</h2>
                     <p>Discover furniture crafted exclusively for the discerning few</p>
