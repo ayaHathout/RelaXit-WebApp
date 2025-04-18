@@ -3,6 +3,7 @@ package com.relaxit.repository.Impl;
 import com.relaxit.domain.models.User;
 import com.relaxit.repository.Interfaces.UserRepository;
 import com.relaxit.utils.EntityManagerFactorySingleton;
+import com.relaxit.domain.utils.JPAUtil;
 import com.relaxit.domain.utils.TransactionUtils; 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -18,6 +19,10 @@ public class UserRepositoryImpl implements UserRepository {
     private EntityManager entityManager;
     // private String sql;
     // private Query query;
+
+    public UserRepositoryImpl() {
+        entityManager = JPAUtil.getEntityManager();
+    }
 
     @Override
     public void addUser(User user) {

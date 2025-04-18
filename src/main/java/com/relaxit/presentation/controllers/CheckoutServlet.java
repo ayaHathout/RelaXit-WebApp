@@ -30,7 +30,7 @@ public class CheckoutServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         cartService = new CartService();
-        userService = new UserService(new UserRepositoryImpl());
+        userService = new UserService();
         productService = new ProductService();
     }
 
@@ -38,14 +38,12 @@ public class CheckoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("In doGet() in CheckoutServlet");
         
-        // Check if user is logged in
         HttpSession session = req.getSession(false);
         User user = session != null ? (User) session.getAttribute("user") : null;
         
         if (user == null) {
-            // User is not logged in
+        
             if (isAjaxRequest(req)) {
-                // For AJAX requests, return JSON
                 resp.setContentType("application/json");
                 Map<String, Object> result = new HashMap<>();
                 result.put("success", false);
@@ -54,14 +52,12 @@ public class CheckoutServlet extends HttpServlet {
                 result.put("message", "Please log in to proceed to checkout");
                 resp.getWriter().write(new com.google.gson.Gson().toJson(result));
             } else {
-                // For regular requests, redirect to login page
                 session.setAttribute("errorMessage", "Please log in to proceed to checkout");
                 resp.sendRedirect(req.getContextPath() + "/login?redirect=" + req.getContextPath() + "/checkout");
             }
             return;
         }
         
-        // Check if cart is empty
         List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cartItems");
         if (cartItems == null || cartItems.isEmpty()) {
             if (isAjaxRequest(req)) {
@@ -79,11 +75,9 @@ public class CheckoutServlet extends HttpServlet {
             return;
         }
         
-        // If we get here, proceed to checkout page
         req.getRequestDispatcher("/views/checkout.jsp").forward(req, resp);
     }
     
-    // Helper method to check if request is AJAX
     private boolean isAjaxRequest(HttpServletRequest request) {
         return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }

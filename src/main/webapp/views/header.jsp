@@ -87,11 +87,11 @@
                     <c:otherwise>
                         <div class="guest-menu-header">
                             <h4>Welcome</h4>
-                            <p>New Customer? <a href="<c:url value='/register'/>" class="start-here-link">Start Here</a></p>
+                            <p>New Customer? <a href="<c:url value='/login'/>" class="start-here-link">Start Here</a></p>
                         </div>
                         <div class="auth-buttons">
                             <a href="<c:url value='/login'/>" class="btn btn-primary login-btn">Sign In</a>
-                            <a href="<c:url value='/register'/>" class="btn btn-outline register-btn">Register</a>
+                            <a href="<c:url value='/login'/>" class="btn btn-outline register-btn">Register</a>
                         </div>
                     </c:otherwise>
                 </c:choose>

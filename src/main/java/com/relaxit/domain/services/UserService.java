@@ -2,6 +2,7 @@ package com.relaxit.domain.services;
 
 import com.relaxit.domain.enums.UserRole;
 import com.relaxit.domain.models.User;
+import com.relaxit.repository.Impl.UserRepositoryImpl;
 import com.relaxit.repository.Interfaces.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -18,6 +19,10 @@ public class UserService {
             throw new IllegalArgumentException("UserRepository cannot be null!");
         }
         this.userRepository = userRepository;
+    }
+
+    public UserService () {
+        userRepository = new UserRepositoryImpl();
     }
 
     public void registerUser(User user) {
