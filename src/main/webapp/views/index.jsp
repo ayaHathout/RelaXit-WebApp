@@ -564,7 +564,7 @@
 													</blockquote>
 													<div class="author-info">
 														<div class="author-pic">
-															<img src="<c:url value='/assets/images/person_4.jpg'/>" alt="Dr. Sarah Chen" class="img-fluid">
+															<img src="<c:url value='/assets/images/person_3.jpg'/>" alt="Dr. Sarah Chen" class="img-fluid">
 														</div>
 														<h3 class="font-weight-bold">Dr. Sarah Chen</h3>
 														<span class="position d-block mb-3">Orthopedic Specialist</span>
@@ -585,7 +585,7 @@
     
                                                     <div class="author-info">
                                                         <div class="author-pic">
-                                                            <img src="<c:url value='/assets/images/person-1.jpg'/>" alt="Mark Richardson" class="img-fluid">
+                                                            <img src="<c:url value='/assets/images/person_3.jpg'/>" alt="Mark Richardson" class="img-fluid">
                                                         </div>
                                                         <h3 class="font-weight-bold">Mark Richardson</h3>
                                                         <span class="position d-block mb-3">Senior Developer, TechCo</span>
