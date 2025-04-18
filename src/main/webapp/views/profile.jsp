@@ -47,7 +47,9 @@
                 <!-- Profile View -->
                 <div id="profileView" class="profile-section active">
                     <div class="profile-avatar">
-                        <img src="${user.profileImage != null && !user.profileImage.isEmpty() ? (user.profileImage.startsWith('http') ? user.profileImage : pageContext.request.contextPath.concat('/images/').concat(user.profileImage)) : pageContext.request.contextPath.concat('/assets/img/default-avatar.png')}" alt="Profile Image">
+                        <img src="${user.profileImage != null && !user.profileImage.isEmpty() ? (user.profileImage.startsWith('http') ? user.profileImage : pageContext.request.contextPath.concat('/images/').concat(user.profileImage)) : pageContext.request.contextPath.concat('/images/uploads/0e5d4160-83af-4e54-8fe2-6d091d580215.jpg')}"
+                             alt="Profile Image"
+                             onerror="this.src='${pageContext.request.contextPath}/images/uploads/0e5d4160-83af-4e54-8fe2-6d091d580215.jpg'; console.log('Image failed to load: ${user.profileImage}');">
                     </div>
                     <div class="profile-details">
                         <h2>${user.fullName}</h2>
@@ -71,9 +73,10 @@
                             <input type="file" id="editProfileImage" name="editProfileImage" accept="image/*" class="hidden-file-input">
                             <label for="editProfileImage" class="avatar-upload-label">
                                 <div class="avatar-preview">
-                                    <img src="${user.profileImage != null && !user.profileImage.isEmpty() ? (user.profileImage.startsWith('http') ? user.profileImage : pageContext.request.contextPath.concat('/images/').concat(user.profileImage)) : pageContext.request.contextPath.concat('/assets/img/default-avatar.png')}" 
-                                         alt="Profile Preview" 
-                                         data-default-src="${pageContext.request.contextPath}/assets/img/default-avatar.png">
+                                    <img src="${user.profileImage != null && !user.profileImage.isEmpty() ? (user.profileImage.startsWith('http') ? user.profileImage : pageContext.request.contextPath.concat('/images/').concat(user.profileImage)) : pageContext.request.contextPath.concat('/images/uploads/0e5d4160-83af-4e54-8fe2-6d091d580215.jpg')}"
+                                         alt="Profile Preview"
+                                         data-default-src="${pageContext.request.contextPath}/images/uploads/0e5d4160-83af-4e54-8fe2-6d091d580215.jpg"
+                                         onerror="this.src='${pageContext.request.contextPath}/images/uploads/0e5d4160-83af-4e54-8fe2-6d091d580215.jpg'; console.log('Image failed to load: ${user.profileImage}');">
                                     <div class="default-avatar"><i class="fas fa-user"></i></div>
                                     <div class="avatar-overlay"><i class="fas fa-camera"></i> Change Photo</div>
                                 </div>
@@ -156,9 +159,9 @@
             </div>
         </div>
 
-       <div id="successPopup" class="success-popup">
-    <p>Password changed successfully!<br>Please use your new password for future logins.</p>
-</div>
+        <div id="successPopup" class="success-popup">
+            <p>Password changed successfully!<br>Please use your new password for future logins.</p>
+        </div>
 
         <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;"></canvas>
         <div id="celebration">
