@@ -57,6 +57,14 @@ A Website dedicated to creating ergonomic seats, pillows, etc specifically desig
 
 ---
 
+## Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ayaHathout/RelaXit-WebApp.git
+   
+---
+
 ## 🚀 Contributors
 - **[Aya Hathout](https://github.com/ayaHathout)**
 - **[Mai Nasser](https://github.com/mainasser22)**
