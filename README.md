@@ -57,22 +57,6 @@ A Website dedicated to creating ergonomic seats, pillows, etc specifically desig
 
 ---
 
-## Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/ayaHathout/RelaXit-WebApp.git
-2. **Import the project into your IDE (e.g., IntelliJ IDEA or Eclipse).**
-3. **Ensure Apache Tomcat is configured in your IDE.**
-4. **Set up the database:**
-   . Create a MySQL database named relaxitdb.
-   . Import the relaxitdb.sql file located in the project root to set up the schema and initial data.
-5. **Build the project using Maven:**
-   ```bash
-   mvn clean install
-6. **Deploy the project to Apache Tomcat and run the application**
----
-
 ## 🚀 Contributors
 - **[Aya Hathout](https://github.com/ayaHathout)**
 - **[Mai Nasser](https://github.com/mainasser22)**
