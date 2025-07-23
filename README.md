@@ -60,7 +60,7 @@ A Website dedicated to creating ergonomic seats, pillows, etc specifically desig
 ## 🚀 Contributors
 - **[Aya Hathout](https://github.com/ayaHathout)**
 - **[Mai Nasser](https://github.com/mainasser22)**
-- **[Hazim Karam](https://github.com/Hazim-Karam159)**
+- **[Mohamed Karam](https://github.com/Mohamed-Karam159)**
 
 ---
 
